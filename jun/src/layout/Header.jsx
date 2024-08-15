@@ -6,7 +6,7 @@ export default function Header() {
 
     return (
         
-        <header className="flex flex-col items-center mx-9 my-4 font-montserrat sm:flex-row sm:justify-between sm:px-9 sm:min-w-max sm:gap-4">
+        <header className="flex flex-col items-center mx-12 my-4 bg-white font-montserrat sm:flex-row sm:justify-between sm:px-9 sm:min-w-max sm:gap-4">
             <div className="flex flex-col w-full sm:flex-row sm:items-center sm:w-auto sm:gap-14">
                 <div className="flex justify-between w-full sm:w-auto">
                     <h1 className="text-text-color font-bold text-xl sm:text-2xl">Jun</h1>
