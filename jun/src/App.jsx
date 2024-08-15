@@ -1,17 +1,15 @@
-
-
 import './App.css'
-import Footer from './layout/Footer'
-import Header from './layout/Header'
+import PageContent from './layout/PageContent'
+import { BrowserRouter } from 'react-router-dom'
+
 
 function App() {
   
 
   return (
-    <>
-      <Header/>
-      <Footer/>
-    </>
+    <BrowserRouter>
+      <PageContent />
+    </BrowserRouter>
   )
 }
 
