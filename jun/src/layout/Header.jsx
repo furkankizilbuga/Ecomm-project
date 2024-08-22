@@ -9,7 +9,7 @@ export default function Header() {
         <header className="flex flex-col items-center mx-12 my-4 bg-white font-montserrat sm:flex-row sm:justify-between sm:min-w-max sm:gap-4">
             <div className="flex flex-col w-full sm:flex-row sm:items-center sm:w-auto sm:gap-14 sm:max-[800px]:gap-5">
                 <div className="flex justify-between w-full sm:w-auto">
-                    <h1 className="text-textColor font-bold text-xl sm:text-2xl">Jun</h1>
+                    <a href="/" className="text-textColor font-bold text-xl sm:text-2xl">Jun</a>
                     <button className="sm:hidden" onClick={() => setDisplay(!display)}><i className="fa-solid fa-list text-secondaryTextColor"></i></button>
                 </div>
                 <nav className={`${display ? "opacity-1 mt-24 mb-16 gap-8" : "opacity-0 h-0 overflow-hidden"} flex flex-col duration-500 text-2xl transition ease-in-out sm:opacity-100 sm:h-auto sm:overflow-visible sm:flex-row sm:gap-4 sm:m-0 sm:mt-0 sm:mb-0`}>                    

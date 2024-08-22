@@ -9,15 +9,16 @@ import {
  
 export function CarouselComp() {
   return (
-    <Carousel className="">
+    <Carousel>
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>
-            <div className="p-1">
+            <div className="">
               <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
+                <CardContent className="aspect-[4/3] w-full p-0">
+                  <img src="public/assets/sliderImages/shop-hero-1-product-slide-1.jpg" className="object-cover h-full sm:h-auto" /> 
                 </CardContent>
+                
               </Card>
             </div>
           </CarouselItem>
