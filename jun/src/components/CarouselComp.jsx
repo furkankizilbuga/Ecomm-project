@@ -6,6 +6,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+
+const sliderImages = [
+  "public/assets/sliderImages/shop-hero-1-product-slide-1.jpg"
+]
  
 export function CarouselComp() {
   return (
@@ -16,7 +20,7 @@ export function CarouselComp() {
             <div className="">
               <Card>
                 <CardContent className="aspect-[4/3] w-full p-0">
-                  <img src="public/assets/sliderImages/shop-hero-1-product-slide-1.jpg" className="object-cover h-full sm:h-auto" /> 
+                  <img src={sliderImages[index]} className="object-cover h-full sm:h-auto" /> 
                 </CardContent>
                 
               </Card>
