@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
@@ -7,22 +8,20 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
-const sliderImages = [
-  "public/assets/sliderImages/shop-hero-1-product-slide-1.jpg"
-]
- 
-export function CarouselComp() {
+export function CarouselComp(props) {
+  
+  const { sliderImages = [] } = props;
+
   return (
     <Carousel>
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+      {sliderImages.map((img, index) => (
           <CarouselItem key={index}>
             <div className="">
               <Card>
-                <CardContent className="aspect-[4/3] w-full p-0">
-                  <img src={sliderImages[index]} className="object-cover h-full sm:h-auto" /> 
+                <CardContent className="aspect-[4/3] h-full p-0">
+                  <img src={img} className="object-cover mx-auto w-screen sm:h-auto" /> 
                 </CardContent>
-                
               </Card>
             </div>
           </CarouselItem>

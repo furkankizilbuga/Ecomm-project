@@ -1,4 +1,5 @@
 import Blog from "@/components/Blog";
+import { CarouselComp } from "@/components/CarouselComp";
 
 const blogImages = [
     "assets/blogImages/BLOGimage1.png",
@@ -6,9 +7,17 @@ const blogImages = [
     "assets/blogImages/BLOGimage3.png"
 ]
 
+const sliderImages = [
+    "assets/sliderImages/featuredProductsSliderImg1.png",
+    "assets/sliderImages/featuredProductsSliderImg2.png"
+]
+
 export default function FeaturedProducts() {
     return(
         <div className="flex flex-col gap-16">
+            <div className="">
+                <CarouselComp className="" sliderImages={sliderImages} />
+            </div>
             <div className="flex flex-col items-center gap-6">
                 <p className="text-mutedColor font-bold text-sm">SUMMER 2020</p>
                 <div className="text-center flex flex-col gap-4">

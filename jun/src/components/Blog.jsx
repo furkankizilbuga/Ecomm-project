@@ -3,7 +3,7 @@
 export default function Blog(props) {
     const { item } = props;
     return(
-        <div className="flex flex-col items-center mx-10 mt-16">
+        <div className="flex flex-col items-center mt-16">
             <img className="max-w-[400px]" src={item} />
             <div className="flex flex-col max-w-[330px] items-start border-b-mutedColor border border-b-2 p-6 pb-10 gap-3">
                 <div className="flex font-semibold gap-3 text-sm">

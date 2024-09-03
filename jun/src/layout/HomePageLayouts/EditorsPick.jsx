@@ -9,10 +9,14 @@ const itemPics = [
     "public/assets/KIDSproduct1.png",
 ]
 
+const sliderImages = [
+    "public/assets/sliderImages/shop-hero-1-product-slide-1.jpg"
+]
+
 export default function EditorsPick() {
     return(
         <div className="flex flex-col items-center bg-[#FAFAFA] pb-20 my-16 gap-6 sm:my-0">
-           <CarouselComp />
+           <CarouselComp sliderImages={sliderImages} />
            <div className="flex flex-col gap-8 m-4 sm:m-0">
             <div className="flex flex-col items-center gap-3">
                 <h3 className="text-textColor font-bold text-2xl">EDITOR'S PICK</h3>
