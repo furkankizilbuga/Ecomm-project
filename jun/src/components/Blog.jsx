@@ -3,7 +3,7 @@
 export default function Blog(props) {
     const { item } = props;
     return(
-        <div className="flex flex-col items-center mx-12 mt-16">
+        <div className="flex flex-col items-center mx-10 mt-16">
             <img className="max-w-[400px]" src={item} />
             <div className="flex flex-col max-w-[330px] items-start border-b-mutedColor border border-b-2 p-6 pb-10 gap-3">
                 <div className="flex font-semibold gap-3 text-sm">
@@ -23,7 +23,10 @@ export default function Blog(props) {
                         <p className="text-secondaryTextColor font-semibold">10 comments</p>
                     </div>
                 </div>
-                <button className="text-secondaryTextColor flex items-center gap-2 font-semibold">Learn More <i className="text-primaryBlue  text-2xl fa-solid fa-chevron-right"></i></button>
+                <button className="text-secondaryTextColor flex items-center gap-2 font-semibold">
+                    Learn More 
+                    <i className="text-primaryBlue  text-2xl fa-solid fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     )
