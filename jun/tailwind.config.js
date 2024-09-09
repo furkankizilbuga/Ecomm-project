@@ -24,6 +24,7 @@ module.exports = {
         mutedColor: "#BDBDBD",
         secondaryColor1: "#23856D",
         alertColor: "#E77C40",
+        successColor: '#2DC071',
         darkBackgroundColor: "#252B42",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -78,6 +79,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif']
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

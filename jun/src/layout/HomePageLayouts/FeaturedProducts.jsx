@@ -9,12 +9,38 @@ const blogImages = [
 
 const sliderImages = {
     sliderImagesVertical: [
-        "assets/sliderImages/featuredProductsSliderImg1.png",
-        "assets/sliderImages/featuredProductsSliderImg2.png",
+        {
+            url: "assets/sliderImages/featuredProductsSliderImg1.png",
+            subTitle: "SUMMER 2020",
+            title: "Vita Classic Product",
+            description: "We know how large objects will act, but things on a small scale.",
+            price: "$16.48",
+            button: "ADD TO CART"
+        },
+        {
+            url: "assets/sliderImages/featuredProductsSliderImg2.png",
+            subTitle: "SUMMER 2020",
+            title: "NEW COLLECTION",
+            description: "We know how large objects will act, but things on a small scale.",
+            button: "SHOP NOW"
+        },
     ],
     sliderImagesHorizontal: [
-        "assets/sliderImages/featuredProductsSliderImg1Horizontal.png",
-        "assets/sliderImages/featuredProductsSliderImg2Horizontal.png"
+        {
+            url: "assets/sliderImages/featuredProductsSliderImg1Horizontal.png",
+            subTitle: "SUMMER 2020",
+            title: "Vita Classic Product",
+            description: "We know how large objects will act, but things on a small scale.",
+            price: "$16.48",
+            button: "ADD TO CART"
+        },
+        {
+            url: "assets/sliderImages/featuredProductsSliderImg2Horizontal.png",
+            subTitle: "SUMMER 2020",
+            title: "NEW COLLECTION",
+            description: "We know how large objects will act, but things on a small scale.",
+            button: "SHOP NOW"
+        },
     ]
 }
 

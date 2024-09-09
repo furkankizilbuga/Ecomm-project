@@ -9,9 +9,28 @@ const itemPics = [
     "public/assets/KIDSproduct1.png",
 ]
 
-const sliderImages = [
-    "public/assets/sliderImages/shop-hero-1-product-slide-1.jpg"
-]
+
+ 
+const sliderImages = {
+    sliderImagesVertical: [
+        {
+            url: "public/assets/sliderImages/shop-hero-1-product-slide-1Vertical.png",
+            subTitle: "SUMMER 2020",
+            title: "NEW COLLECTION",
+            description: "We know how large objects will act, but things on a small scale.",
+            button: "SHOP NOW"
+        },
+    ],
+    sliderImagesHorizontal: [
+        {
+            url: "public/assets/sliderImages/shop-hero-1-product-slide-1.jpg",
+            subTitle: "SUMMER 2020",
+            title: "Vita Classic Product",
+            description: "We know how large objects will act, but things on a small scale.",
+            button: "SHOP NOW"
+        },
+    ]
+}
 
 export default function EditorsPick() {
     return(
