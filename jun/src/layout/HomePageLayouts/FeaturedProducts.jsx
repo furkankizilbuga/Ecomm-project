@@ -7,15 +7,21 @@ const blogImages = [
     "assets/blogImages/BLOGimage3.png"
 ]
 
-const sliderImages = [
-    "assets/sliderImages/featuredProductsSliderImg1.png",
-    "assets/sliderImages/featuredProductsSliderImg2.png"
-]
+const sliderImages = {
+    sliderImagesVertical: [
+        "assets/sliderImages/featuredProductsSliderImg1.png",
+        "assets/sliderImages/featuredProductsSliderImg2.png",
+    ],
+    sliderImagesHorizontal: [
+        "assets/sliderImages/featuredProductsSliderImg1Horizontal.png",
+        "assets/sliderImages/featuredProductsSliderImg2Horizontal.png"
+    ]
+}
 
 export default function FeaturedProducts() {
     return(
         <div className="flex flex-col gap-16">
-            <div className="">
+            <div className="flex">
                 <CarouselComp className="" sliderImages={sliderImages} />
             </div>
             <div className="flex flex-col items-center gap-6">
