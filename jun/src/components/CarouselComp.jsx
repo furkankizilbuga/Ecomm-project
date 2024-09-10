@@ -23,15 +23,17 @@ export function CarouselComp(props) {
           <CarouselItem key={index}>
             <div className="relative w-full h-full">
               <img src={item.url} className="object-cover w-screen h-full" />
-              <Card className="absolute inset-0 flex flex-col items-center text-center gap-7 z-10 mt-36 bg-transparent border-none">
-                <CardContent className="flex flex-col items-center justify-center text-center gap-6 mx-2">
+              <Card className="absolute inset-0 flex flex-col items-center text-center gap-7 z-10 mt-36 bg-transparent border-none sm:items-start sm:ml-40">
+                <CardContent className="flex flex-col items-center justify-center text-center gap-6 mx-2 sm:items-start sm:max-w-80 sm:text-start">
                   <p className="text-white font-light text-sm">{item.subTitle}</p>
                   <h2 className="text-white font-bold text-4xl">{item.title}</h2>
-                  <p className="max-w-52 text-md text-white">{item.description}</p>
-                  <p className="font-bold text-white text-lg">{item.price ? item.price : ""}</p>
-                  <button className="bg-successColor rounded text-white font-semibold text-sm px-10 py-4">
-                    {item.button}
-                  </button>
+                  <p className="text-md text-white">{item.description}</p>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                    <p className="font-bold text-white text-lg">{item.price ? item.price : ""}</p>
+                    <button className="bg-successColor rounded text-white font-semibold text-sm px-9 py-3 sm: sm:px-8">
+                      {item.button}
+                    </button>
+                  </div>
                 </CardContent>
               </Card>
             </div>

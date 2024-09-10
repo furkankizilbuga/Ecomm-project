@@ -66,7 +66,7 @@ export default function FeaturedProducts() {
                 <p className="text-primaryBlue text-sm font-bold">Practice Advice</p>
                 <h2 className="text-textColor font-bold text-4xl">Featured <br /> Products</h2>
                 <p className="text-secondaryTextColor font-semibold">Problems trying to resolve the <br /> conflict between the two major</p>
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-6 mb-16">
                     {
                         blogImages.map((item, index) => 
                             <Blog key={index} item={item} />
