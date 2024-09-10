@@ -10,7 +10,7 @@ export default function ProductCard(props) {
             <img src={item} />
             <div className="flex flex-col items-center gap-3">
                 <h4 className="text-textColor font-bold ">Graphic Design</h4>
-                <p className="text-secondaryTextColor font-bold">English Department</p>
+                <p className="text-secondaryTextColor font-bold text-nowrap md:max-[700px]:text-primaryBlue">English Department</p>
                 <div className="flex gap-3">
                     <span className="text-mutedColor font-bold">$16.48</span>
                     <span className="text-secondaryColor1 font-bold">$6.48</span>

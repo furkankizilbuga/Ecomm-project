@@ -8,6 +8,7 @@ module.exports = {
     './src/**/*.{js,jsx}',
   ],
   prefix: "",
+  mode: 'jit',
   theme: {
     container: {
       center: true,
