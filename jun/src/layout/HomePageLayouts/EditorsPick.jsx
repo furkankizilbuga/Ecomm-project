@@ -25,25 +25,24 @@ const itemPics = {
     ],
     picsHorizontal: [
         {
-            url: "public/assets/cardItemImages/MENproduct1Horizontal.png",
+            url: "public/assets/cardItemImages/MENproduct1.png",
             category: "MEN"
         },
         {
-            url: "public/assets/cardItemImages/WOMENproduct2Horizontal.png",
+            url: "public/assets/cardItemImages/WOMENproduct2.png",
             category: "WOMEN"
         },
         {
-            url: "public/assets/cardItemImages/WOMENproduct1Horizontal.png",
-            category: "ACCESORIES"
+            url: "public/assets/cardItemImages/WOMENproduct1.png",
+            category: "ACCESSORIES"
         },
         {
-            url: "public/assets/cardItemImages/KIDSproduct1Horizontal.png",
+            url: "public/assets/cardItemImages/KIDSproduct1.png",
             category: "KIDS"
         },
     ]
 }
 
-// <div className="flex flex-col gap-10 sm:flex-row sm:max-w-8xl sm:items-center">
  
 const sliderImages = {
     sliderImagesVertical: [
@@ -80,11 +79,12 @@ export default function EditorsPick() {
                     <h3 className="text-textColor font-bold text-2xl">EDITOR'S PICK</h3>
                     <p className="max-w-52 text-center text-secondaryTextColor sm:max-w-96">Problems trying to resolve the conflict between</p>
                 </div>
-                <div className="grid gap-10 sm:grid sm:grid-cols-3  bg-red-300">
+                <div className="grid sm:grid-cols-3 sm:grid-rows-2 gap-10">
                     {
                         display.map((item, index) => 
                             <CardItem 
-                                key={index} 
+                                key={index}
+                                index={index}
                                 item={item} 
                                 />
                         )
