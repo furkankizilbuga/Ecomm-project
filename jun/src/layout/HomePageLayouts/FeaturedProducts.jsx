@@ -40,7 +40,7 @@ const sliderImages = {
             button: "ADD TO CART"
         },
         {
-            url: "assets/sliderImages/featuredProductsSliderImg2Horizontal.png",
+            url: "assets/sliderImages/featuredProductsSliderImg2Horizontal.jpg",
             subTitle: "SUMMER 2020",
             title: "NEW COLLECTION",
             description: "We know how large objects will act, but things on a small scale.",
