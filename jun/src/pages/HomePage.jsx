@@ -4,7 +4,7 @@ import FeaturedProducts from "@/layout/HomePageLayouts/FeaturedProducts";
 
 export default function HomePage() {
     return(
-        <main className="font-montserrat">
+        <main>
             <EditorsPick />
             <BestSellerProducts />
             <FeaturedProducts />

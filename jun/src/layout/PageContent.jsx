@@ -6,7 +6,7 @@ import { Switch, Route } from "react-router-dom";
 
 export default function PageContent() {
     return(
-        <>
+        <div className="font-montserrat">
             <Header />
             <Switch>
                 <Route exact path="/">
@@ -17,6 +17,6 @@ export default function PageContent() {
                 </Route>
             </Switch>
             <Footer />
-        </>
+        </div>
     )
 }

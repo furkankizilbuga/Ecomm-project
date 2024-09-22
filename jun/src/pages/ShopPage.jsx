@@ -1,5 +1,11 @@
+import ShopCategories from "@/layout/ShopPageLayouts/ShopCategories";
+import ShopProducts from "@/layout/ShopPageLayouts/ShopProducts";
+
 export default function ShopPage() {
     return(
-        <h1>Shop</h1>
+        <div>
+            <ShopCategories />
+            <ShopProducts />
+        </div>
     )
 }
