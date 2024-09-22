@@ -23,7 +23,7 @@ export default function ShopCategories() {
 
 
     return(
-        <div className="bg-[#FAFAFA] flex flex-col items-center justify-center gap-14 pt-10">
+        <div className="bg-[#FAFAFA] flex flex-col items-center justify-center gap-14 py-10">
             <div className="flex flex-col items-center gap-14">
                 <h3 className="text-textColor font-bold text-xl">Shop</h3>
                 <div className="flex items-center gap-4">
