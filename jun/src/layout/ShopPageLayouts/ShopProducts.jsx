@@ -22,7 +22,7 @@ export default function ShopProducts() {
 
     return(
         <div className="flex flex-col items-center justify-center pt-10 gap-20">
-            <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between sm:w-full sm:px-12">
+            <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between sm:w-full sm:px-40">
                 <p className="text-sm font-semibold text-secondaryTextColor">Showing all 12 results</p>
                 <div className="flex gap-4 items-center sm:gap-3">
                     <p className="text-sm font-semibold text-secondaryTextColor">Views: </p>
@@ -37,7 +37,7 @@ export default function ShopProducts() {
                     <button className="bg-primaryBlue px-6 rounded text-sm text-white">Filter</button>
                 </div>
             </div>
-            <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:max-w-8xl">
+            <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">
                 {
                     productCardImages.map((item, index) => 
                         <ProductCard key={index} item={item} />

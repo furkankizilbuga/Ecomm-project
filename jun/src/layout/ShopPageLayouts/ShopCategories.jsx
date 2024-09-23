@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const categories = [
     {
         img: "assets/shopCategories/shop-categories1.png",
@@ -33,16 +35,16 @@ export default function ShopCategories() {
 
 
     return(
-        <div className="bg-[#FAFAFA] flex flex-col items-center justify-center gap-14 py-10">
+        <div className="bg-[#FAFAFA] w-full flex flex-col items-center justify-center gap-14 py-10">
             <div className="flex flex-col items-center gap-14 sm:flex-row sm:w-full sm:justify-between sm:px-12">
                 <h3 className="text-textColor font-bold text-xl">Shop</h3>
                 <div className="flex items-center gap-4">
-                    <span className="text-textColor font-bold">Home</span>
+                    <Link to="/" className="text-textColor font-bold">Home</Link>
                     <i className="fa-solid fa-chevron-right text-mutedColor"></i>
                     <span className="font-bold text-mutedColor">Shop</span>
                 </div>
             </div>
-            <div className="flex flex-col justify-center items-center gap-4 sm:flex-row sm:px-12 sm:flex-wrap">
+            <div className="flex flex-col justify-center items-center gap-4 sm:flex-row sm:px-40 sm:flex-wrap">
                 {
                     categories.map((item, index) => 
                         <div key={index} className="relative cursor-pointer">

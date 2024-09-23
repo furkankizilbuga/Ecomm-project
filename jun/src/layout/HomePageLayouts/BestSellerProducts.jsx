@@ -17,7 +17,7 @@ export default function BestSellerProducts() {
                 <h3 className="max-w-52 text-textColor font-bold text-2xl text-center sm:max-w-96">BEST SELLER PRODUCTS</h3>
                 <p className="max-w-52 text-center text-secondaryTextColor sm:max-w-96">Problems trying to resolve the conflict between</p>
             </div>
-            <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:max-w-8xl">
+            <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:px-40 sm:flex-row sm:max-w-8xl">
                 {
                     productCardImages.map((item, index) => 
                         <ProductCard key={index} item={item} />
