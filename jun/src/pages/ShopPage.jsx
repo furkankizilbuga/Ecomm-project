@@ -3,7 +3,7 @@ import ShopProducts from "@/layout/ShopPageLayouts/ShopProducts";
 
 export default function ShopPage() {
     return(
-        <div>
+        <div className="">
             <ShopCategories />
             <ShopProducts />
         </div>

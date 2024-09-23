@@ -1,7 +1,7 @@
 export default function Footer() {
     //TODO <Link> eklenecek.
     return(
-        <footer className="flex flex-col font-montserrat sm:border-2 sm:items-center">
+        <footer className="flex flex-col font-montserrat sm:border-t-2 sm:border-t-[#FAFAFA] sm:items-center">
             <div className="mt-20 mb-12 flex flex-col gap-5 mx-12 sm:flex-row sm:justify-center sm:gap-16">
                 <div className="flex flex-col gap-3 text-secondaryTextColor text-xs sm:max-w-44">
                     <h3 className="text-textColor text-xl font-bold sm:text-lg">Get In Touch</h3>
