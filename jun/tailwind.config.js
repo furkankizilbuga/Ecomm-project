@@ -27,6 +27,7 @@ module.exports = {
         alertColor: "#E77C40",
         successColor: '#2DC071',
         darkBackgroundColor: "#252B42",
+        lightBackgroundColor: "#FAFAFA",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -1,3 +1,4 @@
+import ProductDetailPage from "@/pages/ProductDetailPage";
 import HomePage from "../pages/HomePage";
 import ShopPage from "../pages/ShopPage";
 import Footer from "./Footer";
@@ -12,8 +13,11 @@ export default function PageContent() {
                 <Route exact path="/">
                     <HomePage />
                 </Route>
-                <Route path="/shop">
+                <Route exact path="/shop">
                     <ShopPage />
+                </Route>
+                <Route path="/shop/product/:productId">
+                    <ProductDetailPage />
                 </Route>
             </Switch>
             <Footer />
