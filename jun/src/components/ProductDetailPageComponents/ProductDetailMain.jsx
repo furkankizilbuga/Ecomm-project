@@ -3,16 +3,43 @@ import { Link } from "react-router-dom";
 
 const sliderImages = {
     sliderImagesVertical: [
-        "/assets/productCardImages/WOMENproduct3.png",
-        "/assets/productCardImages/MENproduct3.png"
+        {
+            url: "/assets/productCardImages/WOMENproduct3.png",
+            subTitle: "",
+            title: "",
+            description: "",
+            button: ""
+        },
+        {
+            url: "/assets/productCardImages/MENproduct3.png",
+            subTitle: "",
+            title: "",
+            description: "",
+            button: ""
+        }
     ],
     sliderImagesHorizontal: [
-        "/assets/productCardImages/WOMENproduct3.png",
-        "/assets/productCardImages/MENproduct3.png"
+        {
+            url: "/assets/productCardImages/WOMENproduct3.png",
+            subTitle: "",
+            title: "",
+            description: "",
+            button: ""
+        },
+        {
+            url: "/assets/productCardImages/MENproduct3.png",
+            subTitle: "",
+            title: "",
+            description: "",
+            button: ""
+        }
     ]
 }
 
 export default function ProductDetailMain() {
+
+    const customStyle = "object-cover w-full h-[400px] sm:h-[700px]";
+
     return(
         <div className="bg-lightBackgroundColor py-10 flex flex-col items-center gap-10">
             <div className="flex items-center gap-4">
@@ -22,10 +49,10 @@ export default function ProductDetailMain() {
             </div>
             <div>
                 <div className="flex flex-col gap-6 px-10">
-                    <CarouselComp sliderImages={sliderImages} />
+                    <CarouselComp sliderImages={sliderImages} customStyle={customStyle} />
                     <div className="flex gap-4 ">
                         {sliderImages.sliderImagesVertical.map((item, index) => 
-                            <img src={item} key={index} className="w-36" />
+                            <img src={item.url} key={index} className="w-36" />
                         )}
                     </div>
                 </div>
