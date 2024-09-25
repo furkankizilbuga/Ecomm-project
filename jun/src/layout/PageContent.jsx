@@ -1,14 +1,11 @@
 import ProductDetailPage from "@/pages/ProductDetailPage";
 import HomePage from "../pages/HomePage";
 import ShopPage from "../pages/ShopPage";
-import Footer from "./Footer";
-import Header from "./Header";
 import { Switch, Route } from "react-router-dom";
 
 export default function PageContent() {
     return(
         <div className="font-montserrat">
-            <Header />
             <Switch>
                 <Route exact path="/">
                     <HomePage />
@@ -20,7 +17,6 @@ export default function PageContent() {
                     <ProductDetailPage />
                 </Route>
             </Switch>
-            <Footer />
         </div>
     )
 }
