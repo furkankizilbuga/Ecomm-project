@@ -38,17 +38,17 @@ const sliderImages = {
 
 export default function ProductDetailMain() {
 
-    const customStyle = "object-cover w-full h-[400px] sm:h-[700px]";
+    const customStyle = "object-cover object-center object-top rounded w-full h-[400px] sm:h-cover sm:min-w-40 sm:max-w-80 sm:max-h-96 ";
 
     return(
-        <div className="bg-lightBackgroundColor py-10 flex flex-col items-center gap-10">
-            <div className="flex items-center gap-4">
+        <div className="bg-lightBackgroundColor py-10 flex flex-col gap-10 sm:items-center sm:px-60">
+            <div className="flex items-center px-12 gap-4 sm:px-0 sm:w-full">
                 <Link to="/" className="text-textColor font-bold">Home</Link>
                 <i className="fa-solid fa-chevron-right text-mutedColor"></i>
                 <Link to="/shop" className="font-bold text-mutedColor">Shop</Link>
             </div>
-            <div>
-                <div className="flex flex-col gap-6 px-10">
+            <div className="flex flex-col xl:flex-row sm:items-center xl:items-start">
+                <div className="flex flex-col gap-6 px-10  sm:px-0 sm:max-w-80 ">
                     <CarouselComp sliderImages={sliderImages} customStyle={customStyle} />
                     <div className="flex gap-4 ">
                         {sliderImages.sliderImagesVertical.map((item, index) => 
@@ -70,7 +70,7 @@ export default function ProductDetailMain() {
                                 <span className="text-primaryBlue font-semibold">In Stock</span>
                             </div>
                         </div>
-                        <p className="font-medium text-secondaryTextColor text-sm max-w-72">
+                        <p className="font-medium text-secondaryTextColor text-sm max-w-72 sm:max-w-full sm:w-96">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                             Ad accusantium mollitia, 
                             dolorem modi atque aliquid nobis quasi velit voluptatum id 

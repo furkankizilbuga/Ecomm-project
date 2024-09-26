@@ -17,8 +17,8 @@ export function CarouselComp(props) {
     : (sliderImages.sliderImagesHorizontal || []);
 
   return (
-    <Carousel>
-      <CarouselContent>
+    <Carousel className="">
+      <CarouselContent className="">
         {display.map((item, index) => (
           <CarouselItem key={index}>
             <div className="relative w-full h-full">
