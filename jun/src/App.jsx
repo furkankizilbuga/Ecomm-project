@@ -2,18 +2,21 @@ import './App.css'
 import Footer from './layout/Footer'
 import Header from './layout/Header'
 import PageContent from './layout/PageContent'
-import { BrowserRouter } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 
 function App() {
   
+  const location = useLocation();
+
+  const show = location.pathname !== "/contact";
 
   return (
-    <BrowserRouter>
-      <Header />
+    <>
+      {show && <Header />}
       <PageContent />
-      <Footer />
-    </BrowserRouter>
+      {show && <Footer />}
+    </>
   )
 }
 
