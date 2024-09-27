@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
     //TODO <Link> eklenecek.
     return(
@@ -17,7 +19,7 @@ export default function Footer() {
                     <nav className="flex flex-col gap-1 sm:gap-2">
                         <p className="">About us</p>
                         <p className="">Career</p>
-                        <p className="">We are hiring</p>
+                        <Link to="/contact" className="hover:underline">We are hiring</Link>
                         <p className="">Blog</p>        
                     </nav>
                 </div>

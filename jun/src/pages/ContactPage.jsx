@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 /* eslint-disable react/no-unescaped-entities */
 export default function ContactPage() {
     return(
@@ -11,6 +13,10 @@ export default function ContactPage() {
                     quarter of the 20th century.
                 </p>
                 <button className="border border-white px-8 py-4 rounded font-semibold">Contact Us</button>
+                <Link to="/" className="flex items-center gap-2">
+                    <i className="fa-solid fa-chevron-left text-white"></i>
+                    <p className="font-semibold">Home</p>
+                </Link>
             </div>
             <img className="h-1/2 w-full object-cover object-top sm:object-center sm:h-full sm:w-1/3" src="/assets/contactPageImages/contactpageimg.png" />
         </div>
