@@ -3,10 +3,10 @@
 
 export default function ProductCard(props) {
 
-    const { item } = props;
+    const { item, onClick } = props;
 
     return(
-        <div className="flex flex-col items-center gap-6 pb-10 ">
+        <div onClick={onClick} className="flex cursor-pointer flex-col items-center gap-6 pb-10 ">
             <img className="rounded" src={item} />
             <div className="flex flex-col items-center gap-3">
                 <h4 className="text-textColor font-bold ">Graphic Design</h4>

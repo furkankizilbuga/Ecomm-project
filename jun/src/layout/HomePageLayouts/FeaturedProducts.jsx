@@ -50,10 +50,13 @@ const sliderImages = {
 }
 
 export default function FeaturedProducts() {
+
+    const customStyle = "object-cover w-screen h-[900px] sm:h-[700px]";
+
     return(
         <div className="flex flex-col items-center gap-16 mt-16 sm:mt-16">
             <div className="flex">
-                <CarouselComp className="" sliderImages={sliderImages} />
+                <CarouselComp customStyle={customStyle} sliderImages={sliderImages} />
             </div>
             <div className="flex flex-col items-center justify-center gap-6 md:flex-row-reverse sm:gap-24">
                 <div className="flex flex-col items-center gap-6 md:items-start">

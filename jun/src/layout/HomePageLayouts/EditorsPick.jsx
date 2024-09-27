@@ -71,9 +71,11 @@ export default function EditorsPick() {
 
     const display = isMobile ? (itemPics.picsVertical || []) : (itemPics.picsHorizontal || [])
 
+    const customStyle = "object-cover w-screen h-[900px] sm:h-[700px]";
+
     return(
         <div className="flex flex-col items-center bg-[#FAFAFA] pb-20 my-16 gap-6 sm:my-0 sm:pb-32">
-            <CarouselComp sliderImages={sliderImages} />
+            <CarouselComp sliderImages={sliderImages} customStyle={customStyle} />
             <div className="flex flex-col gap-8 m-4 sm:m-0">
                 <div className="flex flex-col items-center gap-3">
                     <h3 className="text-textColor font-bold text-2xl">EDITOR'S PICK</h3>
