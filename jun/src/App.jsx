@@ -9,7 +9,7 @@ function App() {
   
   const location = useLocation();
 
-  const show = location.pathname !== "/contact";
+  const show = location.pathname !== "/contact" && location.pathname !== "/team";
 
   return (
     <>
