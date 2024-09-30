@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 /* eslint-disable react/no-unescaped-entities */
 export default function ContactPage() {
     return(
-        <div className="bg-[#2A7CC7] text-white flex flex-col items-center justify-center h-screen gap-20 sm:flex-row sm:justify-between sm:gap-0">
+        <div className="bg-[#2A7CC7] text-white flex flex-col items-center justify-center h-full gap-20 sm:h-screen sm:flex-row sm:justify-between sm:gap-0">
             <div className="max-w-96 flex flex-col items-center gap-6 pt-40 sm:w-2/3 sm:items-start sm:mx-auto sm:pt-0 sm:max-w-[500px] sm:px-10">
                 <h4 className="font-semibold text-lg">WORK WITH US</h4>
                 <h2 className="text-5xl text-center max-w-72 font-bold sm:text-start sm:max-w-full">Now Let's Grow Yours</h2>

@@ -26,6 +26,7 @@ module.exports = {
         secondaryColor1: "#23856D",
         alertColor: "#E77C40",
         successColor: '#2DC071',
+        boldRed: '#E74040',
         darkBackgroundColor: "#252B42",
         lightBackgroundColor: "#FAFAFA",
         border: "hsl(var(--border))",

@@ -4,6 +4,7 @@ import ShopPage from "../pages/ShopPage";
 import { Switch, Route } from "react-router-dom";
 import ContactPage from "@/pages/ContactPage";
 import TeamPage from "@/pages/TeamPage";
+import AboutUsPage from "@/pages/AbousUsPage";
 
 export default function PageContent() {
     return(
@@ -23,6 +24,9 @@ export default function PageContent() {
                 </Route>
                 <Route path="/team">
                     <TeamPage />
+                </Route>
+                <Route path="/about">
+                    <AboutUsPage />
                 </Route>
             </Switch>
         </div>
