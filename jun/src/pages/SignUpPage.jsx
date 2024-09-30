@@ -35,6 +35,7 @@ export default function SignUpPage() {
                         placeholder="Email"
                         {...register("email", { 
                             required: "Lütfen mailinizi giriniz!", 
+                            minLength: 8,
                             pattern: {
                                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                                 message: "Lütfen geçerli bir email adresi giriniz!"
@@ -48,6 +49,19 @@ export default function SignUpPage() {
                         placeholder="Password"
                         {...register("password", { 
                             required: "Lütfen şifrenizi giriniz!", 
+                            pattern: {
+                                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                                message: "Şifreniz en az: bir büyük, bir küçük harf, bir özel karakter ve bir sayı içermelidir!"
+                            }
+                            })}/>  
+                    {errors.password && <span>{errors.password.message}</span>}
+                </div>
+                <div className="w-full">
+                    <input
+                        className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-2 pl-2"
+                        placeholder="Password Validation"
+                        {...register("password", { 
+                            required: "Lütfen şifrenizi tekrar giriniz!", 
                             pattern: {
                                 value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,
                                 message: "Şifreniz en az: bir büyük, bir küçük harf, bir özel karakter ve bir sayı içermelidir!"
