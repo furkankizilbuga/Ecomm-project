@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useState } from "react"
 import { useForm, useWatch } from "react-hook-form"
 
@@ -7,14 +8,15 @@ export default function SignUpPage() {
         register,
         handleSubmit,
         formState: { errors, isValid },
-        control
+        control,
+        watch
     } = useForm({
         defaultValues: {
             name: "",
             email: "",
             password: "",
             confirmPass: "",
-            role_id: 1,
+            role_id: 3,
             storeName: "",
             storePhone: "",
             storeTax: "",
@@ -23,12 +25,16 @@ export default function SignUpPage() {
         mode: "onChange"
     })
 
+    const [loading, setLoading] = useState(false);
+
     const roleId = useWatch({
         control,
         name: "role_id"
     })
 
     const onSubmit = (data) => {
+
+        setLoading(true);
 
         let payload = 
             {
@@ -47,6 +53,16 @@ export default function SignUpPage() {
             }
             payload = {...payload, storePayload}
         }
+
+        const baseURL = "https://workintech-fe-ecommerce.onrender.com";
+
+        axios.post(baseURL + "/signup", payload)
+        .then(res => {
+            setLoading(false);
+        })
+        .catch(err => {
+            setLoading(false);
+        })
 
 
     }
@@ -99,10 +115,11 @@ export default function SignUpPage() {
                         placeholder="Confirm Password"
                         type="password"
                         {...register("confirmPass", { 
-                            required: "Lütfen şifrenizi tekrar giriniz!", 
+                            required: "Lütfen şifrenizi tekrar giriniz!",
+                            validate: value => value === watch("password") || "Şifreniz uyuşmuyor!"
                             })}
                         />  
-                    {errors.password && <span>{errors.password.message}</span>}
+                    {errors.confirmPass && <span>{errors.confirmPass.message}</span>}
                 </div>
                 <div className="w-full flex flex-col gap-2">
                     <label className="text-textColor font-bold">Role *</label>
@@ -123,7 +140,9 @@ export default function SignUpPage() {
                                 className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
                                 placeholder="Store Name"
                                 {...register("storeName", { 
-                                    required: "Lütfen mağazanızın ismini giriniz!", 
+                                    required: "Lütfen mağazanızın ismini giriniz!",
+                                    minLength: 3,
+                                    shouldUnregister: roleId != 2,
                                     })}/>  
                             {errors.storeName && <span>{errors.storeName.message}</span>}
                         </div>
@@ -134,6 +153,7 @@ export default function SignUpPage() {
                                 placeholder="Store Phone No"
                                 {...register("storePhone", { 
                                     required: "Lütfen mağazanızın telefon numarasını giriniz!",
+                                    shouldUnregister: roleId != 2,
                                     pattern: {
                                         value: /^(?:\+90|0)?5\d{2}[-\s]?\d{3}[-\s]?\d{4}$/,
                                         message: "Lütfen geçerli bir telefon numarası giriniz!"
@@ -148,6 +168,7 @@ export default function SignUpPage() {
                                 placeholder="Store Tax No"
                                 {...register("storeTax", { 
                                     required: "Lütfen mağazanızın vergi numarasını giriniz!",
+                                    shouldUnregister: roleId != 2,
                                     pattern: {
                                         value: /^T\d{4}V\d{6}$/,
                                         message: "Lütfen geçerli bir vergi numarası giriniz!"
@@ -162,6 +183,7 @@ export default function SignUpPage() {
                                 placeholder="Store Bank No"
                                 {...register("storeBank", { 
                                     required: "Lütfen mağazanızın IBAN adresini giriniz!",
+                                    shouldUnregister: roleId != 2,
                                     pattern: {
                                         value: /^TR\d{2}\d{4}\d{4}\d{2}\d{10}$/,
                                         message: "Lütfen geçerli bir IBAN adresi giriniz!"
@@ -174,8 +196,10 @@ export default function SignUpPage() {
                 <button 
                     type="submit"
                     disabled={ !isValid }
-                    className={`${isValid ? "bg-primaryBlue" : "bg-blue-200"} rounded px-10 py-2 font-medium text-white`}>
-                    Sign Up
+                    className={`${isValid ? "bg-primaryBlue" : "bg-blue-200"} flex justify-center min-w-36 rounded px-10 py-2 font-medium text-white`}>
+                    {loading ? (
+          <div className="loader border-4 border-white border-t-transparent rounded-full w-6 h-6 animate-spin"></div>
+        ) : "Sign Up"}
                 </button>
             </form>
         </div>
