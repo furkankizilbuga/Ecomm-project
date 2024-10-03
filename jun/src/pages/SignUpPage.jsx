@@ -75,88 +75,90 @@ export default function SignUpPage() {
 
     return(
         <div className="py-20 mx-10 sm:bg-lightBackgroundColor sm:mx-0 sm:flex sm:flex-row-reverse sm:justify-center">
-            <form className="flex flex-col rounded-r-md items-center gap-4 sm:bg-white sm:w-1/2 xl:w-1/3 md:px-20 sm:p-12" onSubmit={handleSubmit(onSubmit)}>
-                <div className="w-full flex flex-col sm:flex-row sm:gap-6">
-                    <div className="w-full flex flex-col gap-4">
-                        <div className="w-full flex flex-col gap-2">
-                            <label className="text-textColor font-bold">Name *</label>
-                            <input
-                                className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
-                                placeholder="Name"
-                                {...register("name", { required: "Lütfen isminizi giriniz!", minLength: 3})}/> 
-                            {errors.name && <span>{errors.name.message}</span>}
-                        </div>
-                        <div className="w-full flex flex-col gap-2">
-                            <label className="text-textColor font-bold">Email *</label>
-                            <input 
-                                className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
-                                placeholder="Email"
-                                {...register("email", { 
-                                    required: "Lütfen mailinizi giriniz!", 
-                                    minLength: 8,
-                                    pattern: {
-                                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                                        message: "Lütfen geçerli bir email adresi giriniz!"
-                                    }
-                                })}/>
-                            {errors.email && <span>{errors.email.message}</span>}
-                        </div>
-                        <div className="w-full flex flex-col gap-2">
-                            <label className="text-textColor font-bold">Password *</label>
-                            <input
-                                className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
-                                placeholder="Password"
-                                type="password"
-                                {...register("password", { 
-                                    required: "Lütfen şifrenizi giriniz!", 
-                                    pattern: {
-                                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/,
-                                        message: "Şifreniz en az: bir büyük, bir küçük harf, bir özel karakter ve bir sayı içermelidir!"
-                                    }
-                                    })}/>  
-                            {errors.password && <span>{errors.password.message}</span>}
-                        </div>
-                        <div className="w-full flex flex-col gap-2">
-                            <label className="text-textColor font-bold">Confirm Password *</label>
-                            <input
-                                className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
-                                placeholder="Confirm Password"
-                                type="password"
-                                {...register("confirmPass", { 
-                                    required: "Lütfen şifrenizi tekrar giriniz!",
-                                    validate: value => value === watch("password") || "Şifreniz uyuşmuyor!"
-                                    })}
-                                />  
-                            {errors.confirmPass && <span>{errors.confirmPass.message}</span>}
-                        </div>
-                        <div className="w-full flex flex-col gap-2">
-                            <label className="text-textColor font-bold">Role *</label>
-                            <select 
-                                {...register("role_id")}
-                                className="bg-[#F9F9F9] w-full focus:border-primaryBlue transition-all font-semibold text-textColor outline-none rounded border border-[#E6E6E6] py-3 pl-4 text-sm">
-                                <option value="3" className="font-medium text-textColor" selected>Customer</option>
-                                <option value="1" className="font-medium text-textColor">Admin</option>
-                                <option value="2" className="font-medium text-textColor">Store</option>
-                            </select>
-                        </div>
+            <form className="grid grid-cols-1 gap-4 rounded-r-md sm:bg-white md:px-20 sm:items-center sm:p-12" onSubmit={handleSubmit(onSubmit)}>
+                <h1 className="text-textColor text-2xl font-bold mb-4">Join Us</h1>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="w-full flex flex-col gap-2">
+                        <label className="text-textColor font-bold">Name *</label>
+                        <input
+                            className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
+                            placeholder="Name"
+                            {...register("name", { required: "Lütfen isminizi giriniz!", minLength: 3})}/> 
+                        {errors.name && <span>{errors.name.message}</span>}
                     </div>
-                    {
-                        roleId == 2 && 
-                        <div className="w-full flex flex-col gap-4">
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-textColor font-bold">Store Name *</label>
-                                <input
-                                    className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
-                                    placeholder="Store Name"
-                                    {...register("storeName", { 
-                                        required: "Lütfen mağazanızın ismini giriniz!",
-                                        minLength: 3,
-                                        shouldUnregister: roleId != 2,
-                                        })}/>  
-                                {errors.storeName && <span>{errors.storeName.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-textColor font-bold">Store Phone No *</label>
+                    <div className="w-full flex flex-col gap-2">
+                        <label className="text-textColor font-bold">Email *</label>
+                        <input 
+                            className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
+                            placeholder="Email"
+                            {...register("email", { 
+                                required: "Lütfen mailinizi giriniz!", 
+                                minLength: 8,
+                                pattern: {
+                                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                    message: "Lütfen geçerli bir email adresi giriniz!"
+                                }
+                            })}/>
+                        {errors.email && <span>{errors.email.message}</span>}
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="w-full flex flex-col gap-2">
+                        <label className="text-textColor font-bold">Password *</label>
+                        <input
+                            className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
+                            placeholder="Password"
+                            type="password"
+                            {...register("password", { 
+                                required: "Lütfen şifrenizi giriniz!", 
+                                pattern: {
+                                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/,
+                                    message: "Şifreniz en az: bir büyük, bir küçük harf, bir özel karakter ve bir sayı içermelidir!"
+                                }
+                                })}/>  
+                        {errors.password && <span>{errors.password.message}</span>}
+                    </div>
+                    <div className="w-full flex flex-col gap-2">
+                        <label className="text-textColor font-bold text-nowrap">Confirm Password *</label>
+                        <input
+                            className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
+                            placeholder="Confirm Password"
+                            type="password"
+                            {...register("confirmPass", { 
+                                required: "Lütfen şifrenizi tekrar giriniz!",
+                                validate: value => value === watch("password") || "Şifreniz uyuşmuyor!"
+                                })}
+                            />  
+                        {errors.confirmPass && <span>{errors.confirmPass.message}</span>}
+                    </div>
+                </div>
+                <div className="w-full flex flex-col gap-2">
+                    <label className="text-textColor font-bold">Role *</label>
+                    <select 
+                        {...register("role_id")}
+                        className="bg-[#F9F9F9] w-full focus:border-primaryBlue transition-all font-semibold text-textColor outline-none rounded border border-[#E6E6E6] py-3 pl-4 text-sm">
+                        <option value="3" className="font-medium text-textColor" selected>Customer</option>
+                        <option value="1" className="font-medium text-textColor">Admin</option>
+                        <option value="2" className="font-medium text-textColor">Store</option>
+                    </select>
+                </div>
+                {
+                    roleId == 2 && 
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div className="w-full flex flex-col gap-2">
+                            <label className="text-textColor font-bold">Store Name *</label>
+                            <input
+                                className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
+                                placeholder="Store Name"
+                                {...register("storeName", { 
+                                    required: "Lütfen mağazanızın ismini giriniz!",
+                                    minLength: 3,
+                                    shouldUnregister: roleId != 2,
+                                    })}/>  
+                            {errors.storeName && <span>{errors.storeName.message}</span>}
+                        </div>
+                        <div className="w-full flex flex-col gap-2">
+                                <label className="text-textColor font-bold text-nowrap">Store Phone No *</label>
                                 <input
                                     className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
                                     placeholder="Store Phone No"
@@ -186,7 +188,7 @@ export default function SignUpPage() {
                                 {errors.storeTax && <span>{errors.storeTax.message}</span>}
                             </div>
                             <div className="w-full flex flex-col gap-2">
-                                <label className="text-textColor font-bold">Store Bank No *</label>
+                                <label className="text-textColor font-bold text-nowrap">Store Bank No *</label>
                                 <input
                                     className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
                                     placeholder="Store Bank No"
@@ -200,9 +202,8 @@ export default function SignUpPage() {
                                         })}/>  
                                 {errors.storeBank && <span>{errors.storeBank.message}</span>}
                             </div>
-                        </div>
-                    }
-                </div>
+                    </div>
+                }
                 <button 
                     type="submit"
                     disabled={ !isValid }
@@ -212,7 +213,7 @@ export default function SignUpPage() {
                     ) : "Sign Up"}
                 </button>
             </form>
-            <img className="hidden rounded-l-md sm:block" src="/assets/signUpImages/signupimage.png" />
+            <img className="hidden object-cover rounded-l-md sm:block" src="/assets/signUpImages/signupimage.png" />
         </div>
     )
 }
