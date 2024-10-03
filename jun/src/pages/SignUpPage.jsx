@@ -61,6 +61,7 @@ export default function SignUpPage() {
 
         axios.post(baseURL + "/signup", payload)
         .then(res => {
+            console.log(res)
             history.goBack();
             //TODO toastify eklenecek > “You need to click link in email to activate your account!”
             console.log(payload);
@@ -84,7 +85,7 @@ export default function SignUpPage() {
                             className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
                             placeholder="Name"
                             {...register("name", { required: "Lütfen isminizi giriniz!", minLength: 3})}/> 
-                        {errors.name && <span>{errors.name.message}</span>}
+                        {errors.name && <span className="text-[#ff0f0f] text-sm">{errors.name.message}</span>}
                     </div>
                     <div className="w-full flex flex-col gap-2">
                         <label className="text-textColor font-bold">Email *</label>
@@ -99,7 +100,7 @@ export default function SignUpPage() {
                                     message: "Lütfen geçerli bir email adresi giriniz!"
                                 }
                             })}/>
-                        {errors.email && <span>{errors.email.message}</span>}
+                        {errors.email && <span className="text-[#ff0f0f] text-sm">{errors.email.message}</span>}
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -116,7 +117,7 @@ export default function SignUpPage() {
                                     message: "Şifreniz en az: bir büyük, bir küçük harf, bir özel karakter ve bir sayı içermelidir!"
                                 }
                                 })}/>  
-                        {errors.password && <span>{errors.password.message}</span>}
+                        {errors.password && <span className="text-[#ff0f0f] text-sm">{errors.password.message}</span>}
                     </div>
                     <div className="w-full flex flex-col gap-2">
                         <label className="text-textColor font-bold text-nowrap">Confirm Password *</label>
@@ -129,7 +130,7 @@ export default function SignUpPage() {
                                 validate: value => value === watch("password") || "Şifreniz uyuşmuyor!"
                                 })}
                             />  
-                        {errors.confirmPass && <span>{errors.confirmPass.message}</span>}
+                        {errors.confirmPass && <span className="text-[#ff0f0f] text-sm">{errors.confirmPass.message}</span>}
                     </div>
                 </div>
                 <div className="w-full flex flex-col gap-2">
@@ -155,7 +156,7 @@ export default function SignUpPage() {
                                     minLength: 3,
                                     shouldUnregister: roleId != 2,
                                     })}/>  
-                            {errors.storeName && <span>{errors.storeName.message}</span>}
+                            {errors.storeName && <span className="text-[#ff0f0f] text-sm">{errors.storeName.message}</span>}
                         </div>
                         <div className="w-full flex flex-col gap-2">
                                 <label className="text-textColor font-bold text-nowrap">Store Phone No *</label>
@@ -166,11 +167,11 @@ export default function SignUpPage() {
                                         required: "Lütfen mağazanızın telefon numarasını giriniz!",
                                         shouldUnregister: roleId != 2,
                                         pattern: {
-                                            value: /^(?:\+90|0)?5\d{2}[\s-]?\d{3}[\s-]?\d{4}$/,
+                                            value: /^(?:\+90[\s-]?)?0?5\d{2}[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/,
                                             message: "Lütfen geçerli bir telefon numarası giriniz!"
                                         }
                                         })}/>  
-                                {errors.storePhone && <span>{errors.storePhone.message}</span>}
+                                {errors.storePhone && <span className="text-[#ff0f0f] text-sm">{errors.storePhone.message}</span>}
                             </div>
                             <div className="w-full flex flex-col gap-2">
                                 <label className="text-textColor font-bold">Store Tax No *</label>
@@ -185,7 +186,7 @@ export default function SignUpPage() {
                                             message: "Lütfen geçerli bir vergi numarası giriniz!"
                                         }
                                         })}/>  
-                                {errors.storeTax && <span>{errors.storeTax.message}</span>}
+                                {errors.storeTax && <span className="text-[#ff0f0f] text-sm">{errors.storeTax.message}</span>}
                             </div>
                             <div className="w-full flex flex-col gap-2">
                                 <label className="text-textColor font-bold text-nowrap">Store Bank No *</label>
@@ -196,11 +197,11 @@ export default function SignUpPage() {
                                         required: "Lütfen mağazanızın IBAN adresini giriniz!",
                                         shouldUnregister: roleId != 2,
                                         pattern: {
-                                            value: /^TR\d{2}\d{4}\d{4}\d{2}\d{10}$/,
+                                            value: /^TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}$/,
                                             message: "Lütfen geçerli bir IBAN adresi giriniz!"
                                         }
                                         })}/>  
-                                {errors.storeBank && <span>{errors.storeBank.message}</span>}
+                                {errors.storeBank && <span className="text-[#ff0f0f] text-sm">{errors.storeBank.message}</span>}
                             </div>
                     </div>
                 }
