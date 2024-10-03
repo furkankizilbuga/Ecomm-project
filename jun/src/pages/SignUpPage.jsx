@@ -84,7 +84,9 @@ export default function SignUpPage() {
                         <input
                             className="bg-[#F9F9F9] w-full placeholder:text-sm focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] py-3 pl-4"
                             placeholder="Name"
-                            {...register("name", { required: "Lütfen isminizi giriniz!", minLength: 3})}/> 
+                            {...register("name", { 
+                                required: "Lütfen isminizi giriniz!", 
+                                minLength: { value: 3, message: "İsminiz en az 3 karakter olmalıdır!" }})}/> 
                         {errors.name && <span className="text-[#ff0f0f] text-sm">{errors.name.message}</span>}
                     </div>
                     <div className="w-full flex flex-col gap-2">
@@ -153,7 +155,7 @@ export default function SignUpPage() {
                                 placeholder="Store Name"
                                 {...register("storeName", { 
                                     required: "Lütfen mağazanızın ismini giriniz!",
-                                    minLength: 3,
+                                    minLength: { value: 3, message: "Mağaza ismi en az 3 karakter olmalıdır!"},
                                     shouldUnregister: roleId != 2,
                                     })}/>  
                             {errors.storeName && <span className="text-[#ff0f0f] text-sm">{errors.storeName.message}</span>}
