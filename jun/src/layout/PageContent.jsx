@@ -28,6 +28,7 @@ export default function PageContent() {
                 </Route>
                 <Route path="/signup">
                     <SignUpPage />
+                </Route>
                 <Route path="/about">
                     <AboutUsPage />
                 </Route>
