@@ -17,7 +17,7 @@ export default function Footer() {
                 <div className="flex flex-col gap-3 text-secondaryTextColor font-semibold text-xs sm:max-w-44">
                     <h3 className="text-textColor text-xl font-bold sm:text-lg">Company Info</h3>
                     <nav className="flex flex-col gap-1 sm:gap-2">
-                        <p className="">About us</p>
+                        <Link to="/about" className="hover:underline">About us</Link>
                         <p className="">Career</p>
                         <Link to="/contact" className="hover:underline">We are hiring</Link>
                         <p className="">Blog</p>        
