@@ -1,9 +1,30 @@
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { setRoles, setUser } from "@/store/features/clientSlice";
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Header() {
 
     const [display, setDisplay] = useState(false);
+
+    const user = useSelector(state => state.client.user);
+    const dispatch = useDispatch();
+
+    const isLogged = user && Object.keys(user).length > 0;
+
+    const [, setToken] = useLocalStorage("token", null);
+
+    const logoutHandler = () => {
+
+        dispatch(setUser({}));
+        dispatch(setRoles([]));
+
+        setToken(null);
+    }
+
+    //{isLogged && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
+    //{isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
 
     return (
         <header className="flex flex-col items-center mx-12 py-10 bg-white font-montserrat sm:flex-row sm:justify-between sm:min-w-max sm:gap-4">
@@ -14,8 +35,10 @@ export default function Header() {
                 </div>
                 <nav className={`${display ? "opacity-1 mt-24 mb-16 gap-8" : "opacity-0 h-0 overflow-hidden"} flex flex-col items-center duration-500 text-2xl transition ease-in-out sm:opacity-100 sm:h-auto sm:overflow-visible sm:flex-row sm:gap-4 sm:m-0 sm:mt-0 sm:mb-0`}>                    
                     <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
-                    <button className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</button>
-                    <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>
+                    {!isLogged && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
+                    {!isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
+                    {isLogged && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
+                    {isLogged && <button onClick={logoutHandler} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
                 </nav>
             </div>
             <div className="flex flex-col w-full gap-2 pt-10 sm:flex-row sm:gap-0 sm:pt-0 sm:w-auto">

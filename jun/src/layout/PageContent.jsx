@@ -6,6 +6,8 @@ import ContactPage from "@/pages/ContactPage";
 import TeamPage from "@/pages/TeamPage";
 import SignUpPage from "@/pages/SignUpPage";
 import AboutUsPage from "@/pages/AbousUsPage";
+import LoginPage from "@/pages/LoginPage";
+import ProfilePage from "@/pages/ProfilePage";
 
 export default function PageContent() {
     return(
@@ -31,6 +33,12 @@ export default function PageContent() {
                 </Route>
                 <Route path="/about">
                     <AboutUsPage />
+                </Route>
+                <Route path="/login">
+                    <LoginPage />
+                </Route>
+                <Route path="/profile/:clientName">
+                    <ProfilePage />
                 </Route>
             </Switch>
         </div>
