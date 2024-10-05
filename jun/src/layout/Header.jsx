@@ -11,8 +11,6 @@ export default function Header() {
     const user = useSelector(state => state.client.user);
     const dispatch = useDispatch();
 
-    const [profileDisplay, setProfileDisplay] = useState(false);
-
     const isLogged = user && Object.keys(user).length > 0;
 
     const [token, setToken] = useLocalStorage("token", null);
@@ -39,7 +37,7 @@ export default function Header() {
                     <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
                     {!isLogged && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
                     {!isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
-                    {isLogged && <Link to={`/user/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
+                    {isLogged && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
                     {isLogged && <button onClick={logoutHandler} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
                 </nav>
             </div>
@@ -52,12 +50,6 @@ export default function Header() {
                 <button className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
-                <div className="mx-auto sm:my-auto sm:ml-4">
-                    <p onClick={() => setProfileDisplay(!profileDisplay)} className="relative">{user.name}</p>
-                    <div className={`${profileDisplay ? "" : "hidden" } p-20 bg-red-500 absolute`}>
-                        Logout
-                    </div>
-                </div>
             </div>
         </header> 
     )

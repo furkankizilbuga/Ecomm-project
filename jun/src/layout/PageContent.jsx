@@ -7,7 +7,7 @@ import TeamPage from "@/pages/TeamPage";
 import SignUpPage from "@/pages/SignUpPage";
 import AboutUsPage from "@/pages/AbousUsPage";
 import LoginPage from "@/pages/LoginPage";
-import UserPage from "@/pages/UserPage";
+import ProfilePage from "@/pages/ProfilePage";
 
 export default function PageContent() {
     return(
@@ -37,8 +37,8 @@ export default function PageContent() {
                 <Route path="/login">
                     <LoginPage />
                 </Route>
-                <Route path="/user/:user">
-                    <UserPage />
+                <Route path="/profile/:clientName">
+                    <ProfilePage />
                 </Route>
             </Switch>
         </div>
