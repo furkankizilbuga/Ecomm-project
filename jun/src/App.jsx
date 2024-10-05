@@ -26,11 +26,11 @@ function App() {
 
     const token = localStorage.getItem("token");
 
-    if(token != null) {
+    if(token) {
 
       const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
-      axios.get(baseURL + "/verify",{
+      axios.get(`${baseURL}/verify`,{
         headers: {
           Authorization: token
         }
@@ -39,9 +39,11 @@ function App() {
       .then(res => {
 
         const user = res.data;
+        console.log("res.data: " + user);
         dispatch(setUser({name: user.name, email: user.email}))
         dispatch(setRoles([...roles, res.data.role_id]));
         localStorage.setItem("token", user.token);
+        toast("Giriş başarılı!")
 
       })
       .catch(err => {
@@ -57,7 +59,7 @@ function App() {
 
     }
 
-  }, [dispatch])
+  }, [])
 
   return (
     <>
