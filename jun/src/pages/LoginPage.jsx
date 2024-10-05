@@ -16,7 +16,7 @@ export default function LoginPage() {
     const dispatch = useDispatch();
     const roles = useSelector((state) => state.client.roles);
 
-    const [token, setToken] = useLocalStorage("token", null);
+    const [, setToken] = useLocalStorage("token", null);
 
     const {
         register,

@@ -13,7 +13,7 @@ export default function Header() {
 
     const isLogged = user && Object.keys(user).length > 0;
 
-    const [token, setToken] = useLocalStorage("token", null);
+    const [, setToken] = useLocalStorage("token", null);
 
     const logoutHandler = () => {
 
