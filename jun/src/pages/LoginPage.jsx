@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { toast, Bounce } from "react-toastify";
 
 export default function LoginPage() {
 
@@ -56,11 +57,35 @@ export default function LoginPage() {
                 history.goBack();
             } else history.push("/");
 
+            toast("Hoşgeldin " + res.data.name, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+
         })
         .catch(err => {
             console.log(err);
             setLoading(false);
-            //TODO Toastify eklenecek.
+
+            toast.error(err.response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+
         })
     }
 

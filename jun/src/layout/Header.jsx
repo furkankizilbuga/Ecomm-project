@@ -1,13 +1,29 @@
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { setRoles, setUser } from "@/store/features/clientSlice";
 import { useState } from "react"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Header() {
 
     const [display, setDisplay] = useState(false);
-    const client = useSelector(state => state.client.user);
 
-    const isLogged = client && Object.keys(client).length > 0;
+    const user = useSelector(state => state.client.user);
+    const dispatch = useDispatch();
+
+    const [profileDisplay, setProfileDisplay] = useState(false);
+
+    const isLogged = user && Object.keys(user).length > 0;
+
+    const [token, setToken] = useLocalStorage("token", null);
+
+    const logoutHandler = () => {
+
+        dispatch(setUser({}));
+        dispatch(setRoles([]));
+
+        setToken(null);
+    }
 
     //{isLogged && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
     //{isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
@@ -21,8 +37,10 @@ export default function Header() {
                 </div>
                 <nav className={`${display ? "opacity-1 mt-24 mb-16 gap-8" : "opacity-0 h-0 overflow-hidden"} flex flex-col items-center duration-500 text-2xl transition ease-in-out sm:opacity-100 sm:h-auto sm:overflow-visible sm:flex-row sm:gap-4 sm:m-0 sm:mt-0 sm:mb-0`}>                    
                     <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
-                    <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>
-                    <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>
+                    {!isLogged && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
+                    {!isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
+                    {isLogged && <Link to={`/user/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
+                    {isLogged && <button onClick={logoutHandler} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
                 </nav>
             </div>
             <div className="flex flex-col w-full gap-2 pt-10 sm:flex-row sm:gap-0 sm:pt-0 sm:w-auto">
@@ -34,6 +52,12 @@ export default function Header() {
                 <button className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
+                <div className="mx-auto sm:my-auto sm:ml-4">
+                    <p onClick={() => setProfileDisplay(!profileDisplay)} className="relative">{user.name}</p>
+                    <div className={`${profileDisplay ? "" : "hidden" } p-20 bg-red-500 absolute`}>
+                        Logout
+                    </div>
+                </div>
             </div>
         </header> 
     )
