@@ -7,8 +7,8 @@ import { useLocation, useHistory } from 'react-router-dom'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import { setUser } from './store/features/clientSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { setRoles, setUser } from './store/features/clientSlice'
 
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
+  const roles = useSelector((state) => state.client.roles);
 
   const show = location.pathname !== "/contact" && location.pathname !== "/team";
 
@@ -39,11 +40,12 @@ function App() {
 
         const user = res.data;
         dispatch(setUser({name: user.name, email: user.email}))
+        dispatch(setRoles([...roles, res.data.role_id]));
         localStorage.setItem("token", user.token);
 
       })
       .catch(err => {
-        if (err.response && err.response.status === 401) {
+        if(err.response && err.response.status === 401) {
           toast.error("Lütfen tekrar giriş yapınız.");
           localStorage.removeItem("token");
         } else {
@@ -55,7 +57,7 @@ function App() {
 
     }
 
-  }, [dispatch, history])
+  }, [dispatch])
 
   return (
     <>
