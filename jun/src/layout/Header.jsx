@@ -9,6 +9,7 @@ export default function Header() {
     const [display, setDisplay] = useState(false);
 
     const user = useSelector(state => state.client.user);
+    const categories = useSelector(state => state.product.categories);
     const dispatch = useDispatch();
 
     const isLogged = user && Object.keys(user).length > 0;
@@ -45,7 +46,9 @@ export default function Header() {
                 <input placeholder="Search" className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-3 py-1 placeholder:text-sm sm:rounded-l sm:px-2 sm:rounded-r-none sm:max-[700px]:w-[150px]"/>
                 <select className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-2 py-1 text-sm sm:rounded-none sm:px-0 sm:max-[800px]:gap-5">
                     <option disabled selected hidden>Category</option>
-                    <option>Clothing</option>
+                    {categories.map((item, index)=> (
+                        <option key={index}>{item.title}</option>
+                    ))}
                 </select>
                 <button className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>

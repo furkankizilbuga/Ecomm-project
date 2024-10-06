@@ -1,5 +1,6 @@
 import ProductCard from "@/components/ProductCard"
 import useImageSize from "@/hooks/useImageSize"
+import { useSelector } from "react-redux";
 
 const productCardImages = [
     "assets/productCardImages/WOMENproduct3.png",
@@ -20,6 +21,8 @@ export default function ShopProducts() {
     let display = isMobile ? "assets/shopClients/mobile-clients-1.png" : "assets/shopClients/desktop-clients-1.png";
     let imageClass = isMobile ? "w-60 mx-auto" : "mx-auto";
 
+    const categories = useSelector(state => state.product.categories);
+
     return(
         <div className="flex flex-col items-center justify-center pt-10 gap-20">
             <div className="flex flex-col items-center gap-6 min-[920px]:flex-row sm:justify-between sm:w-full sm:px-40">
@@ -34,7 +37,9 @@ export default function ShopProducts() {
                 <div className="flex gap-2">
                     <select className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5">
                         <option disabled selected hidden>Category</option>
-                        <option>CLOTHES</option>
+                        {categories.map((item, index)=> (
+                        <option key={index}>{item.title}</option>
+                        ))}
                     </select>
                     <button className="bg-primaryBlue px-6 rounded text-sm text-white">Filter</button>
                 </div>

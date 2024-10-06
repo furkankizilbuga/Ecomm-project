@@ -1,39 +1,13 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom"
-
-const categories = [
-    {
-        img: "assets/shopCategories/shop-categories1.png",
-        name: "CLOTHES",
-        quantity: 0
-    },
-    {
-        img: "assets/shopCategories/shop-categories1.png",
-        name: "CLOTHES",
-        quantity: 0
-    },
-    {
-        img: "assets/shopCategories/shop-categories1.png",
-        name: "CLOTHES",
-        quantity: 0
-    },
-    {
-        img: "assets/shopCategories/shop-categories1.png",
-        name: "CLOTHES",
-        quantity: 0
-    },
-    {
-        img: "assets/shopCategories/shop-categories1.png",
-        name: "CLOTHES",
-        quantity: 0
-    }
-]
 
 export default function ShopCategories() {
 
 
+    const categories = useSelector(state => state.product.categories);
 
-
-
+    const topCategories = [...categories].sort((a, b) => b.rating - a.rating).slice(0, 5);
+    
     return(
         <div className="bg-[#FAFAFA] w-full flex flex-col items-center justify-center gap-14 py-10">
             <div className="flex flex-col items-center gap-14 sm:flex-row sm:w-full sm:justify-between sm:px-12">
@@ -46,14 +20,14 @@ export default function ShopCategories() {
             </div>
             <div className="flex flex-col justify-center items-center gap-4 sm:flex-row sm:px-40 sm:flex-wrap">
                 {
-                    categories.map((item, index) => 
-                        <div key={index} className="relative cursor-pointer">
-                            <img className="rounded" src={item.img} />
-                            <div className="flex flex-col gap-4 items-center font-semibold text-sm text-white absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ">
-                                <h4>{item.name}</h4>
-                                <p>{item.quantity} items</p>
+                    topCategories.map( item => 
+                        <Link to={`/shop/${item.gender == "k" ? "kadin" : "erkek"}/${item.title}`} key={item.id} className="relative cursor-pointer">
+                            <img className="rounded object-cover object-center w-60 h-96" src={item.img} alt={item.title} />
+                            <div className="flex flex-col gap-4 items-center font-bold text-sm text-white absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ">
+                                <h4>{item.title}</h4>
+                                <p>{item.rating}</p>
                             </div>
-                        </div>
+                        </Link>
                     )
                 }
             </div>
