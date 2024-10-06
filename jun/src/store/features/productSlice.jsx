@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const fetchStates = {
     NOT_FETCHED: "NOT_FETCHED",
@@ -6,6 +7,14 @@ const fetchStates = {
     FETCHED: "FETCHED",
     FAILED: "FAILED",
 };
+
+export const fetchCategories = createAsyncThunk(
+    "product/fetchCategories",
+    async () => {
+        const response = await axios.get("https://workintech-fe-ecommerce.onrender.com/categories");
+        return response.data;
+    }
+)
 
 export const productSlice = createSlice({
     name: "product",
@@ -40,6 +49,20 @@ export const productSlice = createSlice({
         setFetchState: (state, action) => {
             state.fetchState = action.payload;
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCategories.pending, state => {
+                state.fetchState = fetchStates.FETCHING;
+            })
+            .addCase(fetchCategories.fulfilled, (state, action) => {
+                state.categories = action.payload;
+                state.fetchState = fetchStates.FETCHED;
+                //console.log(action.payload);
+            })
+            .addCase(fetchCategories.rejected, state => {
+                state.fetchState = fetchStates.FAILED;
+            })
     }
 })
 

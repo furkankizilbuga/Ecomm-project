@@ -10,6 +10,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { setRoles, setUser } from './store/features/clientSlice'
 import useLocalStorage from './hooks/useLocalStorage'
+import { fetchCategories } from './store/features/productSlice'
 
 
 function App() {
@@ -59,6 +60,11 @@ function App() {
 
       })
     }
+
+
+    //fetchCategories
+    dispatch(fetchCategories());
+    
   }, [])
 
   return (
