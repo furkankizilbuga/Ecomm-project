@@ -12,6 +12,7 @@ import useImageSize from "@/hooks/useImageSize";
 export function CarouselComp(props) {
   const { sliderImages = {}, customStyle } = props;
   const { isMobile } = useImageSize();
+
   const display = isMobile 
     ? (sliderImages.sliderImagesVertical || []) 
     : (sliderImages.sliderImagesHorizontal || []);
@@ -30,7 +31,6 @@ export function CarouselComp(props) {
                   <p className="text-md text-white">{item.description}</p>
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                     <p className="font-bold text-white text-lg">{item.price ? item.price : ""}</p>
-                    
                     <button className={`${item.button == "" ? `bg-none` : `bg-successColor`} rounded text-white font-semibold text-sm px-9 py-3 sm: sm:px-8`}>
                       {item.button}
                     </button>

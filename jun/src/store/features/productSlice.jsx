@@ -24,6 +24,14 @@ export const fetchProducts = createAsyncThunk(
     }
 )
 
+export const fetchProduct = createAsyncThunk(
+    "product/fetchProduct",
+    async (productId) => {
+        const response = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
+        return response.data;
+    }
+);
+
 export const productSlice = createSlice({
     name: "product",
     initialState: {
@@ -33,6 +41,8 @@ export const productSlice = createSlice({
         limit: 25,
         offset: 0,
         filter: "",
+        selectedProduct: {},
+        selectedFetchState: fetchStates.NOT_FETCHED,
         categoriesFetchState: fetchStates.NOT_FETCHED,
         productsFetchState: fetchStates.NOT_FETCHED
     },
@@ -54,6 +64,12 @@ export const productSlice = createSlice({
         },
         setFilter: (state, action) => {
             state.filter = action.payload;
+        },
+        setSelectedProduct: (state, action) => {
+            state.selectedProduct = action.payload;
+        },
+        setSelectedFetchState: (state, action) => {
+            state.selectedFetchState = action.payload;
         },
         setCategoriesFetchState: (state, action) => {
             state.categoriesFetchState = action.payload;
@@ -86,7 +102,18 @@ export const productSlice = createSlice({
             })
             .addCase(fetchProducts.rejected, state => {
                 state.productsFetchState = fetchStates.FAILED;
-                console.log("hata")
+            });
+
+        builder
+            .addCase(fetchProduct.pending, state => {
+                state.selectedFetchState = fetchStates.FETCHING;
+            })
+            .addCase(fetchProduct.fulfilled, (state, action) => {
+                state.selectedFetchState = fetchStates.FETCHED;
+                state.selectedProduct = action.payload;
+            })
+            .addCase(fetchProduct.rejected, state => {
+                state.selectedFetchState = fetchStates.FAILED;
             })
     }
 })

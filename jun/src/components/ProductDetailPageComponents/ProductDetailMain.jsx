@@ -1,4 +1,5 @@
 import { CarouselComp } from "@/components/CarouselComp";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const sliderImages = {
@@ -40,6 +41,9 @@ export default function ProductDetailMain() {
 
     const customStyle = "object-cover object-center object-top rounded w-full h-[400px] sm:h-cover sm:min-w-40 sm:max-w-80 sm:max-h-96 ";
 
+    const product = useSelector(state => state.product.selectedProduct);
+    const { images } = product
+
     return(
         <div className="bg-lightBackgroundColor py-10 flex flex-col gap-10 sm:items-center sm:px-60">
             <div className="flex items-center px-12 gap-4 sm:px-0 sm:w-full">
@@ -49,32 +53,29 @@ export default function ProductDetailMain() {
             </div>
             <div className="flex flex-col xl:flex-row sm:items-center xl:items-start">
                 <div className="flex flex-col gap-6 px-10  sm:px-0 sm:max-w-80 ">
-                    <CarouselComp sliderImages={sliderImages} customStyle={customStyle} />
+                    <CarouselComp sliderImages={images} customStyle={customStyle} />
                     <div className="flex gap-4 ">
-                        {sliderImages.sliderImagesVertical.map((item, index) => 
-                            <img src={item.url} key={index} className="w-36" />
+                        {images.map((item) => 
+                            <img src={item.url} key={item.index} className="w-36" />
                         )}
                     </div>
                 </div>
                 <div className="flex flex-col mx-14 gap-4 py-10">
                     <div className="flex flex-col gap-4 border-b border-b-mutedColor pb-4">
-                        <h4 className="font-semibold text-lg">Ürün ismi</h4>
+                        <h4 className="font-semibold text-lg">{product.name}</h4>
                         <div className="flex items-center gap-2">
-                            <div>Rating</div>
-                            <p className="text-sm font-semibold">10 Reviews</p>
+                            <div className="font-semibold text-secondaryColor1">{product.rating} <i className="fa-solid fa-star"></i></div>
+                            <p className="text-sm font-semibold">{product.sell_count} Sold</p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <p className="font-bold text-2xl text-textColor">$1.139</p>
+                            <p className="font-bold text-2xl text-textColor">${product.price}</p>
                             <div className="flex text-sm items-center gap-2">
                                 <span className="text-secondaryTextColor font-semibold ">Availability:</span>
-                                <span className="text-primaryBlue font-semibold">In Stock</span>
+                                <span className="text-primaryBlue font-semibold">{product.stock} in Stock</span>
                             </div>
                         </div>
                         <p className="font-medium text-secondaryTextColor text-sm max-w-72 sm:max-w-full sm:w-96">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Ad accusantium mollitia, 
-                            dolorem modi atque aliquid nobis quasi velit voluptatum id 
-                            veritatis ea earum doloribus magni nam. 
+                            {product.description}
                         </p>
                     </div>
                     <div className="flex flex-col gap-4">

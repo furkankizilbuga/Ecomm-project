@@ -6,14 +6,6 @@ import { useSelector } from "react-redux";
 
 export default function ShopProducts() {
 
-    {/* <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">
-                {
-                    productCardImages.map((item, index) => 
-                        <ProductCard key={index} item={item} />
-                    )
-                }
-            </div> */}
-
     //TODO Pagination will be fixed. This is design only.
     //https://www.youtube.com/watch?v=IYCa1F-OWmk
 
