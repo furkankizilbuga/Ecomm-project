@@ -16,6 +16,14 @@ export const fetchCategories = createAsyncThunk(
     }
 )
 
+export const fetchProducts = createAsyncThunk(
+    "product/fetchProducts",
+    async () => {
+        const response = await axios.get("https://workintech-fe-ecommerce.onrender.com/products");
+        return response.data;
+    }
+)
+
 export const productSlice = createSlice({
     name: "product",
     initialState: {
@@ -25,7 +33,8 @@ export const productSlice = createSlice({
         limit: 25,
         offset: 0,
         filter: "",
-        fetchState: fetchStates.NOT_FETCHED
+        categoriesFetchState: fetchStates.NOT_FETCHED,
+        productsFetchState: fetchStates.NOT_FETCHED
     },
     reducers: {
         setCategories: (state, action) => {
@@ -46,22 +55,37 @@ export const productSlice = createSlice({
         setFilter: (state, action) => {
             state.filter = action.payload;
         },
-        setFetchState: (state, action) => {
-            state.fetchState = action.payload;
+        setCategoriesFetchState: (state, action) => {
+            state.categoriesFetchState = action.payload;
+        },
+        setProductsFetchState: (state, action) => {
+            state.productsFetchState = action.payload;
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCategories.pending, state => {
-                state.fetchState = fetchStates.FETCHING;
+                state.categoriesFetchState = fetchStates.FETCHING;
             })
             .addCase(fetchCategories.fulfilled, (state, action) => {
                 state.categories = action.payload;
-                state.fetchState = fetchStates.FETCHED;
-                //console.log(action.payload);
+                state.categoriesFetchState = fetchStates.FETCHED;
             })
             .addCase(fetchCategories.rejected, state => {
-                state.fetchState = fetchStates.FAILED;
+                state.categoriesFetchState = fetchStates.FAILED;
+            });
+        
+        builder
+            .addCase(fetchProducts.pending, state => {
+                state.productsFetchState = fetchStates.FETCHING;
+            })
+            .addCase(fetchProducts.fulfilled, (state, action) => {
+                state.productsFetchState = fetchStates.FETCHED;
+                state.products = action.payload.products;
+                state.total = action.payload.total;
+            })
+            .addCase(fetchProducts.rejected, state => {
+                state.productsFetchState = fetchStates.FAILED;
             })
     }
 })
@@ -73,7 +97,8 @@ export const {
     setLimit, 
     setOffset, 
     setFilter, 
-    setFetchState 
+    setCategoriesFetchState,
+    setProductsFetchState
 } = productSlice.actions;
 
 export default productSlice.reducer;

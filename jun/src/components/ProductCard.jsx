@@ -6,8 +6,8 @@ export default function ProductCard(props) {
     const { item, onClick } = props;
 
     return(
-        <div onClick={onClick} className="flex cursor-pointer flex-col items-center gap-6 pb-10 ">
-            <img className="rounded" src={item} />
+        <div onClick={onClick} className="flex cursor-pointer flex-col items-center gap-6 pb-10">
+            <img className="rounded w-72 h-96 object-cover" src={item} />
             <div className="flex flex-col items-center gap-3">
                 <h4 className="text-textColor font-bold ">Graphic Design</h4>
                 <p className="text-secondaryTextColor font-bold text-nowrap md:max-[700px]:text-primaryBlue">English Department</p>

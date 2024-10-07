@@ -21,7 +21,7 @@ export default function ShopProducts() {
     let display = isMobile ? "assets/shopClients/mobile-clients-1.png" : "assets/shopClients/desktop-clients-1.png";
     let imageClass = isMobile ? "w-60 mx-auto" : "mx-auto";
 
-    const categories = useSelector(state => state.product.categories);
+    const { products, productsFetchState, categories, } = useSelector(state => state.product);
 
     return(
         <div className="flex flex-col items-center justify-center pt-10 gap-20">
