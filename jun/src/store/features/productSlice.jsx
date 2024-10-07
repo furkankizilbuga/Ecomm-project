@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const fetchStates = {
+export const fetchStates = {
     NOT_FETCHED: "NOT_FETCHED",
     FETCHING: "FETCHING",
     FETCHED: "FETCHED",
@@ -86,6 +86,7 @@ export const productSlice = createSlice({
             })
             .addCase(fetchProducts.rejected, state => {
                 state.productsFetchState = fetchStates.FAILED;
+                console.log("hata")
             })
     }
 })

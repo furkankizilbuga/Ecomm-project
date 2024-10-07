@@ -1,17 +1,18 @@
 import ProductCard from "@/components/ProductCard"
+import Spinner from "@/components/Spinner";
 import useImageSize from "@/hooks/useImageSize"
+import { fetchStates } from "@/store/features/productSlice";
 import { useSelector } from "react-redux";
 
-const productCardImages = [
-    "assets/productCardImages/WOMENproduct3.png",
-    "assets/productCardImages/MENproduct3.png",
-    "assets/productCardImages/WOMENproduct4.png",
-    "assets/productCardImages/WOMENproduct5.png",
-    "assets/productCardImages/WOMENproduct6.png",
-    "assets/productCardImages/WOMENproduct4.png"
-]
-
 export default function ShopProducts() {
+
+    {/* <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">
+                {
+                    productCardImages.map((item, index) => 
+                        <ProductCard key={index} item={item} />
+                    )
+                }
+            </div> */}
 
     //TODO Pagination will be fixed. This is design only.
     //https://www.youtube.com/watch?v=IYCa1F-OWmk
@@ -21,7 +22,7 @@ export default function ShopProducts() {
     let display = isMobile ? "assets/shopClients/mobile-clients-1.png" : "assets/shopClients/desktop-clients-1.png";
     let imageClass = isMobile ? "w-60 mx-auto" : "mx-auto";
 
-    const { products, productsFetchState, categories, } = useSelector(state => state.product);
+    const { products, productsFetchState, categories } = useSelector(state => state.product);
 
     return(
         <div className="flex flex-col items-center justify-center pt-10 gap-20">
@@ -46,8 +47,12 @@ export default function ShopProducts() {
             </div>
             <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">
                 {
-                    productCardImages.map((item, index) => 
-                        <ProductCard key={index} item={item} />
+                    productsFetchState === fetchStates.FETCHING ? (
+                        <Spinner />
+                    ) : (
+                        products.map(item => 
+                            <ProductCard key={item.id} item={item} />
+                        )
                     )
                 }
             </div>
