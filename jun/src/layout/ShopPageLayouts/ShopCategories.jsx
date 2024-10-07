@@ -1,10 +1,12 @@
+import Spinner from "@/components/Spinner";
+import { fetchStates } from "@/store/features/productSlice";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom"
 
 export default function ShopCategories() {
 
 
-    const categories = useSelector(state => state.product.categories);
+    const { categories, categoriesFetchState } = useSelector(state => state.product);
 
     const topCategories = [...categories].sort((a, b) => b.rating - a.rating).slice(0, 5);
     
@@ -19,7 +21,10 @@ export default function ShopCategories() {
                 </div>
             </div>
             <div className="flex flex-col justify-center items-center gap-4 sm:flex-row sm:px-40 sm:flex-wrap">
-                {
+                {   
+                    categoriesFetchState == fetchStates.FETCHING ? (
+                        <Spinner />
+                    ) : 
                     topCategories.map( item => 
                         <Link to={`/shop/${item.gender == "k" ? "kadin" : "erkek"}/${item.title}`} key={item.id} className="relative cursor-pointer">
                             <img className="rounded object-cover object-center w-60 h-96" src={item.img} alt={item.title} />
