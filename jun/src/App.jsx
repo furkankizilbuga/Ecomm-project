@@ -43,7 +43,6 @@ function App() {
         dispatch(setUser({name: user.name, email: user.email}))
         dispatch(setRoles([...roles, res.data.role_id]));
         setToken(user.token);
-        toast(`Tekrar Hoşgeldin ${user.name}!`)
 
       })
       .catch(err => {

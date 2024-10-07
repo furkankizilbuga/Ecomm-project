@@ -2,47 +2,12 @@ import { CarouselComp } from "@/components/CarouselComp";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const sliderImages = {
-    sliderImagesVertical: [
-        {
-            url: "/assets/productCardImages/WOMENproduct3.png",
-            subTitle: "",
-            title: "",
-            description: "",
-            button: ""
-        },
-        {
-            url: "/assets/productCardImages/MENproduct3.png",
-            subTitle: "",
-            title: "",
-            description: "",
-            button: ""
-        }
-    ],
-    sliderImagesHorizontal: [
-        {
-            url: "/assets/productCardImages/WOMENproduct3.png",
-            subTitle: "",
-            title: "",
-            description: "",
-            button: ""
-        },
-        {
-            url: "/assets/productCardImages/MENproduct3.png",
-            subTitle: "",
-            title: "",
-            description: "",
-            button: ""
-        }
-    ]
-}
-
 export default function ProductDetailMain() {
 
-    const customStyle = "object-cover object-center object-top rounded w-full h-[400px] sm:h-cover sm:min-w-40 sm:max-w-80 sm:max-h-96 ";
+    const customStyle = "object-cover object-center object-top rounded w-full h-[600px] sm:h-cover sm:min-w-40 sm:w-80 sm:h-96 ";
 
     const product = useSelector(state => state.product.selectedProduct);
-    const { images } = product
+    const { images = [] } = product
 
     return(
         <div className="bg-lightBackgroundColor py-10 flex flex-col gap-10 sm:items-center sm:px-60">
@@ -53,10 +18,10 @@ export default function ProductDetailMain() {
             </div>
             <div className="flex flex-col xl:flex-row sm:items-center xl:items-start">
                 <div className="flex flex-col gap-6 px-10  sm:px-0 sm:max-w-80 ">
-                    <CarouselComp sliderImages={images} customStyle={customStyle} />
+                    <CarouselComp images={images} customStyle={customStyle} />
                     <div className="flex gap-4 ">
                         {images.map((item) => 
-                            <img src={item.url} key={item.index} className="w-36" />
+                            <img src={item.url} key={item.index} className="w-28" />
                         )}
                     </div>
                 </div>

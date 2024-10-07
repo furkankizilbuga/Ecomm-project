@@ -21,7 +21,7 @@ const { isMobile } = useImageSize();
 
     useEffect(() => {
         dispatch(fetchProduct(productId))
-    }, [productId, dispatch])
+    }, [dispatch, productId])
 
     return(
         selectedFetchState == fetchStates.FETCHING ? (
