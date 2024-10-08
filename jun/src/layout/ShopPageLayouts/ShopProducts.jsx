@@ -119,7 +119,7 @@ export default function ShopProducts() {
                     productsFetchState === fetchStates.FETCHING ? (
                         <Spinner />
                     ) : (
-                        productCopy.map(item => 
+                        products.map(item => 
                             <ProductCard key={item.id} item={item} />
                         )
                     )
