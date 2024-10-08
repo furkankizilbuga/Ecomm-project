@@ -2,6 +2,7 @@ import ProductCard from "@/components/ProductCard"
 import Spinner from "@/components/Spinner";
 import useImageSize from "@/hooks/useImageSize"
 import { fetchStates } from "@/store/features/productSlice";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -17,38 +18,66 @@ export default function ShopProducts() {
 
     const { products, productsFetchState, categories } = useSelector(state => state.product);
 
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [filterText, setFilterText] = useState("");
-    const [sortOption, setSortOption] = useState("");
-    const [productCopy, setProductCopy] = useState(products);
+    const [category, setCategory] = useState("");
+    const [filter, setFilter] = useState("");
+    const [sort, setSort] = useState("");
+    const [productDisplay, setProductDisplay] = useState(products);
+
+    const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
     useEffect(() => {
-        setProductCopy(products);
+        setProductDisplay(products);
       }, [products]);
+
+    useEffect(() => {
+        let query = "/products";
+
+        if(category) {
+            query += `?category=${category}`
+        }
+
+        if(sort) {
+            query += `?sort=${sort}`
+        }
+
+        if(filter) {
+            query += `?filter=${filter}`
+        }
+
+        
+        axios.get(baseURL + query)
+        .then(res => {
+
+        })
+        .catch(err => {
+
+        })
+
+    }, [sort, filter, category])
 
     const filterHandler = () => {
         
-        let temp = productCopy.filter(product => product.description.toLocaleLowerCase().includes(filterText.toLocaleLowerCase()));
+        setFilter()
 
-        switch (sortOption) {
-            case "priceAsc":
-                temp.sort((a, b) => a.price - b.price);
+        switch (sort) {
+            case "price:asc":
+                setSort("price:asc");
                 break;
-            case "priceDesc":
-                temp.sort((a, b) => b.price - a.price);
+            case "price:desc":
+                setSort("price:desc");
                 break;
-            case "rateAsc":
-                temp.sort((a, b) => a.rating - b.rating);
+            case "rating:asc":
+                setSort("rating:asc");
                 break;
-            case "rateDesc":
-                temp.sort((a, b) => b.rating - a.rating);
+            case "rating:desc":
+                setSort("rating:desc");
                 break;
             default:
                 break;
 
         }
 
-        setProductCopy(temp);
+        setProductDisplay(temp);
     }
 
     return(
@@ -59,16 +88,15 @@ export default function ShopProducts() {
                 <div className="flex flex-col items-center sm:items-end gap-4">
                     <div className="flex flex-col sm:flex-row">
                         <select 
-                            value={sortOption}
-                            onChange={e => setSortOption(e.target.value)}
+                            value={sort}
                             className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border rounded-l border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5">
                             <option value="" selected hidden disabled>Sort</option>
-                            <option value="priceDesc">Price Desc</option>
-                            <option value="priceAsc">Price Asc</option>
-                            <option value="rateDesc">Rating Desc</option>
-                            <option value="rateAsc">Rating Asc</option>
+                            <option value="price:desc">Price Desc</option>
+                            <option value="price:asc">Price Asc</option>
+                            <option value="rating:desc">Rating Desc</option>
+                            <option value="rating:asc">Rating Asc</option>
                         </select>   
-                        <input value={filterText} onChange={(e) => setFilterText(e.target.value)} placeholder="Filter"  className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5"/>
+                        <input value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Filter"  className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5"/>
                         <select className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5">
                             <option disabled selected hidden>Category</option>
                             {categories.map((item, index)=> (
