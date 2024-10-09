@@ -117,7 +117,8 @@ export default function ShopProducts() {
                 productsPerPage={productsPerPage} 
                 totalProducts={totalProducts} 
                 paginate={paginate}
-                currentPage={currentPage} />
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage} />
                 
             <div className="bg-[#FAFAFA] w-full">
                 <img className={imageClass} src={display} />
