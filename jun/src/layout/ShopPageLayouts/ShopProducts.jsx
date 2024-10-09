@@ -21,63 +21,50 @@ export default function ShopProducts() {
     const [category, setCategory] = useState("");
     const [filter, setFilter] = useState("");
     const [sort, setSort] = useState("");
+
+    const [tempSort, setTempSort] = useState("");
+    const [tempCategory, setTempCategory] = useState("");
+    const [tempFilter, setTempFilter] = useState("");
+
     const [productDisplay, setProductDisplay] = useState(products);
 
     const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
-    useEffect(() => {
-        setProductDisplay(products);
-      }, [products]);
 
     useEffect(() => {
         let query = "/products";
+        const params = [];
 
-        if(category) {
-            query += `?category=${category}`
+        if (category) {
+            params.push(`category=${category}`);
         }
 
-        if(sort) {
-            query += `?sort=${sort}`
+        if (sort) {
+            params.push(`sort=${sort}`);
         }
 
-        if(filter) {
-            query += `?filter=${filter}`
+        if (filter) {
+            params.push(`filter=${filter}`);
         }
 
+        if (params.length > 0) {
+            query += `?${params.join("&")}`;
+        }
         
         axios.get(baseURL + query)
         .then(res => {
-
+            setProductDisplay(res.data.products);
         })
         .catch(err => {
-
+            console.log(err);
         })
 
     }, [sort, filter, category])
 
     const filterHandler = () => {
-        
-        setFilter()
-
-        switch (sort) {
-            case "price:asc":
-                setSort("price:asc");
-                break;
-            case "price:desc":
-                setSort("price:desc");
-                break;
-            case "rating:asc":
-                setSort("rating:asc");
-                break;
-            case "rating:desc":
-                setSort("rating:desc");
-                break;
-            default:
-                break;
-
-        }
-
-        setProductDisplay(temp);
+        setCategory(tempCategory);
+        setSort(tempSort);
+        setFilter(tempFilter); 
     }
 
     return(
@@ -88,20 +75,28 @@ export default function ShopProducts() {
                 <div className="flex flex-col items-center sm:items-end gap-4">
                     <div className="flex flex-col sm:flex-row">
                         <select 
-                            value={sort}
+                            value={tempSort}
+                            onChange={(e) => setTempSort(e.target.value)}
                             className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border rounded-l border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5">
-                            <option value="" selected hidden disabled>Sort</option>
-                            <option value="price:desc">Price Desc</option>
-                            <option value="price:asc">Price Asc</option>
-                            <option value="rating:desc">Rating Desc</option>
-                            <option value="rating:asc">Rating Asc</option>
+                                <option value="" selected hidden disabled>Sort</option>
+                                <option value="price:desc">Price Desc</option>
+                                <option value="price:asc">Price Asc</option>
+                                <option value="rating:desc">Rating Desc</option>
+                                <option value="rating:asc">Rating Asc</option>
                         </select>   
-                        <input value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Filter"  className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5"/>
-                        <select className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5">
-                            <option disabled selected hidden>Category</option>
-                            {categories.map((item, index)=> (
-                            <option key={index}>{item.title}</option>
-                            ))}
+                        <input  
+                            value={tempFilter}
+                            onChange={(e) => setTempFilter(e.target.value)} 
+                            placeholder="Filter" 
+                            className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5"/>
+                        <select 
+                            value={tempCategory}
+                            onChange={(e) => setTempCategory(e.target.value)}
+                            className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5">
+                                <option value="">All Categories</option>
+                                {categories.map((item, index)=> (
+                                <option value={item.id} key={index}>{item.title}</option>
+                                ))}
                         </select>
                         <button onClick={filterHandler} className="bg-primaryBlue py-2 px-6 rounded-r text-sm text-white">Filter</button>
                     </div>
@@ -119,7 +114,7 @@ export default function ShopProducts() {
                     productsFetchState === fetchStates.FETCHING ? (
                         <Spinner />
                     ) : (
-                        products.map(item => 
+                        productDisplay.map(item => 
                             <ProductCard key={item.id} item={item} />
                         )
                     )
