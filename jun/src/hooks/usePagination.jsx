@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function usePagination() {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage, setProductsPerPage] = useState(10);
+    const [productsPerPage, setProductsPerPage] = useState(3);
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
