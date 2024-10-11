@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
+import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard"
 import Spinner from "@/components/Spinner";
 import useImageSize from "@/hooks/useImageSize"
+import usePagination from "@/hooks/usePagination";
 import { fetchStates } from "@/store/features/productSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -26,6 +29,11 @@ export default function ShopProducts() {
 
     const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
+    const [currentProducts, currentPage, totalProducts, productsPerPage, setProducts, setCurrentPage] = usePagination();
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
+
     useEffect(() => {
         let query = "/products";
         const params = [];
@@ -40,9 +48,8 @@ export default function ShopProducts() {
 
         axios.get(baseURL + query)
             .then(res => {
-                if (JSON.stringify(res.data.products) !== JSON.stringify(productDisplay)) {
-                    setProductDisplay(res.data.products);
-                }
+                setProducts(res.data.products);
+                //setProductDisplay(res.data.products);
             })
             .catch(err => console.error(err));
     }, [sort, filter, category]);
@@ -100,19 +107,19 @@ export default function ShopProducts() {
                     productsFetchState === fetchStates.FETCHING ? (
                         <Spinner />
                     ) : (
-                        productDisplay.map(item => 
+                        currentProducts.map(item => 
                             <ProductCard key={item.id} item={item} />
                         )
                     )
                 }
             </div>
-            <ul className="flex justify-center items-center border-mutedColor border rounded-md text-xs font-semibold">
-                <li className="text-primaryBlue px-4">Prev</li>
-                <li className="border-x-mutedColor border-x px-4 py-5 text-primaryBlue">1</li>
-                <li className="border-x-mutedColor border-x px-4 py-5 text-primaryBlue">2</li>
-                <li className="border-x-mutedColor border-x px-4 py-5 text-primaryBlue">3</li>
-                <li className="text-primaryBlue px-4">Next</li>
-            </ul>
+            <Pagination 
+                productsPerPage={productsPerPage} 
+                totalProducts={totalProducts} 
+                paginate={paginate}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage} />
+                
             <div className="bg-[#FAFAFA] w-full">
                 <img className={imageClass} src={display} />
             </div>
