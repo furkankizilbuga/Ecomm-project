@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable react/prop-types */
 
 import { useHistory } from "react-router-dom";
@@ -5,14 +6,24 @@ import { useHistory } from "react-router-dom";
 
 export default function ProductCard(props) {
 
-    const { id, name, description, price, stock, rating, images } = props.item;
+    const { id, name, description, price, stock, rating, images, category_id } = props.item;
     const { url } = images[0];
 
     const history = useHistory();
 
+    const createSlug = (name) => {
+        return name
+            .toLocaleLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '')
+            .replace(/\-\-+/g, '-')
+            .trim();
+    };
+
     const clickHandler = () => {
-        history.push(`/shop/product/${id}`)
-    }
+        const productNameSlug = createSlug(name);
+        history.push(`/shop/${category_id}/${productNameSlug}/${id}`);
+    };
 
     return(
         <div onClick={clickHandler} className="flex cursor-pointer flex-col rounded-md border border-1 py-4 max-w-80 w-72 h-[700px] items-center gap-6 pb-10">
