@@ -1,3 +1,4 @@
+import Cart from "@/components/Cart";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { setRoles, setUser } from "@/store/features/clientSlice";
 import { useState } from "react"
@@ -37,7 +38,7 @@ export default function Header() {
                     {!isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
                     {isLogged && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
                     {isLogged && <button onClick={logoutHandler} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
-                    {isLogged && <i className="fa-solid fa-cart-shopping rounded-full w-16 h-16 pt-4 text-2xl sm:pt-2 sm:w-10 sm:h-10 text-center sm:text-base text-primaryBlue my-auto bg-white border border-primaryBlue"></i>}
+                    <Cart />
                 </nav>
             </div>
             <div className="flex flex-col w-full gap-2 pt-10 sm:flex-row sm:gap-0 sm:pt-0 sm:w-auto">
