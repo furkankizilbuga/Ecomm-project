@@ -14,21 +14,21 @@ export default function ProductDetailMain() {
     const { cart } = useSelector(state => state.cart);
 
     const purchaseHandler = () => {
-
         const existingProductIndex = cart.findIndex(item => item.product.id === product.id);
 
         let updatedCart = [...cart];
 
-        if(existingProductIndex > -1) {
-            updatedCart[existingProductIndex].count += 1;
+        if (existingProductIndex > -1) {
+            updatedCart[existingProductIndex] = {
+                ...updatedCart[existingProductIndex],
+                count: updatedCart[existingProductIndex].count + 1
+            };
         } else {
-
             const productObj = {
                 count: 1,
                 checked: false,
                 product: product
             }
-
             updatedCart.push(productObj);
         }
 
