@@ -1,5 +1,6 @@
 import { CarouselComp } from "@/components/CarouselComp";
-import { useSelector } from "react-redux";
+import { setCart } from "@/store/features/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function ProductDetailMain() {
@@ -8,6 +9,31 @@ export default function ProductDetailMain() {
 
     const product = useSelector(state => state.product.selectedProduct);
     const { images = [] } = product
+
+    const dispatch = useDispatch();
+    const { cart } = useSelector(state => state.cart);
+
+    const purchaseHandler = () => {
+        const existingProductIndex = cart.findIndex(item => item.product.id === product.id);
+
+        let updatedCart = [...cart];
+
+        if (existingProductIndex > -1) {
+            updatedCart[existingProductIndex] = {
+                ...updatedCart[existingProductIndex],
+                count: updatedCart[existingProductIndex].count + 1
+            };
+        } else {
+            const productObj = {
+                count: 1,
+                checked: false,
+                product: product
+            }
+            updatedCart.push(productObj);
+        }
+
+        dispatch(setCart(updatedCart));
+    }
 
     return(
         <div className="bg-lightBackgroundColor py-10 flex flex-col gap-10 sm:items-center sm:px-60">
@@ -44,9 +70,8 @@ export default function ProductDetailMain() {
                         </p>
                     </div>
                     <div className="flex flex-col gap-4">
-                        <div>RENKLER</div>
                         <div className="flex justify-between items-center">
-                            <button className="bg-primaryBlue rounded px-4 py-3 text-white font-semibold text-xs">Select Options</button>
+                            <button onClick={purchaseHandler} className="bg-primaryBlue rounded px-4 py-3 text-white font-semibold text-xs">ADD TO CART</button>
                             <div className="flex gap-3 items-center">
                                 <i className="fa-solid fa-heart rounded-full p-2 bg-white border border-mutedColor"></i>
                                 <i className="fa-solid fa-cart-shopping rounded-full p-2 bg-white border border-mutedColor"></i>

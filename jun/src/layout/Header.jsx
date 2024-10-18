@@ -1,3 +1,4 @@
+import Cart from "@/components/Cart";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { setRoles, setUser } from "@/store/features/clientSlice";
 import { useState } from "react"
@@ -24,9 +25,6 @@ export default function Header() {
         setToken(null);
     }
 
-    //{isLogged && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
-    //{isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
-
     return (
         <header className="flex flex-col items-center mx-12 py-10 bg-white font-montserrat sm:flex-row sm:justify-between sm:min-w-max sm:gap-4">
             <div className="flex flex-col w-full sm:flex-row sm:items-center sm:w-auto sm:gap-14 sm:max-[800px]:gap-5">
@@ -40,6 +38,7 @@ export default function Header() {
                     {!isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
                     {isLogged && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
                     {isLogged && <button onClick={logoutHandler} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
+                    <Cart />
                 </nav>
             </div>
             <div className="flex flex-col w-full gap-2 pt-10 sm:flex-row sm:gap-0 sm:pt-0 sm:w-auto">
