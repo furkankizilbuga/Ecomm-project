@@ -19,7 +19,7 @@ const Cart = () => {
         };
     }, []);
 
-    const calculateTotalPrice = (price, count) => {
+    const calculateProductTotal = (price, count) => {
         return (price * count).toFixed(2);
     };
 
@@ -49,7 +49,7 @@ const Cart = () => {
                                 <div className="flex justify-between w-full">
                                     <span className="text-primaryBlue font-medium">${product.price} x {count}</span>
                                 </div>
-                                <span className="text-secondaryTextColor text-xs">Total: ${calculateTotalPrice(product.price, count)}</span>
+                                <span className="text-secondaryTextColor text-xs">Total: ${calculateProductTotal(product.price, count)}</span>
                             </div>
                         </div>
                     </div>
