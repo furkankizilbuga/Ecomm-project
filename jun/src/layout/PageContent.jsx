@@ -8,6 +8,7 @@ import SignUpPage from "@/pages/SignUpPage";
 import AboutUsPage from "@/pages/AbousUsPage";
 import LoginPage from "@/pages/LoginPage";
 import ProfilePage from "@/pages/ProfilePage";
+import CartPage from "@/pages/CartPage";
 
 export default function PageContent() {
     return(
@@ -39,6 +40,9 @@ export default function PageContent() {
                 </Route>
                 <Route path="/profile/:clientName">
                     <ProfilePage />
+                </Route>
+                <Route path="/cart">
+                    <CartPage />
                 </Route>
             </Switch>
         </div>

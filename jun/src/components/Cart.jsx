@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const Cart = () => {
+
+    const history = useHistory();
     const [cartDisplay, setCartDisplay] = useState(false);
     const { cart } = useSelector(state => state.cart);
     const cartRef = useRef(null);
@@ -58,7 +61,7 @@ const Cart = () => {
                     <span className="font-semibold text-base text-primaryBlue">Cart Total: ${calculateCartTotal()}</span>
                 </div>
                 <div className="flex justify-between mt-2">
-                    <button className="border border-primaryBlue text-xs font-medium px-2 py-2 rounded text-primaryBlue">Go to Cart</button>
+                    <button onClick={() => history.push("/cart")} className="border border-primaryBlue text-xs font-medium px-2 py-2 rounded text-primaryBlue">Go to Cart</button>
                     <button className="bg-primaryBlue text-white text-xs font-semibold px-2 py-2 rounded">Purchase</button>
                 </div>
             </div>
