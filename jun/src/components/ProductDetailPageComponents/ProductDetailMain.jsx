@@ -13,7 +13,7 @@ export default function ProductDetailMain() {
     const dispatch = useDispatch();
     const { cart } = useSelector(state => state.cart);
 
-    const purchaseHandler = () => {
+    const addToCartHandler = () => {
         const existingProductIndex = cart.findIndex(item => item.product.id === product.id);
 
         let updatedCart = [...cart];
@@ -71,7 +71,7 @@ export default function ProductDetailMain() {
                     </div>
                     <div className="flex flex-col gap-4">
                         <div className="flex justify-between items-center">
-                            <button onClick={purchaseHandler} className="bg-primaryBlue rounded px-4 py-3 text-white font-semibold text-xs">ADD TO CART</button>
+                            <button onClick={addToCartHandler} className="bg-primaryBlue rounded px-4 py-3 text-white font-semibold text-xs">ADD TO CART</button>
                             <div className="flex gap-3 items-center">
                                 <i className="fa-solid fa-heart rounded-full p-2 bg-white border border-mutedColor"></i>
                                 <i className="fa-solid fa-cart-shopping rounded-full p-2 bg-white border border-mutedColor"></i>
