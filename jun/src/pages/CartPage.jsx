@@ -21,6 +21,11 @@ const CartPage = () => {
         dispatch(setCart(updatedCart));
     }
 
+    const deleteHandler = (product) => {
+        let updatedCart = cart.filter(item => item.product.id != product.id);
+        dispatch(setCart(updatedCart));
+    }
+
     const totalItems = cart.reduce((acc, item) => acc + item.count, 0);
     const totalPrice = cart.reduce((acc, item) => acc + (item.product.price * item.count), 0).toFixed(2);
 
@@ -52,14 +57,14 @@ const CartPage = () => {
                             <div className="flex justify-between items-center h-full w-full md:mr-4">
                                 <div className="flex items-center w-20 h-full">
                                     <button onClick={() => countHandler({product, count, checked}, "decrease")} className="border rounded-l h-8 border-mutedColor px-2 font-bold text-primaryBlue">-</button>
-                                    <span className="border-t border-b h-8 flex w-full justify-center items-center border-mutedColor px-2 font-medium text-textColor text-sm">{count}</span>
+                                    <span className="border-t border-b h-8 flex w-full justify-center items-center cursor-default border-mutedColor px-2 font-medium text-textColor text-sm">{count}</span>
                                     <button onClick={() => countHandler({product, count, checked}, "increase")} className="border rounded-r h-8 border-mutedColor px-2 font-bold text-primaryBlue">+</button>
                                 </div>
                                 <div className="flex flex-col items-start">
                                     <span className="font-semibold text-xs md:text-base">${product.price.toFixed(2)} / per</span>
                                     <span className="font-bold text-xs md:text-base text-primaryBlue">Total: ${(product.price * count).toFixed(2)}</span>
                                 </div>
-                                <i className="fa-solid fa-trash text-primaryBlue"></i>
+                                <i onClick={() => deleteHandler(product)} className="fa-solid fa-trash cursor-pointer text-primaryBlue"></i>
                             </div>
                         </div>
                     ))}
