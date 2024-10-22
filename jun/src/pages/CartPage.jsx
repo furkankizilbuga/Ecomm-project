@@ -7,12 +7,6 @@ const CartPage = () => {
     const { cart } = useSelector(state => state.cart);
     const dispatch = useDispatch();
 
-    //Tümünü seç
-    //Seçimi kaldır.
-    //Seçilenleri sil.
-    //Sağda summary'de seçili olanlar gözükecek.
-    //Sepete her gelen checked true olacak.
-
     const countHandler = (productObj, operation) => {
         const op = operation === "increase" ? 1 : -1; 
         let updatedCart = cart.map((item) => {
