@@ -47,7 +47,7 @@ const CartPage = () => {
     }, 0).toFixed(2);
 
     return (
-        <div className="flex flex-col gap-4 sm:min-h-[500px] px-12 sm:px-12 py-16 bg-lightBackgroundColor">
+        <div className="flex flex-col gap-4 sm:min-h-[500px] px-12 py-16 bg-lightBackgroundColor">
             <h2 className="text-textColor font-semibold sm:text-xl">My Cart ({cart.length})</h2>
             {cart.length === 0 &&
             <div className="flex flex-col gap-2 sm:gap-10 sm:flex-row sm:justify-center">
