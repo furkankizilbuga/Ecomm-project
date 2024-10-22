@@ -7,6 +7,12 @@ const CartPage = () => {
     const { cart } = useSelector(state => state.cart);
     const dispatch = useDispatch();
 
+    //Tümünü seç
+    //Seçimi kaldır.
+    //Seçilenleri sil.
+    //Sağda summary'de seçili olanlar gözükecek.
+    //Sepete her gelen checked true olacak.
+
     const countHandler = (productObj, operation) => {
         const op = operation === "increase" ? 1 : -1; 
         let updatedCart = cart.map((item) => {
@@ -26,8 +32,25 @@ const CartPage = () => {
         dispatch(setCart(updatedCart));
     }
 
-    const totalItems = cart.reduce((acc, item) => acc + item.count, 0);
-    const totalPrice = cart.reduce((acc, item) => acc + (item.product.price * item.count), 0).toFixed(2);
+    const checkboxHandler = (e, productObj) => {
+        let updatedCart = cart.map(item => {
+            if(item.product.id === productObj.product.id) {
+                return {
+                    ...item,
+                    checked: e.target.checked
+                }
+            }
+            return item;
+        });
+        dispatch(setCart(updatedCart));
+    }
+
+    const totalItems = cart.reduce((acc, item) => {
+        return item.checked ? acc + item.count : acc;
+    }, 0);
+    const totalPrice = cart.reduce((acc, item) => {
+        return item.checked ? acc + (item.product.price * item.count) : acc;
+    }, 0).toFixed(2);
 
     return (
         <div className="flex flex-col gap-4 sm:min-h-[500px] px-12 sm:px-12 py-16 bg-lightBackgroundColor">
@@ -43,7 +66,7 @@ const CartPage = () => {
                 <div className="flex flex-col gap-4 rounded lg:w-3/4">
                     {cart.map(({product, count, checked}, index) => (
                         <div className="flex flex-col md:flex-row bg-white items-center gap-2 shadow rounded px-2 py-4" key={index}>
-                            <input className="mb-2" type="checkbox" />
+                            <input onChange={(e) => checkboxHandler(e, {product, count, checked})} className="mb-2" type="checkbox" checked={checked} />
                             <div className="flex justify-start gap-2 w-full">
                                 <div className="flex items-center border border-mutedColor rounded min-w-20 max-w-20 h-40 md:h-44 md:min-w-24 md:max-w-24">
                                     <img className="w-20 object-cover object-center md:w-24" src={product.images[0].url} alt={product.name} />
@@ -70,11 +93,11 @@ const CartPage = () => {
                     ))}
                 </div>
                 {cart.length > 0 && 
-                <div className="lg:w-1/4 h-72 bg-white p-4 rounded shadow flex flex-col">
+                <div className="lg:w-1/4 h-72 bg-white p-4 rounded shadow flex flex-col justify-between">
                     <div className="mb-4 overflow-y-auto flex flex-col gap-2">
                         <h4 className="font-semibold text-primaryBlue">Products:</h4>
                         <ul className="list-disc pl-5">
-                            {cart.map(({product, count}) => (
+                            {cart.map(({product, count, checked}) => checked && (
                                 <li className="" key={product.id}>
                                     <p className="text-sm font-medium">{product.name} x{count}</p>
                                     <p className="text-primaryBlue font-semibold"> ${(product.price * count).toFixed(2)}</p>

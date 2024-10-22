@@ -26,7 +26,7 @@ export default function ProductDetailMain() {
         } else {
             const productObj = {
                 count: 1,
-                checked: false,
+                checked: true,
                 product: product
             }
             updatedCart.push(productObj);
