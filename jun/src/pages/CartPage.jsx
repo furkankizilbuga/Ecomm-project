@@ -1,4 +1,3 @@
-import useLocalStorage from "@/hooks/useLocalStorage";
 import { setCart } from "@/store/features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -7,7 +6,6 @@ const CartPage = () => {
     const history = useHistory();
     const { cart } = useSelector(state => state.cart);
     const dispatch = useDispatch();
-    const [token, setToken] = useLocalStorage("token", null);
 
     const countHandler = (productObj, operation) => {
         const op = operation === "increase" ? 1 : -1; 

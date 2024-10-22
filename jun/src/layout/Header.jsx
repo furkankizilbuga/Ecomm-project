@@ -1,8 +1,7 @@
 import Cart from "@/components/Cart";
-import useLocalStorage from "@/hooks/useLocalStorage";
-import { setRoles, setUser } from "@/store/features/clientSlice";
+import { useAuth } from "@/store/useAuth";
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Header() {
@@ -11,33 +10,24 @@ export default function Header() {
 
     const user = useSelector(state => state.client.user);
     const categories = useSelector(state => state.product.categories);
-    const dispatch = useDispatch();
 
-    const isLogged = user && Object.keys(user).length > 0;
-
-    const [, setToken] = useLocalStorage("token", null);
-
-    const logoutHandler = () => {
-
-        dispatch(setUser({}));
-        dispatch(setRoles([]));
-
-        setToken(null);
-    }
+    const { logout, isAuthenticated } = useAuth();
 
     return (
         <header className="flex flex-col items-center mx-12 py-10 bg-white font-montserrat sm:flex-row sm:justify-between sm:min-w-max sm:gap-4">
             <div className="flex flex-col w-full sm:flex-row sm:items-center sm:w-auto sm:gap-14 sm:max-[800px]:gap-5">
                 <div className="flex justify-between w-full sm:w-auto">
                     <a href="/" className="text-textColor font-bold text-xl sm:text-2xl">Jun</a>
-                    <button className="sm:hidden" onClick={() => setDisplay(!display)}><i className="fa-solid fa-list text-secondaryTextColor"></i></button>
+                    <button className="sm:hidden" onClick={() => {
+                        console.log(isAuthenticated)
+                        setDisplay(!display)}}><i className="fa-solid fa-list text-secondaryTextColor"></i></button>
                 </div>
                 <nav className={`${display ? "opacity-1 mt-24 mb-16 gap-8" : "opacity-0 h-0 overflow-hidden"} flex flex-col items-center duration-500 text-2xl transition ease-in-out sm:opacity-100 sm:h-auto sm:overflow-visible sm:flex-row sm:gap-4 sm:m-0 sm:mt-0 sm:mb-0`}>                    
                     <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
-                    {!isLogged && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
-                    {!isLogged && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
-                    {isLogged && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
-                    {isLogged && <button onClick={logoutHandler} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
+                    {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
+                    {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
+                    {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
+                    {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
                     <Cart />
                 </nav>
             </div>

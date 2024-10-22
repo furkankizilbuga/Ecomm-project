@@ -1,5 +1,6 @@
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { setRoles, setUser } from "@/store/features/clientSlice";
+import { useAuth } from "@/store/useAuth";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,6 +13,7 @@ export default function LoginPage() {
     let history = useHistory();
     const [loading, setLoading] = useState(false);
     const [remember, setRemember] = useState(false);
+    const { login } = useAuth();
    
     const dispatch = useDispatch();
     const roles = useSelector((state) => state.client.roles);
@@ -41,6 +43,7 @@ export default function LoginPage() {
         axios.post(baseURL + "/login", data)
         .then(res => {
 
+            login(res.data.token);
             //Set User
             dispatch(setUser({ name: res.data.name, email: res.data.email }));
 
