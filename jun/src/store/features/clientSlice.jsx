@@ -14,6 +14,12 @@ export const clientSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload;
         },
+        setAddressList: (state, action) => {
+            state.addressList = action.payload;
+        },
+        setCreditCards: (state, action) => {
+            state.creditCards = action.payload;
+        },
         setRoles: (state, action) => {
             state.roles = action.payload;
         },

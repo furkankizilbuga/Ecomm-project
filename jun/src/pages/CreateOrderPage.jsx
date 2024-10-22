@@ -1,9 +1,64 @@
-const CreateOrderPage = () => {
-    return(
-        <div className="flex flex-col px-12 sm:flex-row">
-            <div>
+import useLocalStorage from "@/hooks/useLocalStorage";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+const CreateOrderPage = () => {
+
+    const dispatch = useDispatch();
+    const [token, setToken] = useLocalStorage("token", null);
+
+    const { addressList } = useSelector(state => state.client);
+
+    useEffect(() => {
+        const baseUrl = "https://workintech-fe-ecommerce.onrender.com";
+
+        axios.get(baseUrl + "/user/address", {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+    }, [])
+
+    return(
+        <div className="flex flex-col gap-10 px-12 sm:flex-row">
+            {/**/}
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
+                    <div className="shadow p-4 rounded-t">
+                        <h4 className="text-primaryBlue font-semibold">Address Information</h4>
+                        <p className="text-sm">AAAAAA</p>
+                    </div>
+                    <div className="shadow p-4 rounded-b">
+                        <h4 className="text-primaryBlue font-semibold">Payment Options</h4>
+                        <p className="text-sm">AAAAAA</p>
+                    </div>
+                </div>
+                <div className="shadow p-4 flex flex-col">
+                    <h4 className="font-semibold">Address</h4>
+                    <div>
+                        <div className="flex flex-col gap-2">
+                            <h5>Ev</h5>
+                            <div className="shadow p-4">
+                                <div className="flex flex-col justify-between">
+                                    <p className="flex gap-1 items-center text-sm"><i className="fa-solid fa-user"></i>Furkan</p>
+                                    <p className="flex gap-1 items-center text-nowrap text-sm"><i className="fa-solid fa-mobile"></i>533 333 33 33</p>
+                                </div>
+                                <p className="text-sm text-secondaryTextColor">Address</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            {/*ORDER SUMMARY*/}
             <div className="flex flex-col gap-4">
                 <div className="shadow flex gap-2 items-start rounded p-4">
                     <input className="mt-1" type="checkbox" />
