@@ -1,9 +1,11 @@
 import CreateNewAddress from "@/components/CreateOrderPageComponents/CreateNewAddress";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const CreateOrderPage = () => {
 
     const { addressList } = useSelector(state => state.client);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
 
     return(
         <div className="flex flex-col gap-10 px-12 sm:flex-row">
@@ -22,10 +24,17 @@ const CreateOrderPage = () => {
                 <div className="shadow p-4 flex flex-col gap-4">
                     <h4 className="font-semibold">Address</h4>
                     <CreateNewAddress />
-                    <div>
+                    <div className="flex flex-col gap-4">
                         {addressList.map((address) => 
                         <div key={address.id} className="flex flex-col gap-2">
-                            <h5 className="font-semibold">{address.title}</h5>
+                            <div className="flex justify-between">
+                                <h5 className="font-semibold">{address.title}</h5>
+                                <input 
+                                    onChange={() => setSelectedAddressId(address.id)}
+                                    name="address"
+                                    checked={selectedAddressId == address.id}
+                                    type="radio" />
+                            </div>
                             <div className="shadow p-4 flex flex-col gap-1">
                                 <div className="flex flex-col justify-between">
                                     <p className="flex gap-1 items-center text-sm"><i className="fa-solid fa-user"></i>{address.name}</p>
