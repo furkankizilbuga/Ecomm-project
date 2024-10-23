@@ -1,5 +1,5 @@
 import Cart from "@/components/Cart";
-import { useAuth } from "@/store/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react"
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";

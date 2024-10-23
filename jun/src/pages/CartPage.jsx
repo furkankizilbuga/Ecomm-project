@@ -1,4 +1,6 @@
 import { setCart } from "@/store/features/cartSlice";
+import { fetchAddressList } from "@/store/features/clientSlice";
+import { useAuth } from "@/hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -6,6 +8,7 @@ const CartPage = () => {
     const history = useHistory();
     const { cart } = useSelector(state => state.cart);
     const dispatch = useDispatch();
+    const { isAuthenticated, token } = useAuth();
 
     const countHandler = (productObj, operation) => {
         const op = operation === "increase" ? 1 : -1; 
@@ -40,7 +43,14 @@ const CartPage = () => {
     }
 
     const purchaseHandler = () => {
-        
+        if(isAuthenticated) {
+
+            dispatch(fetchAddressList(token));
+            history.push("/create-order")
+
+        } else {
+            history.push("/login")
+        }
     }
 
     const totalItems = cart.reduce((acc, item) => {

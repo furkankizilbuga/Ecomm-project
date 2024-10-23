@@ -1,4 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const fetchStates = {
+    NOT_FETCHED: "NOT_FETCHED",
+    FETCHING: "FETCHING",
+    FETCHED: "FETCHED",
+    FAILED: "FAILED",
+};
+
+export const fetchAddressList = createAsyncThunk(
+    "client/fetchAddressList",
+    async (token) => {
+        const response = await axios.get("https://workintech-fe-ecommerce.onrender.com/user/address", {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response.data;
+    }
+)
 
 export const clientSlice = createSlice({
     name: "client",
@@ -8,7 +28,8 @@ export const clientSlice = createSlice({
         creditCards: [],
         roles: [],
         theme: "",
-        language: ""
+        language: "",
+        addressListFetchState: fetchStates.NOT_FETCHED
     },
     reducers: {
         setUser: (state, action) => {
@@ -29,6 +50,19 @@ export const clientSlice = createSlice({
         setLanguage: (state, action) => {
             state.language = action.payload;
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchAddressList.pending, state => {
+                state.addressListFetchState = fetchStates.FETCHING
+            })
+            .addCase(fetchAddressList.fulfilled, (state, action) => {
+                state.addressList = action.payload
+                state.addressListFetchState = fetchStates.FETCHED
+            })
+            .addCase(fetchAddressList.rejected, state => {
+                state.addressListFetchState = fetchStates.FAILED;
+            })
     }
 })
 

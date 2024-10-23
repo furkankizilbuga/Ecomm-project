@@ -1,31 +1,9 @@
-import useLocalStorage from "@/hooks/useLocalStorage";
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import CreateNewAddress from "@/components/CreateOrderPageComponents/CreateNewAddress";
+import { useSelector } from "react-redux";
 
 const CreateOrderPage = () => {
 
-    const dispatch = useDispatch();
-    const [token, setToken] = useLocalStorage("token", null);
-
     const { addressList } = useSelector(state => state.client);
-
-    useEffect(() => {
-        const baseUrl = "https://workintech-fe-ecommerce.onrender.com";
-
-        axios.get(baseUrl + "/user/address", {
-            headers: {
-                Authorization: token
-            }
-        })
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-
-    }, [])
 
     return(
         <div className="flex flex-col gap-10 px-12 sm:flex-row">
@@ -41,19 +19,23 @@ const CreateOrderPage = () => {
                         <p className="text-sm">AAAAAA</p>
                     </div>
                 </div>
-                <div className="shadow p-4 flex flex-col">
+                <div className="shadow p-4 flex flex-col gap-4">
                     <h4 className="font-semibold">Address</h4>
+                    <CreateNewAddress />
                     <div>
-                        <div className="flex flex-col gap-2">
-                            <h5>Ev</h5>
-                            <div className="shadow p-4">
+                        {addressList.map((address) => 
+                        <div key={address.id} className="flex flex-col gap-2">
+                            <h5 className="font-semibold">{address.title}</h5>
+                            <div className="shadow p-4 flex flex-col gap-1">
                                 <div className="flex flex-col justify-between">
-                                    <p className="flex gap-1 items-center text-sm"><i className="fa-solid fa-user"></i>Furkan</p>
-                                    <p className="flex gap-1 items-center text-nowrap text-sm"><i className="fa-solid fa-mobile"></i>533 333 33 33</p>
+                                    <p className="flex gap-1 items-center text-sm"><i className="fa-solid fa-user"></i>{address.name}</p>
+                                    <p className="flex gap-1 items-center text-nowrap text-sm"><i className="fa-solid fa-mobile-alt"></i>{address.phone}</p>
                                 </div>
-                                <p className="text-sm text-secondaryTextColor">Address</p>
+                                <p className="text-sm text-secondaryTextColor">{address.city}</p>
+                                <p className="text-sm text-secondaryTextColor">{address.district}</p>
+                                <p className="text-sm text-secondaryTextColor text-ellipsis">{address.neighborhood}</p>
                             </div>
-                        </div>
+                        </div>)}
                     </div>
                 </div>
             </div>

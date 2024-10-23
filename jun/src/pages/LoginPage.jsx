@@ -1,6 +1,6 @@
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { setRoles, setUser } from "@/store/features/clientSlice";
-import { useAuth } from "@/store/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
