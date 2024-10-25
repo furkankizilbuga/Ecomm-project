@@ -1,5 +1,5 @@
 Ecommerce Website Project's Frontend
-Work in Progress
 
-Related Backend:
-https://github.com/furkankizilbuga/jun
+React, Redux, React-Hook-Form, Context, React-Router, Tailwind CSS
+
+Work in Progress
