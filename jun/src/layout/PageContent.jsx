@@ -10,10 +10,11 @@ import LoginPage from "@/pages/LoginPage";
 import ProfilePage from "@/pages/ProfilePage";
 import CartPage from "@/pages/CartPage";
 import CreateOrderPage from "@/pages/CreateOrderPage";
+import OrderSuccessPage from "@/pages/OrderSuccessPage";
 
 export default function PageContent() {
     return(
-        <div className="font-montserrat">
+        <div className="font-montserrat min-h-[calc(100vh-200px)]">
             <Switch>
                 <Route exact path="/">
                     <HomePage />
@@ -47,6 +48,9 @@ export default function PageContent() {
                 </Route>
                 <Route path="/create-order">
                     <CreateOrderPage />
+                </Route>
+                <Route path="/success">
+                    <OrderSuccessPage />
                 </Route>
             </Switch>
         </div>
