@@ -26,8 +26,8 @@ const CreateOrderPage = () => {
     };
 
     return (
-        <div className="flex flex-col gap-10 px-12 sm:flex-row">
-            <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-10 px-12 sm:flex-row sm:justify-between">
+            <div className="flex flex-col gap-4 sm:w-full ">
                 <div className="flex flex-col">
                     <div className="shadow p-4 rounded-t">
                         <h4 className="text-primaryBlue font-semibold">Address Information</h4>
@@ -40,47 +40,49 @@ const CreateOrderPage = () => {
                 </div>
                 <div className="shadow p-4 flex flex-col gap-12">
                     <h4 className="font-semibold">Addresses</h4>
-                    <CreateNewAddress />
-                    <div className="flex flex-col gap-12">
-                        {addressList.map((address) => (
-                            <div key={address.id} className="flex flex-col gap-2">
-                                {editingAddressId === address.id ? (
-                                    <EditAddress address={address} onClose={closeEditHandler} />
-                                ) : (
-                                    <div>
-                                        <div className="flex justify-between">
-                                            <div className="flex gap-2">
-                                                <input 
-                                                    onChange={() => setSelectedAddressId(address.id)}
-                                                    name="address"
-                                                    checked={selectedAddressId === address.id}
-                                                    type="radio" 
-                                                />
-                                                <h5 className="font-semibold">{address.title}</h5>
+                    <div className="flex flex-col gap-12 sm:flex-row">
+                        <CreateNewAddress />
+                        <div className="flex flex-col gap-12">
+                            {addressList.map((address) => (
+                                <div key={address.id} className="flex flex-col gap-2 sm:min-w-40">
+                                    {editingAddressId === address.id ? (
+                                        <EditAddress address={address} onClose={closeEditHandler} />
+                                    ) : (
+                                        <div>
+                                            <div className="flex justify-between">
+                                                <div className="flex gap-2">
+                                                    <input 
+                                                        onChange={() => setSelectedAddressId(address.id)}
+                                                        name="address"
+                                                        checked={selectedAddressId === address.id}
+                                                        type="radio" 
+                                                    />
+                                                    <h5 className="font-semibold">{address.title}</h5>
+                                                </div>
+                                                <button onClick={() => editHandler(address.id)} className="text-sm font-medium underline">
+                                                    Edit
+                                                </button>
                                             </div>
-                                            <button onClick={() => editHandler(address.id)} className="text-sm font-medium underline">
-                                                Edit
-                                            </button>
-                                        </div>
-                                        <div className="shadow p-4 flex flex-col gap-1">
-                                            <div className="flex flex-col justify-between">
-                                                <p className="flex gap-1 items-center text-sm"><i className="fa-solid fa-user"></i>{address.name}</p>
-                                                <p className="flex gap-1 items-center text-nowrap text-sm"><i className="fa-solid fa-mobile-alt"></i>{address.phone}</p>
+                                            <div className="shadow p-4 flex flex-col gap-1">
+                                                <div className="flex flex-col justify-between">
+                                                    <p className="flex gap-1 items-center text-sm"><i className="fa-solid fa-user"></i>{address.name}</p>
+                                                    <p className="flex gap-1 items-center text-nowrap text-sm"><i className="fa-solid fa-mobile-alt"></i>{address.phone}</p>
+                                                </div>
+                                                <p className="text-sm text-secondaryTextColor">{address.city}</p>
+                                                <p className="text-sm text-secondaryTextColor">{address.district}</p>
+                                                <p className="text-sm text-secondaryTextColor text-ellipsis">{address.neighborhood}</p>
                                             </div>
-                                            <p className="text-sm text-secondaryTextColor">{address.city}</p>
-                                            <p className="text-sm text-secondaryTextColor">{address.district}</p>
-                                            <p className="text-sm text-secondaryTextColor text-ellipsis">{address.neighborhood}</p>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/*ORDER SUMMARY*/}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 sm:max-w-80">
                 <div className="shadow flex gap-2 items-start rounded p-4">
                     <input className="mt-1" type="checkbox" />
                     <p className="text-sm">By proceeding with this purchase, you agree to our <span className="underline font-semibold">terms of service and conditions.</span></p>
