@@ -9,6 +9,7 @@ import AboutUsPage from "@/pages/AbousUsPage";
 import LoginPage from "@/pages/LoginPage";
 import ProfilePage from "@/pages/ProfilePage";
 import CartPage from "@/pages/CartPage";
+import CreateOrderPage from "@/pages/CreateOrderPage";
 
 export default function PageContent() {
     return(
@@ -43,6 +44,9 @@ export default function PageContent() {
                 </Route>
                 <Route path="/cart">
                     <CartPage />
+                </Route>
+                <Route path="/create-order">
+                    <CreateOrderPage />
                 </Route>
             </Switch>
         </div>

@@ -1,4 +1,6 @@
 import { setCart } from "@/store/features/cartSlice";
+import { fetchAddressList } from "@/store/features/clientSlice";
+import { useAuth } from "@/hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -6,6 +8,7 @@ const CartPage = () => {
     const history = useHistory();
     const { cart } = useSelector(state => state.cart);
     const dispatch = useDispatch();
+    const { isAuthenticated, token } = useAuth();
 
     const countHandler = (productObj, operation) => {
         const op = operation === "increase" ? 1 : -1; 
@@ -39,6 +42,17 @@ const CartPage = () => {
         dispatch(setCart(updatedCart));
     }
 
+    const purchaseHandler = () => {
+        if(isAuthenticated) {
+
+            dispatch(fetchAddressList(token));
+            history.push("/create-order")
+
+        } else {
+            history.push("/login")
+        }
+    }
+
     const totalItems = cart.reduce((acc, item) => {
         return item.checked ? acc + item.count : acc;
     }, 0);
@@ -47,7 +61,7 @@ const CartPage = () => {
     }, 0).toFixed(2);
 
     return (
-        <div className="flex flex-col gap-4 sm:min-h-[500px] px-12 sm:px-12 py-16 bg-lightBackgroundColor">
+        <div className="flex flex-col gap-4 sm:min-h-[500px] px-12 py-16 bg-lightBackgroundColor">
             <h2 className="text-textColor font-semibold sm:text-xl">My Cart ({cart.length})</h2>
             {cart.length === 0 &&
             <div className="flex flex-col gap-2 sm:gap-10 sm:flex-row sm:justify-center">
@@ -105,6 +119,7 @@ const CartPage = () => {
                             <p className="">Total Price: ${totalPrice}</p>
                             </div>
                         <button 
+                            onClick={purchaseHandler}
                             disabled={cart.length === 0} 
                             className={`w-full bg-primaryBlue text-white text-sm sm:text-base font-semibold py-2 rounded ${cart.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
