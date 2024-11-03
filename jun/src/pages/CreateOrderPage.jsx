@@ -55,11 +55,11 @@ const CreateOrderPage = () => {
                         <div className="flex flex-col gap-12 lg:flex-row lg:flex-wrap lg:gap-x-4">
                             <CreateNewAddress />
                             {addressList.map((address) => (
-                                <div key={address.id} className="flex flex-col gap-2 rounded lg:w-1/2">
+                                <div key={address.id} className="flex flex-col gap-2 rounded lg:w-[calc(50%-8px)]">
                                     {editingAddressId === address.id ? (
                                         <EditAddress address={address} onClose={closeEditHandler} />
                                     ) : (
-                                        <div>
+                                        <div className="flex flex-col gap-2">
                                             <div className="flex justify-between">
                                                 <div className="flex gap-2">
                                                     <input 

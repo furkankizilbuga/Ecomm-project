@@ -51,6 +51,26 @@ const EditAddress = ({ address, onClose }) => {
 
     }
 
+    const deleteHandler = () => {
+        const baseURL = "https://workintech-fe-ecommerce.onrender.com";
+
+        axios.delete(baseURL + "/user/address/" + address.id , {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then((res) => {
+            dispatch(fetchAddressList(token));
+            setErrorMessage("");
+            console.log(res);
+            onClose();
+        })
+        .catch(err => {
+            setErrorMessage("Error deleting address. Please try again.");
+            console.log(err);
+        });
+    }
+
     return(
                 <form onSubmit={handleSubmit(updateHandler)} className="flex flex-col gap-2">
                     {errorMessage && <span className="text-xs font-medium text-red-500">{errorMessage}</span>}
@@ -115,6 +135,7 @@ const EditAddress = ({ address, onClose }) => {
                         </div>
                     </div>
                     <button type="submit" className="font-medium text-white text-sm bg-primaryBlue rounded py-1">Save</button>
+                    <button type="button" onClick={deleteHandler} className="font-medium text-white bg-red-500 text-sm rounded py-1">Delete</button>
                 </form>
     )
 }

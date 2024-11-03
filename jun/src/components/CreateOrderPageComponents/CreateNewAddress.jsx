@@ -53,7 +53,7 @@ const CreateNewAddress = () => {
     }
 
     return (
-        <div className="flex flex-col gap-2 mt-4 lg:w-1/2 ">
+        <div className="flex flex-col gap-2  lg:w-[calc(50%-8px)]">
             {isFormVisible && (
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
                     {errorMessage && <span className="text-xs font-medium text-red-500">{errorMessage}</span>}
@@ -65,7 +65,7 @@ const CreateNewAddress = () => {
                         })}
                         placeholder="Title" 
                         className="border pl-1 py-1 rounded w-full outline-1 outline-primaryBlue placeholder:text-xs" />
-                    <div className="shadow p-4 rounded">
+                    <div className="shadow p-4 rounded lg:h-full">
                         <div className="flex flex-col gap-1">
                             <div className="flex gap-2 items-center">
                                 <div className="flex items-center gap-2">
@@ -121,7 +121,7 @@ const CreateNewAddress = () => {
                 </form>
             )}
             {!isFormVisible && (
-                <div className="shadow rounded flex justify-center items-center h-12 mt-2 cursor-pointer" onClick={handleAddAddress}>
+                <div className="shadow rounded flex justify-center items-center h-12 mt-2 lg:h-full cursor-pointer" onClick={handleAddAddress}>
                     <i className="fa-solid fa-plus text-lg"></i>
                 </div>
             )}
