@@ -18,7 +18,7 @@ const CreateOrderPage = () => {
         dispatch(fetchCreditCards(token));
     }, [dispatch, token]);
 
-    const { address } = useSelector(state => state.cart);
+    const { address, payment } = useSelector(state => state.cart);
     
     const getActiveSection = () => {
         const searchParams = new URLSearchParams(location.search);
@@ -45,6 +45,12 @@ const CreateOrderPage = () => {
         }
     }, [activeSection, address, history]);
 
+    const hideCardNo = (cardNo) => {
+        const cleanNo = cardNo.replace(/\s/g, '');
+        const lastFour = cleanNo.slice(-4);
+        return `**** **** **** ${lastFour}`;
+    };
+
     return (
         <div className="flex flex-col gap-10 px-12 sm:flex-row sm:justify-between">
             <div className="flex flex-col gap-4 sm:w-full md:gap-20">
@@ -65,7 +71,7 @@ const CreateOrderPage = () => {
                                 <p className="text-xs">{address.neighborhood}</p>
                             </div>
                         ) : (
-                            <p className="text-sm font-medium">No address selected.</p>
+                            <p className="text-sm font-medium">No address is selected.</p>
                         )}
                     </div>
                     <div 
@@ -79,7 +85,15 @@ const CreateOrderPage = () => {
                         } ${activeSection === "payment" ? "border-b-4 border-primaryBlue" : ""}`}
                     >
                         <h4 className="text-primaryBlue font-semibold text-nowrap">Payment Options</h4>
-                        <p className="text-sm">AAAAAA</p>
+                        {Object.keys(payment).length > 0 ? (
+                            <div>
+                                <p className="text-sm font-medium">{payment.name_on_card}</p>
+                                <p className="text-sm">{payment.expire_month}/{payment.expire_year}</p>
+                                <p className="text-sm">{hideCardNo(payment.card_no)}</p>
+                            </div>
+                        ) : (
+                            <p className="text-sm font-medium">No Payment is selected.</p>
+                        )}
                     </div>
                 </div>
                 {activeSection === "address" ? (
