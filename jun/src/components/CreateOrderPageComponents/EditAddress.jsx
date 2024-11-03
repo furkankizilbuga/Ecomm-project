@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-const EditAddress = ({ address, onClose }) => {
+const EditAddress = ({ item, onClose }) => {
 
     const dispatch = useDispatch();
     const { token } = useAuth();
@@ -18,13 +18,13 @@ const EditAddress = ({ address, onClose }) => {
         formState: { errors }
     } = useForm({
         defaultValues: {
-            title: address?.title || "",
-            name: address?.name || "",
-            surname: address?.surname || "",
-            phone: address?.phone || "",
-            city: address?.city || "",
-            district: address?.district || "",
-            neighborhood: address?.neighborhood || ""
+            title: item?.title || "",
+            name: item?.name || "",
+            surname: item?.surname || "",
+            phone: item?.phone || "",
+            city: item?.city || "",
+            district: item?.district || "",
+            neighborhood: item?.neighborhood || ""
         },
         mode: "onSubmit"
     });
@@ -54,7 +54,7 @@ const EditAddress = ({ address, onClose }) => {
     const deleteHandler = () => {
         const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
-        axios.delete(baseURL + "/user/address/" + address.id , {
+        axios.delete(baseURL + "/user/address/" + item.id , {
             headers: {
                 Authorization: token
             }

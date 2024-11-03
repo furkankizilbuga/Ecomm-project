@@ -17,8 +17,7 @@ const CreateOrderPage = () => {
         dispatch(fetchAddressList(token));
     }, [dispatch, token]);
 
-    const { addressList } = useSelector(state => state.client);
-    const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const { address } = useSelector(state => state.cart);
     const [editingAddressId, setEditingAddressId] = useState(null);
     
     const getActiveSection = () => {
@@ -28,23 +27,23 @@ const CreateOrderPage = () => {
 
     const activeSection = getActiveSection();
 
-    const selectedAddress = addressList.find(address => address.id === selectedAddressId);
-
     const handleSectionChange = (section) => {
         history.push({
             pathname: '/create-order',
             search: `?step=${section}`
         });
+
+        console.log(address);
     };
 
     useEffect(() => {
-        if (activeSection === 'payment' && !selectedAddressId) {
+        if (activeSection === 'payment' && !address) {
             history.push({
                 pathname: '/create-order',
                 search: '?step=address'
             });
         }
-    }, [activeSection, selectedAddressId, history]);
+    }, [activeSection, address, history]);
 
     return (
         <div className="flex flex-col gap-10 px-12 sm:flex-row sm:justify-between">
@@ -57,13 +56,13 @@ const CreateOrderPage = () => {
                         }`}
                     >
                         <h4 className="text-primaryBlue font-semibold text-nowrap">Address Information</h4>
-                        {selectedAddress ? (
+                        {Object.keys(address).length > 0 ? (
                             <div>
-                                <p className="text-sm font-medium">{selectedAddress.name}</p>
-                                <p className="text-sm">{selectedAddress.phone}</p>
-                                <p className="text-xs">{selectedAddress.city}</p>
-                                <p className="text-xs">{selectedAddress.district}</p>
-                                <p className="text-xs">{selectedAddress.neighborhood}</p>
+                                <p className="text-sm font-medium">{address.name}</p>
+                                <p className="text-sm">{address.phone}</p>
+                                <p className="text-xs">{address.city}</p>
+                                <p className="text-xs">{address.district}</p>
+                                <p className="text-xs">{address.neighborhood}</p>
                             </div>
                         ) : (
                             <p className="text-sm font-medium">No address selected.</p>
@@ -71,12 +70,12 @@ const CreateOrderPage = () => {
                     </div>
                     <div 
                         onClick={() => {
-                            if (selectedAddressId) {
+                            if (address) {
                                 handleSectionChange("payment");
                             }
                         }} 
                         className={`shadow p-4 rounded-t md:w-full flex flex-col gap-2 md:h-40 ${
-                            !selectedAddressId ? "cursor-not-allowed opacity-50" : ""
+                            !address ? "cursor-not-allowed opacity-50" : ""
                         } ${activeSection === "payment" ? "border-b-4 border-primaryBlue" : ""}`}
                     >
                         <h4 className="text-primaryBlue font-semibold text-nowrap">Payment Options</h4>
@@ -85,8 +84,6 @@ const CreateOrderPage = () => {
                 </div>
                 {activeSection === "address" ? (
                     <AddressSection 
-                        selectedAddressId={selectedAddressId} 
-                        setSelectedAddressId={setSelectedAddressId}
                         editingAddressId={editingAddressId}
                         setEditingAddressId={setEditingAddressId}
                     />
