@@ -2,8 +2,8 @@ import AddressSection from "@/components/CreateOrderPageComponents/AddressSectio
 import OrderSummary from "@/components/CreateOrderPageComponents/OrderSummary";
 import PaymentSection from "@/components/CreateOrderPageComponents/PaymentSection";
 import { useAuth } from "@/hooks/useAuth";
-import { fetchAddressList } from "@/store/features/clientSlice";
-import { useEffect, useState } from "react";
+import { fetchAddressList, fetchCreditCards } from "@/store/features/clientSlice";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from 'react-router-dom';
 
@@ -15,11 +15,10 @@ const CreateOrderPage = () => {
 
     useEffect(() => {
         dispatch(fetchAddressList(token));
+        dispatch(fetchCreditCards(token));
     }, [dispatch, token]);
 
-    const { addressList } = useSelector(state => state.client);
-    const [selectedAddressId, setSelectedAddressId] = useState(null);
-    const [editingAddressId, setEditingAddressId] = useState(null);
+    const { address, payment } = useSelector(state => state.cart);
     
     const getActiveSection = () => {
         const searchParams = new URLSearchParams(location.search);
@@ -28,23 +27,29 @@ const CreateOrderPage = () => {
 
     const activeSection = getActiveSection();
 
-    const selectedAddress = addressList.find(address => address.id === selectedAddressId);
-
     const handleSectionChange = (section) => {
         history.push({
             pathname: '/create-order',
             search: `?step=${section}`
         });
+
+        console.log(address);
     };
 
     useEffect(() => {
-        if (activeSection === 'payment' && !selectedAddressId) {
+        if (activeSection === 'payment' && !address) {
             history.push({
                 pathname: '/create-order',
                 search: '?step=address'
             });
         }
-    }, [activeSection, selectedAddressId, history]);
+    }, [activeSection, address, history]);
+
+    const hideCardNo = (cardNo) => {
+        const cleanNo = cardNo.replace(/\s/g, '');
+        const lastFour = cleanNo.slice(-4);
+        return `**** **** **** ${lastFour}`;
+    };
 
     return (
         <div className="flex flex-col gap-10 px-12 sm:flex-row sm:justify-between">
@@ -57,39 +62,42 @@ const CreateOrderPage = () => {
                         }`}
                     >
                         <h4 className="text-primaryBlue font-semibold text-nowrap">Address Information</h4>
-                        {selectedAddress ? (
+                        {Object.keys(address).length > 0 ? (
                             <div>
-                                <p className="text-sm font-medium">{selectedAddress.name}</p>
-                                <p className="text-sm">{selectedAddress.phone}</p>
-                                <p className="text-xs">{selectedAddress.city}</p>
-                                <p className="text-xs">{selectedAddress.district}</p>
-                                <p className="text-xs">{selectedAddress.neighborhood}</p>
+                                <p className="text-sm font-medium">{address.name}</p>
+                                <p className="text-sm">{address.phone}</p>
+                                <p className="text-xs">{address.city}</p>
+                                <p className="text-xs">{address.district}</p>
+                                <p className="text-xs">{address.neighborhood}</p>
                             </div>
                         ) : (
-                            <p className="text-sm font-medium">No address selected.</p>
+                            <p className="text-sm font-medium">No address is selected.</p>
                         )}
                     </div>
                     <div 
                         onClick={() => {
-                            if (selectedAddressId) {
+                            if (Object.keys(address).length > 0) {
                                 handleSectionChange("payment");
                             }
                         }} 
                         className={`shadow p-4 rounded-t md:w-full flex flex-col gap-2 md:h-40 ${
-                            !selectedAddressId ? "cursor-not-allowed opacity-50" : ""
+                            !Object.keys(address).length > 0 ? "cursor-not-allowed opacity-50" : ""
                         } ${activeSection === "payment" ? "border-b-4 border-primaryBlue" : ""}`}
                     >
                         <h4 className="text-primaryBlue font-semibold text-nowrap">Payment Options</h4>
-                        <p className="text-sm">AAAAAA</p>
+                        {Object.keys(payment).length > 0 ? (
+                            <div>
+                                <p className="text-sm font-medium">{payment.name_on_card}</p>
+                                <p className="text-sm">{payment.expire_month}/{payment.expire_year}</p>
+                                <p className="text-sm">{hideCardNo(payment.card_no)}</p>
+                            </div>
+                        ) : (
+                            <p className="text-sm font-medium">No Payment is selected.</p>
+                        )}
                     </div>
                 </div>
                 {activeSection === "address" ? (
-                    <AddressSection 
-                        selectedAddressId={selectedAddressId} 
-                        setSelectedAddressId={setSelectedAddressId}
-                        editingAddressId={editingAddressId}
-                        setEditingAddressId={setEditingAddressId}
-                    />
+                    <AddressSection />
                 ) : (
                     <PaymentSection />
                 )}

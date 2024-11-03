@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-const EditAddress = ({ address, onClose }) => {
+const EditAddress = ({ item, onClose }) => {
 
     const dispatch = useDispatch();
     const { token } = useAuth();
@@ -18,13 +18,13 @@ const EditAddress = ({ address, onClose }) => {
         formState: { errors }
     } = useForm({
         defaultValues: {
-            title: address?.title || "",
-            name: address?.name || "",
-            surname: address?.surname || "",
-            phone: address?.phone || "",
-            city: address?.city || "",
-            district: address?.district || "",
-            neighborhood: address?.neighborhood || ""
+            title: item?.title || "",
+            name: item?.name || "",
+            surname: item?.surname || "",
+            phone: item?.phone || "",
+            city: item?.city || "",
+            district: item?.district || "",
+            neighborhood: item?.neighborhood || ""
         },
         mode: "onSubmit"
     });
@@ -54,7 +54,7 @@ const EditAddress = ({ address, onClose }) => {
     const deleteHandler = () => {
         const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
-        axios.delete(baseURL + "/user/address/" + address.id , {
+        axios.delete(baseURL + "/user/address/" + item.id , {
             headers: {
                 Authorization: token
             }
@@ -74,7 +74,7 @@ const EditAddress = ({ address, onClose }) => {
     return(
                 <form onSubmit={handleSubmit(updateHandler)} className="flex flex-col gap-2">
                     {errorMessage && <span className="text-xs font-medium text-red-500">{errorMessage}</span>}
-                    {Object.keys(errors).length > 0 && <span className="text-xs font-medium text-red-500">Please fill all form fields!</span>}
+                    {Object.keys(errors).length > 0 && <span className="text-xs font-medium text-red-500">Please fill all fields!</span>}
                     {errors.phone && <span className="text-xs font-medium text-red-500">Please use a valid phone!</span>}
                     <input
                         {...register("title", {
