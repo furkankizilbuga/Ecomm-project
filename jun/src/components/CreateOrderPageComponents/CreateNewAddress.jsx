@@ -53,7 +53,7 @@ const CreateNewAddress = () => {
     }
 
     return (
-        <div className="flex flex-col gap-2 mt-4 sm:min-w-40 ">
+        <div className="flex flex-col gap-2 mt-4 lg:w-1/2 ">
             {isFormVisible && (
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
                     {errorMessage && <span className="text-xs font-medium text-red-500">{errorMessage}</span>}

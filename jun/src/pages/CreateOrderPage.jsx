@@ -25,26 +25,37 @@ const CreateOrderPage = () => {
         setEditingAddressId(null);
     };
 
+    const selectedAddress = addressList.find(address => address.id === selectedAddressId);
+
     return (
         <div className="flex flex-col gap-10 px-12 sm:flex-row sm:justify-between">
-            <div className="flex flex-col gap-4 sm:w-full ">
-                <div className="flex flex-col">
-                    <div className="shadow p-4 rounded-t">
-                        <h4 className="text-primaryBlue font-semibold">Address Information</h4>
-                        <p className="text-sm">AAAAAA</p>
+            <div className="flex flex-col gap-4 sm:w-full md:gap-20">
+                <div className="flex flex-col md:flex-row">
+                    <div className="shadow p-4 rounded-t md:w-full flex flex-col gap-2 md:h-40 border-b-4 border-primaryBlue">
+                        <h4 className="text-primaryBlue font-semibold text-nowrap">Address Information</h4>
+                        {selectedAddress ? (
+                            <div>
+                                <p className="text-sm font-medium">{selectedAddress.name}</p>
+                                <p className="text-sm">{selectedAddress.phone}</p>
+                                <p className="text-xs">{selectedAddress.city}</p>
+                                <p className="text-xs">{selectedAddress.district}</p>
+                                <p className="text-xs">{selectedAddress.neighborhood}</p>
+                            </div>
+                        ) : (
+                            <p className="text-sm font-medium">No address selected.</p>
+                        )}
                     </div>
-                    <div className="shadow p-4 rounded-b">
-                        <h4 className="text-primaryBlue font-semibold">Payment Options</h4>
+                    <div className="shadow p-4 rounded-b flex flex-col md:w-full md:h-40">
+                        <h4 className="text-primaryBlue font-semibold text-nowrap">Payment Options</h4>
                         <p className="text-sm">AAAAAA</p>
                     </div>
                 </div>
                 <div className="shadow p-4 flex flex-col gap-12">
                     <h4 className="font-semibold">Addresses</h4>
-                    <div className="flex flex-col gap-12 sm:flex-row">
-                        <CreateNewAddress />
-                        <div className="flex flex-col gap-12">
+                        <div className="flex flex-col gap-12 lg:flex-row lg:flex-wrap lg:gap-x-4">
+                            <CreateNewAddress />
                             {addressList.map((address) => (
-                                <div key={address.id} className="flex flex-col gap-2 sm:min-w-40">
+                                <div key={address.id} className="flex flex-col gap-2 rounded lg:w-1/2">
                                     {editingAddressId === address.id ? (
                                         <EditAddress address={address} onClose={closeEditHandler} />
                                     ) : (
@@ -78,7 +89,6 @@ const CreateOrderPage = () => {
                             ))}
                         </div>
                     </div>
-                </div>
             </div>
 
             {/*ORDER SUMMARY*/}
