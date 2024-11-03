@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useAuth } from "@/hooks/useAuth";
 import { fetchAddressList } from "@/store/features/clientSlice";
 import axios from "axios";
@@ -5,11 +6,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-const CreateNewAddress = () => {
+const EditAddress = ({ address, onClose }) => {
+
     const dispatch = useDispatch();
     const { token } = useAuth();
     const [errorMessage, setErrorMessage] = useState("");
-    const [isFormVisible, setFormVisible] = useState(false);
 
     const {
         register,
@@ -17,45 +18,41 @@ const CreateNewAddress = () => {
         formState: { errors }
     } = useForm({
         defaultValues: {
-            title: "",
-            name: "",
-            surname: "",
-            phone: "",
-            city: "",
-            district: "",
-            neighborhood: ""
+            title: address?.title || "",
+            name: address?.name || "",
+            surname: address?.surname || "",
+            phone: address?.phone || "",
+            city: address?.city || "",
+            district: address?.district || "",
+            neighborhood: address?.neighborhood || ""
         },
         mode: "onSubmit"
     });
 
-    const onSubmit = (data) => {
+    const updateHandler = (data) => {
         const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
-        axios.post(baseURL + "/user/address", data, {
+        axios.put(baseURL + "/user/address", data, {
             headers: {
                 Authorization: token
             }
         })
-            .then((res) => {
-                dispatch(fetchAddressList(token));
-                setErrorMessage("");
-                setFormVisible(false);
-                console.log(res)
-            })
-            .catch(err => {
-                setErrorMessage("Please try again.");
-                console.log(err);
-            });
+        .then((res) => {
+            dispatch(fetchAddressList(token));
+            setErrorMessage("");
+            console.log(res)
+            onClose();
+
+        })
+        .catch(err => {
+            setErrorMessage("Please try again.");
+            console.log(err);
+        });
+
     }
 
-    const handleAddAddress = () => {
-        setFormVisible(true);
-    }
-
-    return (
-        <div className="flex flex-col gap-2">
-            {isFormVisible && (
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+    return(
+                <form onSubmit={handleSubmit(updateHandler)} className="flex flex-col gap-2">
                     {errorMessage && <span className="text-xs font-medium text-red-500">{errorMessage}</span>}
                     {Object.keys(errors).length > 0 && <span className="text-xs font-medium text-red-500">Please fill all form fields!</span>}
                     {errors.phone && <span className="text-xs font-medium text-red-500">Please use a valid phone!</span>}
@@ -119,14 +116,7 @@ const CreateNewAddress = () => {
                     </div>
                     <button type="submit" className="font-medium text-white text-sm bg-primaryBlue rounded py-1">Save</button>
                 </form>
-            )}
-            {!isFormVisible && (
-                <div className="shadow rounded flex justify-center items-center h-12 mt-2 cursor-pointer" onClick={handleAddAddress}>
-                    <i className="fa-solid fa-plus text-lg"></i>
-                </div>
-            )}
-        </div>
-    );
+    )
 }
 
-export default CreateNewAddress;
+export default EditAddress;
