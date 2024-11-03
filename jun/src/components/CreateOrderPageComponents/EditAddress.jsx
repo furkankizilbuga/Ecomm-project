@@ -74,7 +74,7 @@ const EditAddress = ({ item, onClose }) => {
     return(
                 <form onSubmit={handleSubmit(updateHandler)} className="flex flex-col gap-2">
                     {errorMessage && <span className="text-xs font-medium text-red-500">{errorMessage}</span>}
-                    {Object.keys(errors).length > 0 && <span className="text-xs font-medium text-red-500">Please fill all form fields!</span>}
+                    {Object.keys(errors).length > 0 && <span className="text-xs font-medium text-red-500">Please fill all fields!</span>}
                     {errors.phone && <span className="text-xs font-medium text-red-500">Please use a valid phone!</span>}
                     <input
                         {...register("title", {

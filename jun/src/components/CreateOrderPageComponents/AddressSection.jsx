@@ -1,10 +1,12 @@
-/* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import CreateNewAddress from "./CreateNewAddress";
 import EditAddress from "./EditAddress";
 import { setAddress } from "@/store/features/cartSlice";
+import { useState } from "react";
 
-const AddressSection = ({ editingAddressId, setEditingAddressId }) => {
+const AddressSection = () => {
+
+    const [editingAddressId, setEditingAddressId] = useState(null);
 
     const { addressList } = useSelector(state => state.client);
     const { address } = useSelector(state => state.cart);

@@ -2,8 +2,8 @@ import AddressSection from "@/components/CreateOrderPageComponents/AddressSectio
 import OrderSummary from "@/components/CreateOrderPageComponents/OrderSummary";
 import PaymentSection from "@/components/CreateOrderPageComponents/PaymentSection";
 import { useAuth } from "@/hooks/useAuth";
-import { fetchAddressList } from "@/store/features/clientSlice";
-import { useEffect, useState } from "react";
+import { fetchAddressList, fetchCreditCards } from "@/store/features/clientSlice";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from 'react-router-dom';
 
@@ -15,10 +15,10 @@ const CreateOrderPage = () => {
 
     useEffect(() => {
         dispatch(fetchAddressList(token));
+        dispatch(fetchCreditCards(token));
     }, [dispatch, token]);
 
     const { address } = useSelector(state => state.cart);
-    const [editingAddressId, setEditingAddressId] = useState(null);
     
     const getActiveSection = () => {
         const searchParams = new URLSearchParams(location.search);
@@ -70,12 +70,12 @@ const CreateOrderPage = () => {
                     </div>
                     <div 
                         onClick={() => {
-                            if (address) {
+                            if (Object.keys(address).length > 0) {
                                 handleSectionChange("payment");
                             }
                         }} 
                         className={`shadow p-4 rounded-t md:w-full flex flex-col gap-2 md:h-40 ${
-                            !address ? "cursor-not-allowed opacity-50" : ""
+                            !Object.keys(address).length > 0 ? "cursor-not-allowed opacity-50" : ""
                         } ${activeSection === "payment" ? "border-b-4 border-primaryBlue" : ""}`}
                     >
                         <h4 className="text-primaryBlue font-semibold text-nowrap">Payment Options</h4>
@@ -83,10 +83,7 @@ const CreateOrderPage = () => {
                     </div>
                 </div>
                 {activeSection === "address" ? (
-                    <AddressSection 
-                        editingAddressId={editingAddressId}
-                        setEditingAddressId={setEditingAddressId}
-                    />
+                    <AddressSection />
                 ) : (
                     <PaymentSection />
                 )}
