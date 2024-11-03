@@ -76,6 +76,7 @@ export const clientSlice = createSlice({
                 state.creditCardsFetchState = fetchStates.FETCHING
             })
             .addCase(fetchCreditCards.fulfilled, (state, action) => {
+                console.log(action.payload)
                 state.creditCards = action.payload
                 state.creditCardsFetchState = fetchStates.FETCHED
             })

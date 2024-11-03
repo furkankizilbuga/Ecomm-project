@@ -33,7 +33,7 @@ const CreateOrderPage = () => {
             search: `?step=${section}`
         });
 
-        console.log(address);
+        console.log(activeSection);
     };
 
     useEffect(() => {
@@ -50,10 +50,10 @@ const CreateOrderPage = () => {
         const lastFour = cleanNo.slice(-4);
         return `**** **** **** ${lastFour}`;
     };
-
+    
     return (
         <div className="flex flex-col gap-10 px-12 sm:flex-row sm:justify-between">
-            <div className="flex flex-col gap-4 sm:w-full md:gap-20">
+            <div className="flex flex-col pb-20 gap-4 sm:w-full md:gap-20">
                 <div className="flex flex-col md:flex-row">
                     <div 
                         onClick={() => handleSectionChange("address")} 
@@ -102,7 +102,7 @@ const CreateOrderPage = () => {
                     <PaymentSection />
                 )}
             </div>
-            <OrderSummary />
+            <OrderSummary activeSection={activeSection} handleSectionChange={handleSectionChange} />
         </div>
     );
 };

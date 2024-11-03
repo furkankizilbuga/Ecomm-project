@@ -1,8 +1,17 @@
-import { useSelector } from "react-redux";
+/* eslint-disable react/prop-types */
+import { useAuth } from "@/hooks/useAuth";
+import { postOrder, setOrderCompleted } from "@/store/features/cartSlice";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-const OrderSummary = () => {
+const OrderSummary = ({ activeSection, handleSectionChange }) => {
 
-    const { cart } = useSelector(state => state.cart);
+    const { token } = useAuth();
+    const dispatch = useDispatch();
+    const { cart, payment, address } = useSelector(state => state.cart);
+    const [isChecked, setIsChecked] = useState(false);
+    const history = useHistory();
     const shipmentCost = 29.99;
 
     const totalPrice = cart.reduce((acc, item) => {
@@ -11,10 +20,57 @@ const OrderSummary = () => {
 
     const finalTotal = (totalPrice + shipmentCost).toFixed(2);
 
+    const getButtonText = () => {
+        return activeSection == 'address' ? 'Save and Continue' : 'Complete Order';
+    };
+
+    const handleButtonClick = () => {
+        if (activeSection === 'address' && Object.keys(address).length > 0) {
+            handleSectionChange('payment');
+        } else if (activeSection === 'payment' && Object.keys(payment).length > 0 && Object.keys(address).length > 0) {
+            
+            const payload = {
+                address_id: address.id,
+                order_date: new Date().toISOString(),
+                card_no: payment.card_no,
+                card_name: payment.name_on_card,
+                card_expire_month: payment.expire_month,
+                card_expire_year: payment.expire_year,
+                card_ccv: 321,
+                price: finalTotal,
+                products: cart.map(({ count, product }) => ({
+                    product_id: product.id,
+                    count: count,
+                    detail: product.detail
+                })),
+            };
+
+            dispatch(postOrder({ payload, token }))
+            .unwrap()
+            .then(() => {
+                dispatch(setOrderCompleted(true));
+                history.push("/success");
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        }
+    };
+
+    const isButtonDisabled = () => {
+        if (activeSection === 'address') {
+            return Object.keys(address).length === 0;
+        }
+        return !isChecked || Object.keys(payment).length === 0 || Object.keys(address).length === 0;
+    };
+
     return(
         <div className="flex flex-col gap-4 sm:max-w-80">
                 <div className="shadow flex gap-2 items-start rounded p-4">
-                    <input className="mt-1" type="checkbox" />
+                    <input
+                        checked={isChecked}
+                        onChange={(e) => setIsChecked(e.target.checked)}
+                        className="mt-1" type="checkbox" />
                     <p className="text-sm">By proceeding with this purchase, you agree to our <span className="underline font-semibold">terms of service and conditions.</span></p>
                 </div>
                 <div className="shadow flex flex-col gap-4 p-4 rounded">
@@ -34,7 +90,13 @@ const OrderSummary = () => {
                         <p className="text-primaryBlue font-semibold">${finalTotal}</p>
                     </div>
                 </div>
-                <button className="bg-primaryBlue rounded text-white font-semibold py-2 text-sm sm:text-base">Save and Continue</button>
+                <button 
+                    disabled={isButtonDisabled()} 
+                    onClick={handleButtonClick} 
+                    className={`bg-primaryBlue rounded text-white font-semibold py-2 text-sm sm:text-base ${isButtonDisabled() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                    {getButtonText()}
+                </button>
             </div>
     )
 }
