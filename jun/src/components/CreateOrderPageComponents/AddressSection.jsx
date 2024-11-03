@@ -15,6 +15,8 @@ const AddressSection = ({ selectedAddressId, setSelectedAddressId, editingAddres
         setEditingAddressId(null);
     };
 
+    //TODO cart slice içerisindeki address kısmını kullan.
+
     return(
                 <div className="shadow p-4 flex flex-col gap-12">
                         <h4 className="font-semibold">Addresses</h4>
