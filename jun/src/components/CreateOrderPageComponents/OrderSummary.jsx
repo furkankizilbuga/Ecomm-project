@@ -11,6 +11,7 @@ const OrderSummary = ({ activeSection, handleSectionChange }) => {
     const dispatch = useDispatch();
     const { cart, payment, address } = useSelector(state => state.cart);
     const [isChecked, setIsChecked] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
     const shipmentCost = 29.99;
 
@@ -21,6 +22,14 @@ const OrderSummary = ({ activeSection, handleSectionChange }) => {
     const finalTotal = (totalPrice + shipmentCost).toFixed(2);
 
     const getButtonText = () => {
+        if(isLoading) {
+            return (
+                <div className="flex items-center justify-center">
+                    <div className="w-4 h-4 border-2 border-dotted ease-in-out rounded-full animate-spin border-white"></div>
+                </div>
+            )
+        }
+
         return activeSection == 'address' ? 'Save and Continue' : 'Complete Order';
     };
 
@@ -28,7 +37,7 @@ const OrderSummary = ({ activeSection, handleSectionChange }) => {
         if (activeSection === 'address' && Object.keys(address).length > 0) {
             handleSectionChange('payment');
         } else if (activeSection === 'payment' && Object.keys(payment).length > 0 && Object.keys(address).length > 0) {
-            
+            setIsLoading(true);
             const payload = {
                 address_id: address.id,
                 order_date: new Date().toISOString(),
@@ -50,10 +59,11 @@ const OrderSummary = ({ activeSection, handleSectionChange }) => {
             .then(() => {
                 dispatch(setOrderCompleted(true));
                 history.push("/success");
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.error(err);
-            });
+            })
         }
     };
 
