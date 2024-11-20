@@ -32,17 +32,31 @@ export const fetchCreditCards = createAsyncThunk(
     }
 )
 
+export const fetchPrevOrders = createAsyncThunk(
+    "client/fetchPrevOrders",
+    async (token) => {
+        const response = await axios.get("https://workintech-fe-ecommerce.onrender.com/order", {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response.data;
+    }
+)
+
 export const clientSlice = createSlice({
     name: "client",
     initialState: {
         user: {},
         addressList: [],
         creditCards: [],
+        prevOrders: [],
         roles: [],
         theme: "",
         language: "",
         addressListFetchState: fetchStates.NOT_FETCHED,
-        creditCardsFetchState: fetchStates.NOT_FETCHED
+        creditCardsFetchState: fetchStates.NOT_FETCHED,
+        prevOrdersFetchState: fetchStates.NOT_FETCHED,
     },
     reducers: {
         setUser: (state, action) => {
@@ -82,6 +96,19 @@ export const clientSlice = createSlice({
             })
             .addCase(fetchCreditCards.rejected, state => {
                 state.creditCardsFetchState = fetchStates.FAILED;
+            });
+
+        builder
+            .addCase(fetchPrevOrders.pending, state => {
+                state.prevOrdersFetchState = fetchStates.FETCHING
+            })
+            .addCase(fetchPrevOrders.fulfilled, (state, action) => {
+                console.log(action.payload)
+                state.prevOrders = action.payload
+                state.prevOrdersFetchState = fetchStates.FETCHED
+            })
+            .addCase(fetchPrevOrders.rejected, state => {
+                state.prevOrdersFetchState = fetchStates.FAILED;
             })
     }
 })
