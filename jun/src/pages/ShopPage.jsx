@@ -1,5 +1,5 @@
-import ShopCategories from "@/layout/ShopPageLayouts/ShopCategories";
-import ShopProducts from "@/layout/ShopPageLayouts/ShopProducts";
+import ShopCategories from "@/components/ShopPageComponents/ShopCategories";
+import ShopProducts from "@/components/ShopPageComponents/ShopProducts";
 
 export default function ShopPage() {
     return(

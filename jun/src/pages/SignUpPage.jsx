@@ -215,6 +215,7 @@ export default function SignUpPage() {
                     <div className="loader border-4 border-white border-t-transparent rounded-full w-6 h-6 animate-spin"></div>
                     ) : "Sign Up"}
                 </button>
+                <button className="text-sm underline font-medium" onClick={() => history.push("/login")} >Already a member? Click to login!</button>
             </form>
             <img className="hidden object-cover rounded-l-md sm:block" src="/assets/signUpImages/signupimage.png" />
         </div>

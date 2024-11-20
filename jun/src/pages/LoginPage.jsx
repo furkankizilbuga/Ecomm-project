@@ -134,6 +134,7 @@ export default function LoginPage() {
                     <div className="loader border-4 border-white border-t-transparent rounded-full w-6 h-6 animate-spin"></div>
                     ) : "Login"}
                 </button>
+                <button className="text-sm underline font-medium" onClick={() => history.push("/signup")} >Not a member? Click to register for free!</button>
             </form>
         </div>
     )
