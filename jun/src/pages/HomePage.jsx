@@ -1,6 +1,6 @@
-import BestSellerProducts from "@/layout/HomePageLayouts/BestSellerProducts";
-import EditorsPick from "@/layout/HomePageLayouts/EditorsPick";
-import FeaturedProducts from "@/layout/HomePageLayouts/FeaturedProducts";
+import BestSellerProducts from "@/components/HomePageComponents/BestSellerProducts";
+import EditorsPick from "@/components/HomePageComponents/EditorsPick";
+import FeaturedProducts from "@/components/HomePageComponents/FeaturedProducts";
 
 export default function HomePage() {
     return(

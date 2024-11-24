@@ -38,7 +38,7 @@ const Cart = () => {
             ></i>
             <div className={`${cartDisplay ? "" : "hidden"} bg-white p-4 flex flex-col absolute w-52 sm:w-72 border border-primaryBlue rounded-md z-50 -inset-x-20 mt-4`}>
                 <h2 className="text-primaryBlue font-semibold text-base">My Cart ({cart.length})</h2>
-                {cart.map(({product, count, checked}, index) => (
+                {cart.map(({product, count}, index) => (
                     <div key={index} className="flex gap-2 h-32 w-full text-sm border-b border-b-primaryBlue py-4">
                         <div className="flex items-center border border-mutedColor rounded min-w-12 sm:min-w-16">
                             <img src={product.images[0].url} alt="product-image" className="w-12 object-cover object-center h-16 rounded sm:w-16 sm:h-20" />
@@ -62,7 +62,7 @@ const Cart = () => {
                 </div>
                 <div className="flex justify-between mt-2">
                     <button onClick={() => history.push("/cart")} className="border border-primaryBlue text-xs font-medium px-2 py-2 rounded text-primaryBlue">Go to Cart</button>
-                    <button className="bg-primaryBlue text-white text-xs font-semibold px-2 py-2 rounded">Purchase</button>
+                    <button onClick={() => history.push("/create-order")} className="bg-primaryBlue text-white text-xs font-semibold px-2 py-2 rounded">Purchase</button>
                 </div>
             </div>
         </div>

@@ -36,29 +36,28 @@ export default function PageContent() {
                     <TeamPage />
                 </Route>
                 <Route path="/signup">
-                    <SignUpPage />
+                    {isAuthenticated ? <Redirect to="/" /> : <SignUpPage />}
                 </Route>
                 <Route path="/about">
                     <AboutUsPage />
                 </Route>
                 <Route path="/login">
-                    <LoginPage />
+                    {isAuthenticated ? <Redirect to="/" /> : <LoginPage />}
                 </Route>
                 <Route path="/profile/:clientName">
-                    {isAuthenticated ? (
-                        <ProfilePage />
-                    ) : (
-                        <Redirect to="/login" />
-                    )}
+                    {isAuthenticated ?  <ProfilePage /> : <Redirect to="/login"/>}
                 </Route>
                 <Route path="/cart">
                     <CartPage />
                 </Route>
                 <Route path="/create-order">
-                    <CreateOrderPage />
+                    {isAuthenticated ?  <CreateOrderPage /> : <Redirect to="/login"/>}
                 </Route>
                 <Route path="/success">
                     <OrderSuccessPage />
+                </Route>
+                <Route path="*">
+                    <p className="px-12 font-semibold text-center md:text-lg md:mt-20">There is nothing here: 404!</p>
                 </Route>
             </Switch>
         </div>
