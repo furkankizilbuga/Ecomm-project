@@ -25,6 +25,7 @@ export default function Pagination({ productsPerPage, totalProducts, paginate, c
             const newPage = currentPage - 1;
             paginate(newPage);
             history.push(`?page=${newPage}`);
+            window.scrollTo(0, 0);
         }
     };
 
@@ -33,6 +34,7 @@ export default function Pagination({ productsPerPage, totalProducts, paginate, c
             const newPage = currentPage + 1;
             paginate(newPage);
             history.push(`?page=${newPage}`);
+            window.scrollTo(0, 0);
         }
     };
 
@@ -101,7 +103,10 @@ export default function Pagination({ productsPerPage, totalProducts, paginate, c
                     <Link 
                         key={index}
                         to={`?page=${number}`}
-                        onClick={() => paginate(number)}
+                        onClick={() => {
+                            paginate(number)
+                            window.scrollTo(0, 0);
+                        }}
                         className={`${number === pageNumbers.length ? "border-r-0" : ""} border-r border-y text-primaryBlue font-medium h-full w-10 flex items-center justify-center ${number === currentPage ? 'bg-primaryBlue border-y-0 text-white' : ''}`}
                     >
                         {number}

@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard"
-import Spinner from "@/components/Spinner";
 import useImageSize from "@/hooks/useImageSize"
 import usePagination from "@/hooks/usePagination";
 import { fetchStates } from "@/store/features/productSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { ProductCardsSkeleton } from "../ui/skeletons";
 
 export default function ShopProducts() {
     const { isMobile } = useImageSize();
@@ -24,8 +24,6 @@ export default function ShopProducts() {
     const [tempSort, setTempSort] = useState("");
     const [tempCategory, setTempCategory] = useState("");
     const [tempFilter, setTempFilter] = useState("");
-
-    const [productDisplay, setProductDisplay] = useState(products);
 
     const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
@@ -49,10 +47,9 @@ export default function ShopProducts() {
         axios.get(baseURL + query)
             .then(res => {
                 setProducts(res.data.products);
-                //setProductDisplay(res.data.products);
             })
             .catch(err => console.error(err));
-    }, [sort, filter, category]);
+    }, [sort, filter, category, setProducts]);
 
     const filterHandler = () => {
         setCategory(tempCategory);
@@ -63,7 +60,7 @@ export default function ShopProducts() {
     return (
         <div className="flex flex-col items-center justify-center pt-10 gap-20">
             <div className="flex flex-col items-center gap-6 min-[920px]:flex-row sm:justify-between sm:w-full sm:px-40">
-                <p className="text-sm font-semibold text-secondaryTextColor">Showing all {productDisplay.length} results</p>
+                <p className="text-sm font-semibold text-secondaryTextColor">Showing all {totalProducts} results</p>
                 
                 <div className="flex flex-col items-center sm:items-end gap-4">
                     <div className="flex flex-col sm:flex-row">
@@ -104,8 +101,8 @@ export default function ShopProducts() {
             </div>
             <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">
                 {
-                    productsFetchState === fetchStates.FETCHING ? (
-                        <Spinner />
+                    productsFetchState === fetchStates.FETCHING || productsFetchState === fetchStates.FAILED ? (
+                        <ProductCardsSkeleton />
                     ) : (
                         currentProducts.map(item => 
                             <ProductCard key={item.id} item={item} />

@@ -23,6 +23,7 @@ export default function ProductCard(props) {
     const clickHandler = () => {
         const productNameSlug = createSlug(name);
         history.push(`/shop/${category_id}/${productNameSlug}/${id}`);
+        window.scrollTo(0, 0);
     };
 
     return(

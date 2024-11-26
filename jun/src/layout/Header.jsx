@@ -1,6 +1,6 @@
 import Cart from "@/components/Cart";
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -8,10 +8,27 @@ export default function Header() {
     const [display, setDisplay] = useState(false);
     const [displayMd, setDisplayMd] = useState(false);
 
+
+    const [tempCategory, setTempCategory] = useState("");
+    const [tempSearch, setTempSearch] = useState("");
+
+    const [category, setCategory] = useState("");
+    const [search, setSearch] = useState("");
+
+
     const user = useSelector(state => state.client.user);
     const categories = useSelector(state => state.product.categories);
 
     const { logout, isAuthenticated } = useAuth();
+
+    const searchHandler = () => {
+        setCategory(tempCategory);
+        setSearch(tempSearch);
+    }
+
+    useEffect(() => {
+        //TODO 5 ürün gelecek kalanları için "View All" olacak.
+    }, [category, search])
 
     return (
         <header className="flex flex-col items-center mx-12 py-10 bg-white font-montserrat sm:flex-row sm:justify-between sm:min-w-max sm:gap-4 relative">
@@ -57,14 +74,21 @@ export default function Header() {
                 </nav>
             </div>
             <div className="flex flex-col w-full gap-2 pt-10 sm:flex-row sm:gap-0 sm:pt-0 sm:w-auto">
-                <input placeholder="Search" className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-3 py-1 placeholder:text-sm sm:rounded-l sm:px-2 sm:rounded-r-none sm:w-40 md:w-full"/>
-                <select className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-2 py-1 text-sm sm:rounded-none sm:px-0 sm:max-[800px]:gap-5">
-                    <option disabled selected hidden>Category</option>
+                <input
+                    value={tempSearch}
+                    onChange={(e) => setTempSearch(e.target.value)} 
+                    placeholder="Search" 
+                    className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-3 py-1 placeholder:text-sm sm:rounded-l sm:px-2 sm:rounded-r-none sm:w-40 md:w-full"/>
+                <select 
+                    className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-2 py-1 text-sm sm:rounded-none sm:px-0 sm:max-[800px]:gap-5"
+                    value={tempCategory}
+                    onChange={(e) => setTempCategory(e.target.value)}>
+                    <option value="">All Categories</option>
                     {categories.map((item, index)=> (
-                        <option key={index}>{item.title}</option>
+                        <option key={index} value={item.id}>{item.title}</option>
                     ))}
                 </select>
-                <button className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
+                <button onClick={searchHandler} className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
             </div>

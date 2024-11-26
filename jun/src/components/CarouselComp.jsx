@@ -8,10 +8,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import useImageSize from "@/hooks/useImageSize";
+import { useHistory } from "react-router-dom";
 
 export function CarouselComp(props) {
   const { sliderImages = {}, images = [], customStyle } = props;
   const { isMobile } = useImageSize();
+  const history = useHistory();
 
   const display = images.length > 0 
     ? images 
@@ -19,6 +21,10 @@ export function CarouselComp(props) {
         ? (sliderImages.sliderImagesVertical?.length ? sliderImages.sliderImagesVertical : [])
         : (sliderImages.sliderImagesHorizontal?.length ? sliderImages.sliderImagesHorizontal : []));
 
+  const buttonHandler = () => {
+    history.push("/shop");
+    window.scrollTo(0, 0);
+  } 
 
   return (
     <Carousel className="">
@@ -33,8 +39,9 @@ export function CarouselComp(props) {
                   <h2 className="text-white font-bold text-4xl">{item.title}</h2>
                   <p className="text-md text-white">{item.description}</p>
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                    <p className="font-bold text-white text-lg">{item.price ? item.price : ""}</p>
-                    <button className={`${item.button == null ? `bg-none` : `bg-successColor`} rounded text-white font-semibold text-sm px-9 py-3 sm: sm:px-8`}>
+                    <button 
+                      onClick={buttonHandler}
+                      className={`${item.button == null ? `bg-none` : `bg-successColor`} hover:bg-[#10b35b] transition shadow-sm rounded text-white font-semibold text-sm px-9 py-3 sm: sm:px-8`}>
                       {item.button}
                     </button>
                   </div>
