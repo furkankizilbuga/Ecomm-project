@@ -6,17 +6,15 @@ import { fetchStates } from "@/store/features/clientSlice";
 import { fetchProductsByCategory } from "@/store/features/productSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useLocation, useHistory } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 
 export default function CategoryPage() {
 
     const dispatch = useDispatch();
     const history = useHistory();
     let { categoryId } = useParams();
-    const location = useLocation();
-    const { categoryTitle } = location.state || {};
 
-    const { productsByCategory, productsByCategoryFetchState } = useSelector(state => state.product)
+    const { productsByCategory, productsByCategoryFetchState, categories } = useSelector(state => state.product)
 
     //Pagination
     const [currentProducts, currentPage, totalProducts, productsPerPage, setProducts, setCurrentPage] = usePagination();
@@ -35,11 +33,12 @@ export default function CategoryPage() {
         }
     }, [productsByCategory, setProducts]);
 
-    
+    //Get category name using category id from params.
+    const categoryName = categories.find(category => category.id == categoryId).title;
 
 
 
-    //Ürünlerin fetchlendiği ama hiçbir ürünün bulunamadığı durumda:
+    //Products are fetched but is empty:
     if(productsByCategory.length == 0 && productsByCategoryFetchState == fetchStates.FETCHED) {
         return (
             <div className="px-12 flex flex-col items-center pt-20 md:pt-40 text-center gap-3">
@@ -53,7 +52,7 @@ export default function CategoryPage() {
     return (
         <div className="flex flex-col items-center md:px-12 justify-center pt-10 gap-20">
             <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between items-center w-full">
-                <h3 className="text-textColor font-bold text-xl">{categoryTitle}</h3>
+                <h3 className="text-textColor font-bold text-xl">{categoryName}</h3>
                 <p className="text-secondaryTextColor text-sm font-medium">Showing all {totalProducts} results</p>
             </div>
             <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">

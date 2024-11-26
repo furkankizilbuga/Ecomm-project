@@ -1,6 +1,8 @@
 import Cart from "@/components/Cart";
+import SearchedProducts from "@/components/SearchedProducts";
 import { useAuth } from "@/hooks/useAuth";
-import { useEffect, useState } from "react"
+import axios from "axios";
+import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -8,13 +10,13 @@ export default function Header() {
     const [display, setDisplay] = useState(false);
     const [displayMd, setDisplayMd] = useState(false);
 
-
-    const [tempCategory, setTempCategory] = useState("");
-    const [tempSearch, setTempSearch] = useState("");
+    const [searchedProducts, setSearchedProducts] = useState([]);
+    const [showSearchResults, setShowSearchResults] = useState(false);
 
     const [category, setCategory] = useState("");
     const [search, setSearch] = useState("");
 
+    const searchContainerRef = useRef(null);
 
     const user = useSelector(state => state.client.user);
     const categories = useSelector(state => state.product.categories);
@@ -22,13 +24,55 @@ export default function Header() {
     const { logout, isAuthenticated } = useAuth();
 
     const searchHandler = () => {
-        setCategory(tempCategory);
-        setSearch(tempSearch);
+        console.log("search handler");
     }
 
     useEffect(() => {
-        //TODO 5 ürün gelecek kalanları için "View All" olacak.
-    }, [category, search])
+
+        const baseURL = "https://workintech-fe-ecommerce.onrender.com"
+
+        const fetchProducts = async () => {
+            try {
+
+                if (!search) {
+                    setSearchedProducts([]);
+                    return;
+                }
+
+                let query = "/products?";
+                if (category) query += `category=${category}&`;
+                if (search) query += `filter=${search}`;
+    
+                const { data } = await axios.get(baseURL + query);
+                setSearchedProducts(data.products || []);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+                setSearchedProducts([]);
+            }
+        };
+
+    
+        const timer = setTimeout(() => {
+            if (category || search) fetchProducts();
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, [category, search]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchContainerRef.current && 
+                !searchContainerRef.current.contains(event.target)) {
+                setShowSearchResults(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+    
 
     return (
         <header className="flex flex-col items-center mx-12 py-10 bg-white font-montserrat sm:flex-row sm:justify-between sm:min-w-max sm:gap-4 relative">
@@ -44,7 +88,7 @@ export default function Header() {
                     </button>
                     {/* Hamburger Menu */}
                     <div className="hidden sm:block lg:hidden">
-                        <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute left-0 top-full mt-2 bg-white p-4 shadow rounded-lg flex flex-row items-center gap-4 duration-500 transition-all ease-in-out z-50`}>                    
+                        <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute left-0 top-full mt-2 bg-white p-4 border-primaryBlue border rounded-lg flex flex-row items-center gap-4 duration-500 transition-all ease-in-out z-50`}>                    
                             <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
                             {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
                             {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
@@ -73,16 +117,22 @@ export default function Header() {
                     <Cart />
                 </nav>
             </div>
-            <div className="flex flex-col w-full gap-2 pt-10 sm:flex-row sm:gap-0 sm:pt-0 sm:w-auto">
+            <div 
+                ref={searchContainerRef}
+                className="flex flex-col w-full gap-2 pt-10 sm:flex-row sm:gap-0 sm:pt-0 sm:w-auto">
                 <input
-                    value={tempSearch}
-                    onChange={(e) => setTempSearch(e.target.value)} 
+                    onFocus={() => setShowSearchResults(true)}
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setShowSearchResults(true);
+                    }}
                     placeholder="Search" 
-                    className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-3 py-1 placeholder:text-sm sm:rounded-l sm:px-2 sm:rounded-r-none sm:w-40 md:w-full"/>
+                    className="bg-[#F9F9F9] relative focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-3 py-1 placeholder:text-sm sm:rounded-l sm:px-2 sm:rounded-r-none sm:w-40 md:w-full"/>
                 <select 
                     className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-2 py-1 text-sm sm:rounded-none sm:px-0 sm:max-[800px]:gap-5"
-                    value={tempCategory}
-                    onChange={(e) => setTempCategory(e.target.value)}>
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}>
                     <option value="">All Categories</option>
                     {categories.map((item, index)=> (
                         <option key={index} value={item.id}>{item.title}</option>
@@ -91,6 +141,11 @@ export default function Header() {
                 <button onClick={searchHandler} className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
+                {showSearchResults && searchedProducts.length > 0 && (
+                    <div className="absolute top-full mt-2 w-full z-50">
+                        <SearchedProducts searchedProducts={searchedProducts} />
+                    </div>
+                )}
             </div>
         </header> 
     )
