@@ -8,6 +8,7 @@ import { fetchStates } from "@/store/features/productSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { ProductCardsSkeleton } from "../ui/skeletons";
 
 export default function ShopProducts() {
     const { isMobile } = useImageSize();
@@ -52,7 +53,7 @@ export default function ShopProducts() {
                 //setProductDisplay(res.data.products);
             })
             .catch(err => console.error(err));
-    }, [sort, filter, category]);
+    }, [sort, filter, category, setProducts]);
 
     const filterHandler = () => {
         setCategory(tempCategory);
@@ -104,8 +105,8 @@ export default function ShopProducts() {
             </div>
             <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">
                 {
-                    productsFetchState === fetchStates.FETCHING ? (
-                        <Spinner />
+                    productsFetchState === fetchStates.FETCHING || productsFetchState === fetchStates.FAILED ? (
+                        <ProductCardsSkeleton />
                     ) : (
                         currentProducts.map(item => 
                             <ProductCard key={item.id} item={item} />

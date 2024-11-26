@@ -27,7 +27,8 @@ export default function ShopCategories() {
                     ) : 
                     topCategories.map( item => 
                         <Link to={`/shop/${item.gender == "k" ? "kadin" : "erkek"}/${item.title}`} key={item.id} className="relative cursor-pointer">
-                            <img className="rounded object-cover object-center w-60 h-96" src={item.img} alt={item.title} />
+                            <img className="rounded relative object-cover object-center w-60 h-96" src={item.img} alt={item.title} />
+                            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                             <div className="flex flex-col gap-4 items-center font-bold text-sm text-white absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 ">
                                 <h4>{item.title}</h4>
                                 <p>{item.rating}</p>
