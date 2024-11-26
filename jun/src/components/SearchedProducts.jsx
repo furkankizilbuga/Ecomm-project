@@ -21,6 +21,13 @@ export default function SearchedProducts({ searchedProducts }) {
         window.scrollTo(0, 0);
     };
 
+    /*
+    
+        TODO 5-6 tane gözüksün. Daha sonrası için view all butonu olacak.
+        Tıklandığında aramalarınızla eşleşen sonuçlar şeklinde bir sayfaya yönlendirecek.
+
+    */
+
     return (
         <div className="flex flex-col p-2 rounded bg-white shadow max-w-60">
             {
