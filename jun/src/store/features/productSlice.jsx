@@ -16,6 +16,14 @@ export const fetchCategories = createAsyncThunk(
     }
 )
 
+export const fetchProductsByCategory = createAsyncThunk(
+    "product/fetchProductsByCategory",
+    async (categoryId) => {
+        const response = await axios.get("https://workintech-fe-ecommerce.onrender.com/products?category=" + categoryId);
+        return response.data;
+    }
+)
+
 export const fetchProducts = createAsyncThunk(
     "product/fetchProducts",
     async () => {
@@ -42,6 +50,8 @@ export const productSlice = createSlice({
         offset: 0,
         filter: "",
         selectedProduct: {},
+        productsByCategory: [],
+        productsByCategoryFetchState: fetchStates.NOT_FETCHED,
         selectedFetchState: fetchStates.NOT_FETCHED,
         categoriesFetchState: fetchStates.NOT_FETCHED,
         productsFetchState: fetchStates.NOT_FETCHED
@@ -114,6 +124,18 @@ export const productSlice = createSlice({
             })
             .addCase(fetchProduct.rejected, state => {
                 state.selectedFetchState = fetchStates.FAILED;
+            });
+
+        builder
+            .addCase(fetchProductsByCategory.pending, state => {
+                state.productsByCategoryFetchState = fetchStates.FETCHING;
+            })
+            .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
+                state.productsByCategoryFetchState = fetchStates.FETCHED;
+                state.productsByCategory = action.payload.products;
+            })
+            .addCase(fetchProductsByCategory.rejected, state => {
+                state.productsByCategoryFetchState = fetchStates.FAILED;
             })
     }
 })

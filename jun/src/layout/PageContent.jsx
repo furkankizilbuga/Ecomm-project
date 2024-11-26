@@ -12,6 +12,7 @@ import CartPage from "@/pages/CartPage";
 import CreateOrderPage from "@/pages/CreateOrderPage";
 import OrderSuccessPage from "@/pages/OrderSuccessPage";
 import { useAuth } from "@/hooks/useAuth";
+import CategoryPage from "@/pages/CategoryPage";
 
 export default function PageContent() {
 
@@ -25,6 +26,9 @@ export default function PageContent() {
                 </Route>
                 <Route exact path="/shop">
                     <ShopPage />
+                </Route>
+                <Route exact path="/shop/:categoryId">
+                    <CategoryPage />
                 </Route>
                 <Route path="/shop/:categoryId/:productNameSlug/:id">
                     <ProductDetailPage />

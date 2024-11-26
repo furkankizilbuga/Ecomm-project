@@ -81,7 +81,7 @@ export default function EditorsPick() {
                     <h3 className="text-textColor font-bold text-2xl">EDITOR'S PICK</h3>
                     <p className="max-w-52 text-center text-secondaryTextColor sm:max-w-96">Problems trying to resolve the conflict between</p>
                 </div>
-                <div className="grid sm:grid-cols-3 sm:grid-rows-2 gap-10 sm:mx-10">
+                <div className="grid sm:grid-cols-3 place-items-center sm:grid-rows-2 gap-10 sm:mx-10">
                     {
                         display.map((item, index) => 
                             <CardItem 

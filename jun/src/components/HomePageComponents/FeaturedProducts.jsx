@@ -36,8 +36,7 @@ const sliderImages = {
             subTitle: "SUMMER 2020",
             title: "Vita Classic Product",
             description: "We know how large objects will act, but things on a small scale.",
-            price: "$16.48",
-            button: "ADD TO CART"
+            button: "SHOP NOW"
         },
         {
             url: "assets/sliderImages/featuredProductsSliderImg2Horizontal.jpg",
