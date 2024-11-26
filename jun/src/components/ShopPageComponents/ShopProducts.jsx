@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard"
-import Spinner from "@/components/Spinner";
 import useImageSize from "@/hooks/useImageSize"
 import usePagination from "@/hooks/usePagination";
 import { fetchStates } from "@/store/features/productSlice";
@@ -26,8 +25,6 @@ export default function ShopProducts() {
     const [tempCategory, setTempCategory] = useState("");
     const [tempFilter, setTempFilter] = useState("");
 
-    const [productDisplay, setProductDisplay] = useState(products);
-
     const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
     const [currentProducts, currentPage, totalProducts, productsPerPage, setProducts, setCurrentPage] = usePagination();
@@ -50,7 +47,6 @@ export default function ShopProducts() {
         axios.get(baseURL + query)
             .then(res => {
                 setProducts(res.data.products);
-                //setProductDisplay(res.data.products);
             })
             .catch(err => console.error(err));
     }, [sort, filter, category, setProducts]);
@@ -64,7 +60,7 @@ export default function ShopProducts() {
     return (
         <div className="flex flex-col items-center justify-center pt-10 gap-20">
             <div className="flex flex-col items-center gap-6 min-[920px]:flex-row sm:justify-between sm:w-full sm:px-40">
-                <p className="text-sm font-semibold text-secondaryTextColor">Showing all {productDisplay.length} results</p>
+                <p className="text-sm font-semibold text-secondaryTextColor">Showing all {totalProducts} results</p>
                 
                 <div className="flex flex-col items-center sm:items-end gap-4">
                     <div className="flex flex-col sm:flex-row">

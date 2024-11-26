@@ -1,6 +1,7 @@
-
+import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
 import { ProductCardsSkeleton } from "@/components/ui/skeletons";
+import usePagination from "@/hooks/usePagination";
 import { fetchStates } from "@/store/features/clientSlice";
 import { fetchProductsByCategory } from "@/store/features/productSlice";
 import { useEffect } from "react";
@@ -14,15 +15,28 @@ export default function CategoryPage() {
     let { categoryId } = useParams();
     const location = useLocation();
     const { categoryTitle } = location.state || {};
-    
-    //Fetch products by category id.
-    useEffect(() => {
-        dispatch(fetchProductsByCategory(categoryId));
-    }, [dispatch, categoryId])
 
     const { productsByCategory, productsByCategoryFetchState } = useSelector(state => state.product)
 
-    const totalProducts = productsByCategory.length;
+    //Pagination
+    const [currentProducts, currentPage, totalProducts, productsPerPage, setProducts, setCurrentPage] = usePagination();
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
+    
+    useEffect(() => {
+        dispatch(fetchProductsByCategory(categoryId));
+    }, [dispatch, categoryId]);
+
+    useEffect(() => {
+        if (productsByCategory.length > 0) {
+            setProducts(productsByCategory);
+        }
+    }, [productsByCategory, setProducts]);
+
+    
+
 
 
     //Ürünlerin fetchlendiği ama hiçbir ürünün bulunamadığı durumda:
@@ -37,7 +51,7 @@ export default function CategoryPage() {
     }
 
     return (
-        <div className="flex flex-col items-center md:items-start md:px-12 justify-center pt-10 gap-20">
+        <div className="flex flex-col items-center md:px-12 justify-center pt-10 gap-20">
             <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between items-center w-full">
                 <h3 className="text-textColor font-bold text-xl">{categoryTitle}</h3>
                 <p className="text-secondaryTextColor text-sm font-medium">Showing all {totalProducts} results</p>
@@ -47,11 +61,17 @@ export default function CategoryPage() {
                     productsByCategoryFetchState == fetchStates.FETCHING || productsByCategoryFetchState == fetchStates.FAILED ? (
                         <ProductCardsSkeleton />
                     ) : (
-                        productsByCategory.map(item => (
+                        currentProducts.map(item => (
                         <ProductCard key={item.id} item={item}  />
                     ))
                 )}
             </div>
+            <Pagination 
+                productsPerPage={productsPerPage} 
+                totalProducts={totalProducts} 
+                paginate={paginate}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage} />
         </div>
     )
 }
