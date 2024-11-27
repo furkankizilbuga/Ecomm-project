@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-useless-escape */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom"
 
-export default function SearchedProducts() {
+export default function SearchedProducts({ viewAllHandler }) {
 
     const history = useHistory();
 
@@ -29,10 +30,6 @@ export default function SearchedProducts() {
         window.scrollTo(0, 0);
     };
 
-    const viewAllHandler = () => {
-        history.push("/")
-        window.scrollTo(0, 0);
-    }
 
     return (
         <div className="flex flex-col p-2 rounded bg-white shadow max-w-60">

@@ -140,7 +140,9 @@ export const productSlice = createSlice({
             })
             .addCase(fetchProductsByCategory.rejected, state => {
                 state.productsByCategoryFetchState = fetchStates.FAILED;
-            })
+            });
+
+
     }
 })
 

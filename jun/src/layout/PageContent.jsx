@@ -13,6 +13,7 @@ import CreateOrderPage from "@/pages/CreateOrderPage";
 import OrderSuccessPage from "@/pages/OrderSuccessPage";
 import { useAuth } from "@/hooks/useAuth";
 import CategoryPage from "@/pages/CategoryPage";
+import SearchResultsPage from "@/pages/SearchResultsPage";
 
 export default function PageContent() {
 
@@ -59,6 +60,9 @@ export default function PageContent() {
                 </Route>
                 <Route path="/success">
                     <OrderSuccessPage />
+                </Route>
+                <Route path="/search">
+                    <SearchResultsPage />
                 </Route>
                 <Route path="*">
                     <p className="px-12 font-semibold text-center md:text-lg md:mt-20">There is nothing here: 404!</p>

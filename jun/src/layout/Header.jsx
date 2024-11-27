@@ -5,7 +5,7 @@ import { setProductsBySearch } from "@/store/features/productSlice";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Header() {
     const [display, setDisplay] = useState(false);
@@ -19,6 +19,7 @@ export default function Header() {
     const searchContainerRef = useRef(null);
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const user = useSelector(state => state.client.user);
     const { categories, productsBySearch } = useSelector(state => state.product);
@@ -26,8 +27,11 @@ export default function Header() {
     const { logout, isAuthenticated } = useAuth();
 
     const searchHandler = () => {
-        console.log("search handler");
-        //TODO view all ile aynı işi yapacak.
+        const searchParams = new URLSearchParams();
+        if (search) searchParams.set('q', search);
+        if (category) searchParams.set('category', category);
+        
+        history.push(`/search?${searchParams.toString()}`);
     }
 
     useEffect(() => {
@@ -146,7 +150,7 @@ export default function Header() {
                 </button>
                 {showSearchResults && productsBySearch.length > 0 && (
                     <div className="absolute top-full mt-2 w-full z-50">
-                        <SearchedProducts />
+                        <SearchedProducts viewAllHandler={searchHandler} />
                     </div>
                 )}
             </div>
