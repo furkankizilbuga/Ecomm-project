@@ -23,6 +23,8 @@ export default function SearchResultsPage() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber)
     }
+    
+    
 
     useEffect(() => {
         const fetchSearchResults = async () => {
