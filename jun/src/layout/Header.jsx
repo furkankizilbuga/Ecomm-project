@@ -1,16 +1,16 @@
 import Cart from "@/components/Cart";
 import SearchedProducts from "@/components/SearchedProducts";
 import { useAuth } from "@/hooks/useAuth";
+import { setProductsBySearch } from "@/store/features/productSlice";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Header() {
     const [display, setDisplay] = useState(false);
     const [displayMd, setDisplayMd] = useState(false);
 
-    const [searchedProducts, setSearchedProducts] = useState([]);
     const [showSearchResults, setShowSearchResults] = useState(false);
 
     const [category, setCategory] = useState("");
@@ -18,13 +18,16 @@ export default function Header() {
 
     const searchContainerRef = useRef(null);
 
+    const dispatch = useDispatch();
+
     const user = useSelector(state => state.client.user);
-    const categories = useSelector(state => state.product.categories);
+    const { categories, productsBySearch } = useSelector(state => state.product);
 
     const { logout, isAuthenticated } = useAuth();
 
     const searchHandler = () => {
         console.log("search handler");
+        //TODO view all ile aynı işi yapacak.
     }
 
     useEffect(() => {
@@ -35,7 +38,7 @@ export default function Header() {
             try {
 
                 if (!search) {
-                    setSearchedProducts([]);
+                    dispatch(setProductsBySearch([]));
                     return;
                 }
 
@@ -44,10 +47,10 @@ export default function Header() {
                 if (search) query += `filter=${search}`;
     
                 const { data } = await axios.get(baseURL + query);
-                setSearchedProducts(data.products || []);
+                dispatch(setProductsBySearch(data.products || []));
             } catch (error) {
                 console.error("Error fetching products:", error);
-                setSearchedProducts([]);
+                dispatch(setProductsBySearch([]));
             }
         };
 
@@ -57,7 +60,7 @@ export default function Header() {
         }, 2000);
 
         return () => clearTimeout(timer);
-    }, [category, search]);
+    }, [category, dispatch, search]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -141,9 +144,9 @@ export default function Header() {
                 <button onClick={searchHandler} className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
-                {showSearchResults && searchedProducts.length > 0 && (
+                {showSearchResults && productsBySearch.length > 0 && (
                     <div className="absolute top-full mt-2 w-full z-50">
-                        <SearchedProducts searchedProducts={searchedProducts} />
+                        <SearchedProducts />
                     </div>
                 )}
             </div>

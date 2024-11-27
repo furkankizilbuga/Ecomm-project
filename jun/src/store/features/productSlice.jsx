@@ -51,6 +51,7 @@ export const productSlice = createSlice({
         filter: "",
         selectedProduct: {},
         productsByCategory: [],
+        productsBySearch: [],
         productsByCategoryFetchState: fetchStates.NOT_FETCHED,
         selectedFetchState: fetchStates.NOT_FETCHED,
         categoriesFetchState: fetchStates.NOT_FETCHED,
@@ -77,6 +78,9 @@ export const productSlice = createSlice({
         },
         setSelectedProduct: (state, action) => {
             state.selectedProduct = action.payload;
+        },
+        setProductsBySearch: (state, action) => {
+            state.productsBySearch = action.payload;
         },
         setSelectedFetchState: (state, action) => {
             state.selectedFetchState = action.payload;
@@ -148,7 +152,8 @@ export const {
     setOffset, 
     setFilter, 
     setCategoriesFetchState,
-    setProductsFetchState
+    setProductsFetchState,
+    setProductsBySearch
 } = productSlice.actions;
 
 export default productSlice.reducer;
