@@ -58,7 +58,7 @@ export default function Header() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    
+ 
 
     return (
         <header className="flex flex-col items-center mx-12 py-10 bg-white font-montserrat sm:flex-row sm:justify-between sm:min-w-max sm:gap-4 relative">
@@ -74,7 +74,7 @@ export default function Header() {
                     </button>
                     {/* Hamburger Menu */}
                     <div className="hidden sm:block lg:hidden">
-                        <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute left-0 top-full mt-2 bg-white p-4 border-primaryBlue border rounded-lg flex flex-row items-center gap-4 duration-500 transition-all ease-in-out z-50`}>                    
+                        <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute left-0 top-full mt-2 bg-white p-4 border-primaryBlue border rounded-lg flex flex-row items-center gap-4 duration-500 transition ease-out z-50`}>                    
                             <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
                             {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
                             {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
@@ -128,7 +128,7 @@ export default function Header() {
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
                 {showSearchResults && productsByInput.length > 0 && (
-                    <div className="absolute top-full mt-2 w-full z-50">
+                    <div className="absolute top-full mt-2 z-50">
                         <SearchedProducts viewAllHandler={searchHandler} />
                     </div>
                 )}

@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import usePagination from "@/hooks/usePagination";
 import { ProductCardsSkeleton } from '@/components/ui/skeletons';
 import { fetchStates } from '@/store/features/clientSlice';
+import { useHistory } from 'react-router-dom';
 
 export default function SearchResultsPage() {
 
@@ -19,10 +20,12 @@ export default function SearchResultsPage() {
      */
 
     const dispatch = useDispatch();
+    const history = useHistory();
     const searchParams = new URLSearchParams(location.search);
     
     const searchTerm = searchParams.get('q') || '';
     const categoryId = searchParams.get('category') || '';
+    const page = parseInt(searchParams.get('page'), 10) || 1;
 
     const { productsBySearch, productsBySearchFetchState } = useSelector(state => state.product);
 
@@ -45,6 +48,19 @@ export default function SearchResultsPage() {
     useEffect(() => {
         setProducts(productsBySearch);
     }, [productsBySearch, setProducts])
+
+
+    //URL'deki sayfa var olandan yüksek veya az ise:
+    useEffect(() => {
+        if (totalProducts === 0) return;
+
+        const totalPages = Math.ceil(totalProducts / productsPerPage);
+        if (page > totalPages) {
+            history.push(`/search?q=${searchTerm}&category=${categoryId}&page=${totalPages}`);
+        } else if (page < 1) {
+            history.push(`/search?q=${searchTerm}&category=${categoryId}&page=1`);
+        }
+    }, [page, totalProducts, productsPerPage, searchTerm, categoryId, history]);
 
     if (productsBySearchFetchState === fetchStates.FETCHING) {
         return <ProductCardsSkeleton />;
