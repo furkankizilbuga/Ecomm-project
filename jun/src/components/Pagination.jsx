@@ -24,7 +24,11 @@ export default function Pagination({ productsPerPage, totalProducts, paginate, c
         if (currentPage > 1) {
             const newPage = currentPage - 1;
             paginate(newPage);
-            history.push(`?page=${newPage}`);
+
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set('page', newPage.toString());
+            
+            history.push(`${location.pathname}?${searchParams.toString()}`);
             window.scrollTo(0, 0);
         }
     };
@@ -33,9 +37,34 @@ export default function Pagination({ productsPerPage, totalProducts, paginate, c
         if (currentPage < pageNumbers.length) {
             const newPage = currentPage + 1;
             paginate(newPage);
-            history.push(`?page=${newPage}`);
+
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set('page', newPage.toString());
+            
+            history.push(`${location.pathname}?${searchParams.toString()}`);
             window.scrollTo(0, 0);
         }
+    };
+
+    const handlePageNumber = (number) => {
+        console.log("Clicked number:", number);
+        paginate(number);
+
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('page', number.toString());
+            
+        history.push(`${location.pathname}?${searchParams.toString()}`);
+        window.scrollTo(0, 0);
+
+    }
+
+    const getUpdatedLink = (number) => {
+        if (typeof number !== 'number') {
+            console.error("Invalid number:", number);
+        }
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('page', number.toString());
+        return `${location.pathname}?${searchParams.toString()}`;
     };
 
     const renderPageNumbers = () => {
@@ -102,11 +131,8 @@ export default function Pagination({ productsPerPage, totalProducts, paginate, c
                 typeof number === 'number' ? (
                     <Link 
                         key={index}
-                        to={`?page=${number}`}
-                        onClick={() => {
-                            paginate(number)
-                            window.scrollTo(0, 0);
-                        }}
+                        to={getUpdatedLink(number)}
+                        onClick={() => handlePageNumber(number)}
                         className={`${number === pageNumbers.length ? "border-r-0" : ""} border-r border-y text-primaryBlue font-medium h-full w-10 flex items-center justify-center ${number === currentPage ? 'bg-primaryBlue border-y-0 text-white' : ''}`}
                     >
                         {number}

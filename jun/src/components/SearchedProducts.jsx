@@ -1,10 +1,19 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-useless-escape */
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom"
 
-/* eslint-disable react/prop-types */
-export default function SearchedProducts({ searchedProducts }) {
+export default function SearchedProducts({ viewAllHandler }) {
 
     const history = useHistory();
+
+    const { productsByInput } = useSelector(state => state.product);
+    const [displayedProducts, setDisplayedProducts] = useState([]);
+
+    useEffect(() => {
+        setDisplayedProducts(productsByInput.slice(0, 7));
+    }, [productsByInput])
 
     const createSlug = (name) => {
         return name
@@ -15,28 +24,22 @@ export default function SearchedProducts({ searchedProducts }) {
             .trim();
     };
 
-    const clickHandler = (categoryId, productName, productId) => {
+    const productClickHandler = (categoryId, productName, productId) => {
         const productNameSlug = createSlug(productName);
         history.push(`/shop/${categoryId}/${productNameSlug}/${productId}`);
         window.scrollTo(0, 0);
     };
 
-    /*
-    
-        TODO 5-6 tane gözüksün. Daha sonrası için view all butonu olacak.
-        Tıklandığında aramalarınızla eşleşen sonuçlar şeklinde bir sayfaya yönlendirecek.
-
-    */
 
     return (
         <div className="flex flex-col p-2 rounded bg-white shadow max-w-60">
             {
-                searchedProducts.length > 0 && (
+                productsByInput.length > 0 && (
                 <ul className="flex flex-col gap-3">
-                    {searchedProducts.map(product => (
+                    {displayedProducts.map(product => (
                         <li 
                             key={product.id}
-                            onClick={() => clickHandler(product.category_id, product.name, product.id)}
+                            onClick={() => productClickHandler(product.category_id, product.name, product.id)}
                             className="border border-mutedColor rounded-sm flex justify-between">
                             <div className="border-r w-16 min-w-16 max-w-16 border-mutedColor flex items-center justify-center">
                                 <img
@@ -53,8 +56,16 @@ export default function SearchedProducts({ searchedProducts }) {
                         </li>
                         )
                     )}
+                    {
+                        displayedProducts.length >= 7 && (
+                            <li className="flex flex-col items-center gap-2">
+                                <i className="fa-solid fa-ellipsis-vertical text-sm"></i>
+                                <button onClick={viewAllHandler} className="text-white bg-primaryBlue w-full rounded font-medium">View All</button>
+                            </li>
+                        )
+                    }
                 </ul>
-                )
+                ) 
             }
         </div>
     )

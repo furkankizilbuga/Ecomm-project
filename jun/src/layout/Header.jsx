@@ -1,16 +1,15 @@
 import Cart from "@/components/Cart";
 import SearchedProducts from "@/components/SearchedProducts";
 import { useAuth } from "@/hooks/useAuth";
-import axios from "axios";
+import { fetchProductsByInput } from "@/store/features/productSlice";
 import { useEffect, useRef, useState } from "react"
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Header() {
     const [display, setDisplay] = useState(false);
     const [displayMd, setDisplayMd] = useState(false);
 
-    const [searchedProducts, setSearchedProducts] = useState([]);
     const [showSearchResults, setShowSearchResults] = useState(false);
 
     const [category, setCategory] = useState("");
@@ -18,47 +17,34 @@ export default function Header() {
 
     const searchContainerRef = useRef(null);
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const user = useSelector(state => state.client.user);
-    const categories = useSelector(state => state.product.categories);
+    const { categories, productsByInput } = useSelector(state => state.product);
 
     const { logout, isAuthenticated } = useAuth();
 
     const searchHandler = () => {
-        console.log("search handler");
+        const searchParams = new URLSearchParams();
+        if (search) searchParams.set('q', search);
+        if (category) searchParams.set('category', category);
+        
+        history.push(`/search?${searchParams.toString()}`);
+        setShowSearchResults(false);
     }
 
     useEffect(() => {
-
-        const baseURL = "https://workintech-fe-ecommerce.onrender.com"
-
-        const fetchProducts = async () => {
-            try {
-
-                if (!search) {
-                    setSearchedProducts([]);
-                    return;
-                }
-
-                let query = "/products?";
-                if (category) query += `category=${category}&`;
-                if (search) query += `filter=${search}`;
-    
-                const { data } = await axios.get(baseURL + query);
-                setSearchedProducts(data.products || []);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-                setSearchedProducts([]);
-            }
-        };
-
-    
         const timer = setTimeout(() => {
-            if (category || search) fetchProducts();
+            if (category || search) {
+                dispatch(fetchProductsByInput({ category, search }));
+            }
         }, 2000);
-
+    
         return () => clearTimeout(timer);
-    }, [category, search]);
+    }, [category, dispatch, search]);
 
+    //Hamburger menu closes when clicked outside.
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchContainerRef.current && 
@@ -72,7 +58,7 @@ export default function Header() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    
+ 
 
     return (
         <header className="flex flex-col items-center mx-12 py-10 bg-white font-montserrat sm:flex-row sm:justify-between sm:min-w-max sm:gap-4 relative">
@@ -88,7 +74,7 @@ export default function Header() {
                     </button>
                     {/* Hamburger Menu */}
                     <div className="hidden sm:block lg:hidden">
-                        <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute left-0 top-full mt-2 bg-white p-4 border-primaryBlue border rounded-lg flex flex-row items-center gap-4 duration-500 transition-all ease-in-out z-50`}>                    
+                        <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute left-0 top-full mt-2 bg-white p-4 border-primaryBlue border rounded-lg flex flex-row items-center gap-4 duration-500 transition ease-out z-50`}>                    
                             <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
                             {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
                             {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
@@ -141,9 +127,9 @@ export default function Header() {
                 <button onClick={searchHandler} className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
-                {showSearchResults && searchedProducts.length > 0 && (
-                    <div className="absolute top-full mt-2 w-full z-50">
-                        <SearchedProducts searchedProducts={searchedProducts} />
+                {showSearchResults && productsByInput.length > 0 && (
+                    <div className="absolute top-full mt-2 z-50">
+                        <SearchedProducts viewAllHandler={searchHandler} />
                     </div>
                 )}
             </div>
