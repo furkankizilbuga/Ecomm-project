@@ -1,8 +1,7 @@
 import Cart from "@/components/Cart";
 import SearchedProducts from "@/components/SearchedProducts";
 import { useAuth } from "@/hooks/useAuth";
-import { setProductsBySearch } from "@/store/features/productSlice";
-import axios from "axios";
+import { fetchProductsByInput } from "@/store/features/productSlice";
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -22,7 +21,7 @@ export default function Header() {
     const history = useHistory();
 
     const user = useSelector(state => state.client.user);
-    const { categories, productsBySearch } = useSelector(state => state.product);
+    const { categories, productsByInput } = useSelector(state => state.product);
 
     const { logout, isAuthenticated } = useAuth();
 
@@ -32,40 +31,20 @@ export default function Header() {
         if (category) searchParams.set('category', category);
         
         history.push(`/search?${searchParams.toString()}`);
+        setShowSearchResults(false);
     }
 
     useEffect(() => {
-
-        const baseURL = "https://workintech-fe-ecommerce.onrender.com"
-
-        const fetchProducts = async () => {
-            try {
-
-                if (!search) {
-                    dispatch(setProductsBySearch([]));
-                    return;
-                }
-
-                let query = "/products?";
-                if (category) query += `category=${category}&`;
-                if (search) query += `filter=${search}`;
-    
-                const { data } = await axios.get(baseURL + query);
-                dispatch(setProductsBySearch(data.products || []));
-            } catch (error) {
-                console.error("Error fetching products:", error);
-                dispatch(setProductsBySearch([]));
-            }
-        };
-
-    
         const timer = setTimeout(() => {
-            if (category || search) fetchProducts();
+            if (category || search) {
+                dispatch(fetchProductsByInput({ category, search }));
+            }
         }, 2000);
-
+    
         return () => clearTimeout(timer);
     }, [category, dispatch, search]);
 
+    //Hamburger menu closes when clicked outside.
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchContainerRef.current && 
@@ -148,7 +127,7 @@ export default function Header() {
                 <button onClick={searchHandler} className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
-                {showSearchResults && productsBySearch.length > 0 && (
+                {showSearchResults && productsByInput.length > 0 && (
                     <div className="absolute top-full mt-2 w-full z-50">
                         <SearchedProducts viewAllHandler={searchHandler} />
                     </div>

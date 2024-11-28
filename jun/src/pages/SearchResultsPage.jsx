@@ -1,21 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { setProductsBySearch } from "@/store/features/productSlice";
+import { fetchProductsBySearch } from "@/store/features/productSlice";
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
 import usePagination from "@/hooks/usePagination";
 import { ProductCardsSkeleton } from '@/components/ui/skeletons';
+import { fetchStates } from '@/store/features/clientSlice';
 
 export default function SearchResultsPage() {
+
+    /**
+     * 
+     * TODO
+     * URL'den erişilmeye çalışıldığı zaman
+     * eğer ürünlerin sayısı belirli bir sayfaya erişemeyecek kadar az ise
+     * o sayfa boş geliyor. Bu durumda ya en son sayfaya ya da en başa yönlendirsin.
+     * 
+     */
+
     const dispatch = useDispatch();
     const searchParams = new URLSearchParams(location.search);
     
-    const [isLoading, setIsLoading] = useState(true);
     const searchTerm = searchParams.get('q') || '';
     const categoryId = searchParams.get('category') || '';
 
-    const { productsBySearch } = useSelector(state => state.product);
+    const { productsBySearch, productsBySearchFetchState } = useSelector(state => state.product);
 
     // Pagination
     const [currentProducts, currentPage, totalProducts, productsPerPage, setProducts, setCurrentPage] = usePagination();
@@ -24,32 +33,12 @@ export default function SearchResultsPage() {
         setCurrentPage(pageNumber)
     }
     
-    
-
     useEffect(() => {
-        const fetchSearchResults = async () => {
-            setIsLoading(true);
-            try {
-                const baseURL = "https://workintech-fe-ecommerce.onrender.com";
-                let query = "/products?";
-                if (categoryId) query += `category=${categoryId}&`;
-                if (searchTerm) query += `search=${searchTerm}`;
-    
-                const { data } = await axios.get(baseURL + query);
-                dispatch(setProductsBySearch(data.products || []));
-            } catch (error) {
-                console.error("Search results fetch error:", error);
-                dispatch(setProductsBySearch([]));
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        // Eğer arama terimi varsa fetch işlemini başlat
-        if (searchTerm) {
-            fetchSearchResults();
-        } else {
-            setIsLoading(false);
+        if (searchTerm || categoryId) {
+            dispatch(fetchProductsBySearch({ 
+                category: categoryId, 
+                search: searchTerm 
+            }));
         }
     }, [searchTerm, categoryId, dispatch]);
 
@@ -57,7 +46,7 @@ export default function SearchResultsPage() {
         setProducts(productsBySearch);
     }, [productsBySearch, setProducts])
 
-    if (isLoading) {
+    if (productsBySearchFetchState === fetchStates.FETCHING) {
         return <ProductCardsSkeleton />;
     }
 

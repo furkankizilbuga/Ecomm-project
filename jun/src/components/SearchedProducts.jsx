@@ -8,12 +8,12 @@ export default function SearchedProducts({ viewAllHandler }) {
 
     const history = useHistory();
 
-    const { productsBySearch } = useSelector(state => state.product);
+    const { productsByInput } = useSelector(state => state.product);
     const [displayedProducts, setDisplayedProducts] = useState([]);
 
     useEffect(() => {
-        setDisplayedProducts(productsBySearch.slice(0, 7));
-    }, [productsBySearch])
+        setDisplayedProducts(productsByInput.slice(0, 7));
+    }, [productsByInput])
 
     const createSlug = (name) => {
         return name
@@ -34,7 +34,7 @@ export default function SearchedProducts({ viewAllHandler }) {
     return (
         <div className="flex flex-col p-2 rounded bg-white shadow max-w-60">
             {
-                productsBySearch.length > 0 && (
+                productsByInput.length > 0 && (
                 <ul className="flex flex-col gap-3">
                     {displayedProducts.map(product => (
                         <li 
