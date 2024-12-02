@@ -12,7 +12,8 @@ const itemPics = {
         },
         {
             url: "assets/cardItemImages/WOMENproduct2.png",
-            category: "WOMEN"
+            category: "WOMEN",
+            shop: "/shop/1/siyah-100-pamuk/2"
         },
         {
             url: "assets/cardItemImages/WOMENproduct1.png",
@@ -30,7 +31,8 @@ const itemPics = {
         },
         {
             url: "assets/cardItemImages/WOMENproduct2.png",
-            category: "WOMEN"
+            category: "WOMEN",
+            shop: "/shop/1/siyah-100-pamuk/2"
         },
         {
             url: "assets/cardItemImages/WOMENproduct1.png",

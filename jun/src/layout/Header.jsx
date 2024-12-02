@@ -11,6 +11,7 @@ export default function Header() {
     const [displayMd, setDisplayMd] = useState(false);
 
     const [showSearchResults, setShowSearchResults] = useState(false);
+    const [hasSearched, setHasSearched] = useState(false);
 
     const [category, setCategory] = useState("");
     const [search, setSearch] = useState("");
@@ -32,12 +33,14 @@ export default function Header() {
         
         history.push(`/search?${searchParams.toString()}`);
         setShowSearchResults(false);
+        setHasSearched(true);
     }
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (category || search) {
                 dispatch(fetchProductsByInput({ category, search }));
+                setHasSearched(true);
             }
         }, 2000);
     
@@ -112,6 +115,7 @@ export default function Header() {
                     onChange={(e) => {
                         setSearch(e.target.value);
                         setShowSearchResults(true);
+                        setHasSearched(false);
                     }}
                     placeholder="Search" 
                     className="bg-[#F9F9F9] relative focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-3 py-1 placeholder:text-sm sm:rounded-l sm:px-2 sm:rounded-r-none sm:w-40 md:w-full"/>
@@ -127,9 +131,17 @@ export default function Header() {
                 <button onClick={searchHandler} className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
-                {showSearchResults && productsByInput.length > 0 && (
+                {showSearchResults && (
                     <div className="absolute top-full mt-2 z-50">
-                        <SearchedProducts viewAllHandler={searchHandler} />
+                        {productsByInput.length > 0 ? (
+                            <SearchedProducts viewAllHandler={searchHandler} />
+                        ) : (
+                            hasSearched && (
+                                <div className="text-center border border-mutedColor -mt-6 w-40 shadow p-2 bg-white text-gray-500 rounded">
+                                    Not Found
+                                </div>
+                            )
+                        )}
                     </div>
                 )}
             </div>

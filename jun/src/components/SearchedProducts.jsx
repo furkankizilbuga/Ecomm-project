@@ -32,7 +32,7 @@ export default function SearchedProducts({ viewAllHandler }) {
 
 
     return (
-        <div className="flex flex-col p-2 rounded bg-white shadow max-w-60">
+        <div className="flex flex-col p-2 rounded border border-mutedColor bg-white shadow max-w-60">
             {
                 productsByInput.length > 0 && (
                 <ul className="flex flex-col gap-3">
