@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard"
 import useImageSize from "@/hooks/useImageSize"
-import usePagination from "@/hooks/usePagination";
-import { fetchStates } from "@/store/features/productSlice";
-import axios from "axios";
+import { fetchProducts, fetchStates, setCurrentPage } from "@/store/features/productSlice";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProductCardsSkeleton } from "../ui/skeletons";
 
 export default function ShopProducts() {
@@ -15,7 +12,7 @@ export default function ShopProducts() {
     const display = isMobile ? "assets/shopClients/mobile-clients-1.png" : "assets/shopClients/desktop-clients-1.png";
     const imageClass = isMobile ? "w-60 mx-auto" : "mx-auto";
 
-    const { products, productsFetchState, categories } = useSelector(state => state.product);
+    const { productsFetchState, categories, products, total, currentPage } = useSelector(state => state.product);
 
     const [category, setCategory] = useState("");
     const [filter, setFilter] = useState("");
@@ -25,31 +22,23 @@ export default function ShopProducts() {
     const [tempCategory, setTempCategory] = useState("");
     const [tempFilter, setTempFilter] = useState("");
 
-    const baseURL = "https://workintech-fe-ecommerce.onrender.com";
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(fetchProducts({ 
+            sort: sort,
+            category: category, 
+            filter: filter 
+        }));
+    }, [category, currentPage, dispatch, filter, sort]);
 
-    const [currentProducts, currentPage, totalProducts, productsPerPage, setProducts, setCurrentPage] = usePagination();
     const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber)
+        dispatch(setCurrentPage(pageNumber));
     }
 
-    useEffect(() => {
-        let query = "/products";
-        const params = [];
-
-        if (category) params.push(`category=${category}`);
-        if (sort) params.push(`sort=${sort}`);
-        if (filter) params.push(`filter=${filter}`);
-
-        if (params.length > 0) {
-            query += `?${params.join("&")}`;
-        }
-
-        axios.get(baseURL + query)
-            .then(res => {
-                setProducts(res.data.products);
-            })
-            .catch(err => console.error(err));
-    }, [sort, filter, category, setProducts]);
+    const categoryNameHandler = (code, title) => {
+        return code.charAt(0) == "k" ? "Kadın " + title : "Erkek " + title;
+    }
 
     const filterHandler = () => {
         setCategory(tempCategory);
@@ -60,7 +49,7 @@ export default function ShopProducts() {
     return (
         <div className="flex flex-col items-center justify-center pt-10 gap-20">
             <div className="flex flex-col items-center gap-6 min-[920px]:flex-row sm:justify-between sm:w-full sm:px-40">
-                <p className="text-sm font-semibold text-secondaryTextColor">Showing all {totalProducts} results</p>
+                <p className="text-sm font-semibold text-secondaryTextColor">Showing all {total} results</p>
                 
                 <div className="flex flex-col items-center sm:items-end gap-4">
                     <div className="flex flex-col sm:flex-row">
@@ -83,9 +72,9 @@ export default function ShopProducts() {
                             value={tempCategory}
                             onChange={(e) => setTempCategory(e.target.value)}
                             className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5">
-                            <option value="">All Categories</option>
+                            <option value="">Tüm Kategoriler</option>
                             {categories.map((item, index) => (
-                                <option value={item.id} key={index}>{item.title}</option>
+                                <option value={item.id} key={index}>{categoryNameHandler(item.code, item.title)}</option>
                             ))}
                         </select>
                         <button onClick={filterHandler} className="bg-primaryBlue py-2 px-6 rounded-r text-sm text-white">Filter</button>
@@ -104,18 +93,15 @@ export default function ShopProducts() {
                     productsFetchState === fetchStates.FETCHING || productsFetchState === fetchStates.FAILED ? (
                         <ProductCardsSkeleton />
                     ) : (
-                        currentProducts.map(item => 
+                        products.map(item => 
                             <ProductCard key={item.id} item={item} />
                         )
                     )
                 }
             </div>
             <Pagination 
-                productsPerPage={productsPerPage} 
-                totalProducts={totalProducts} 
                 paginate={paginate}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage} />
+                 />
                 
             <div className="bg-[#FAFAFA] w-full">
                 <img className={imageClass} src={display} />

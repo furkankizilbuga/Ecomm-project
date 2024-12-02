@@ -24,6 +24,10 @@ export default function Header() {
     const user = useSelector(state => state.client.user);
     const { categories, productsByInput } = useSelector(state => state.product);
 
+    const categoryNameHandler = (code, title) => {
+        return code.charAt(0) == "k" ? "Kadın " + title : "Erkek " + title;
+    }  
+
     const { logout, isAuthenticated } = useAuth();
 
     const searchHandler = () => {
@@ -123,9 +127,9 @@ export default function Header() {
                     className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none rounded border border-[#E6E6E6] px-2 py-1 text-sm sm:rounded-none sm:px-0 sm:max-[800px]:gap-5"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}>
-                    <option value="">All Categories</option>
+                    <option value="">Tüm Kategoriler</option>
                     {categories.map((item, index)=> (
-                        <option key={index} value={item.id}>{item.title}</option>
+                        <option key={index} value={item.id}>{categoryNameHandler(item.code, item.title)}</option>
                     ))}
                 </select>
                 <button onClick={searchHandler} className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">

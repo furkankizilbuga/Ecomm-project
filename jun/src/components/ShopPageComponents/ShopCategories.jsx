@@ -1,12 +1,18 @@
 import Spinner from "@/components/Spinner";
-import { fetchStates } from "@/store/features/productSlice";
-import { useSelector } from "react-redux";
+import { fetchCategories, fetchStates } from "@/store/features/productSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom"
 
 export default function ShopCategories() {
 
     const history = useHistory();
+    const dispatch = useDispatch();
     const { categories, categoriesFetchState } = useSelector(state => state.product);
+
+    useEffect(() => {
+        dispatch(fetchCategories());
+    }, [dispatch])
 
     const uniqueCategories = [
         ...categories
