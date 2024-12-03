@@ -1,9 +1,8 @@
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
 import { ProductCardsSkeleton } from "@/components/ui/skeletons";
-import usePagination from "@/hooks/usePagination";
 import { fetchStates } from "@/store/features/clientSlice";
-import { fetchProductsByCategory } from "@/store/features/productSlice";
+import { fetchCategories, fetchProducts, setCurrentPage } from "@/store/features/productSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom"
@@ -14,32 +13,32 @@ export default function CategoryPage() {
     const history = useHistory();
     let { categoryId } = useParams();
 
-    const { productsByCategory, productsByCategoryFetchState, categories } = useSelector(state => state.product)
-
-    //Pagination
-    const [currentProducts, currentPage, totalProducts, productsPerPage, setProducts, setCurrentPage] = usePagination();
+    const { productsFetchState, categories, products, total, currentPage } = useSelector(state => state.product);
 
     const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber)
+        dispatch(setCurrentPage(pageNumber));
     }
     
     useEffect(() => {
-        dispatch(fetchProductsByCategory(categoryId));
-    }, [dispatch, categoryId]);
+        //Fetch with category id.
+        dispatch(fetchProducts({ 
+            sort: "",
+            category: categoryId, 
+            filter: "", 
+        }));
 
-    useEffect(() => {
-        if (productsByCategory.length > 0) {
-            setProducts(productsByCategory);
+        //Fetch if not already fetched.
+        if (!categories || categories.length === 0) {
+            dispatch(fetchCategories());
         }
-    }, [productsByCategory, setProducts]);
+    }, [dispatch, categoryId, categories, currentPage]);
 
     //Get category name using category id from params.
-    const categoryName = categories.find(category => category.id == categoryId).title;
-
+    const categoryName = categories.find(category => category.id == categoryId)?.title;
 
 
     //Products are fetched but is empty:
-    if(productsByCategory.length == 0 && productsByCategoryFetchState == fetchStates.FETCHED) {
+    if(products.length == 0 && productsFetchState == fetchStates.FETCHED) {
         return (
             <div className="px-12 flex flex-col items-center pt-20 md:pt-40 text-center gap-3">
                 <h3 className="font-bold text-primaryBlue md:text-2xl">This Category is currently out of stock!</h3>
@@ -53,24 +52,20 @@ export default function CategoryPage() {
         <div className="flex flex-col items-center md:px-12 justify-center pt-10 gap-20">
             <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between items-center w-full">
                 <h3 className="text-textColor font-bold text-xl">{categoryName}</h3>
-                <p className="text-secondaryTextColor text-sm font-medium">Showing all {totalProducts} results</p>
+                <p className="text-secondaryTextColor text-sm font-medium">Showing all {total} results</p>
             </div>
             <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">
                 {
-                    productsByCategoryFetchState == fetchStates.FETCHING || productsByCategoryFetchState == fetchStates.FAILED ? (
+                    productsFetchState == fetchStates.FETCHING || productsFetchState == fetchStates.FAILED ? (
                         <ProductCardsSkeleton />
                     ) : (
-                        currentProducts.map(item => (
+                        products.map(item => (
                         <ProductCard key={item.id} item={item}  />
                     ))
                 )}
             </div>
             <Pagination 
-                productsPerPage={productsPerPage} 
-                totalProducts={totalProducts} 
-                paginate={paginate}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage} />
+                paginate={paginate} />
         </div>
     )
 }

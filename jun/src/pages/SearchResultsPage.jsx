@@ -1,68 +1,50 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProductsBySearch } from "@/store/features/productSlice";
+import { fetchProducts, setCurrentPage } from "@/store/features/productSlice";
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
-import usePagination from "@/hooks/usePagination";
 import { ProductCardsSkeleton } from '@/components/ui/skeletons';
 import { fetchStates } from '@/store/features/clientSlice';
 import { useHistory } from 'react-router-dom';
 
 export default function SearchResultsPage() {
 
-    /**
-     * 
-     * TODO
-     * URL'den erişilmeye çalışıldığı zaman
-     * eğer ürünlerin sayısı belirli bir sayfaya erişemeyecek kadar az ise
-     * o sayfa boş geliyor. Bu durumda ya en son sayfaya ya da en başa yönlendirsin.
-     * 
-     */
-
     const dispatch = useDispatch();
     const history = useHistory();
     const searchParams = new URLSearchParams(location.search);
     
-    const searchTerm = searchParams.get('q') || '';
-    const categoryId = searchParams.get('category') || '';
+    const search = searchParams.get('q') || '';
+    const category = searchParams.get('category') || '';
     const page = parseInt(searchParams.get('page'), 10) || 1;
 
-    const { productsBySearch, productsBySearchFetchState } = useSelector(state => state.product);
-
-    // Pagination
-    const [currentProducts, currentPage, totalProducts, productsPerPage, setProducts, setCurrentPage] = usePagination();
+    const { products, productsFetchState, total, productsPerPage, currentPage } = useSelector(state => state.product);
 
     const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber)
+        dispatch(setCurrentPage(pageNumber));
     }
     
     useEffect(() => {
-        if (searchTerm || categoryId) {
-            dispatch(fetchProductsBySearch({ 
-                category: categoryId, 
-                search: searchTerm 
+            dispatch(fetchProducts({ 
+                category: category, 
+                filter: search,
+                sort: "",
             }));
-        }
-    }, [searchTerm, categoryId, dispatch]);
+    }, [search, category, dispatch, currentPage, page]);
 
+
+    //If page in url does not exist:
     useEffect(() => {
-        setProducts(productsBySearch);
-    }, [productsBySearch, setProducts])
+        if (total === 0) return;
 
-
-    //URL'deki sayfa var olandan yüksek veya az ise:
-    useEffect(() => {
-        if (totalProducts === 0) return;
-
-        const totalPages = Math.ceil(totalProducts / productsPerPage);
+        const totalPages = Math.ceil(total / productsPerPage);
         if (page > totalPages) {
-            history.push(`/search?q=${searchTerm}&category=${categoryId}&page=${totalPages}`);
+            history.push(`/search?q=${search}&category=${category}&page=${totalPages}`);
         } else if (page < 1) {
-            history.push(`/search?q=${searchTerm}&category=${categoryId}&page=1`);
+            history.push(`/search?q=${search}&category=${category}&page=1`);
         }
-    }, [page, totalProducts, productsPerPage, searchTerm, categoryId, history]);
+    }, [page, total, productsPerPage, search, category, history]);
 
-    if (productsBySearchFetchState === fetchStates.FETCHING) {
+    if (productsFetchState === fetchStates.FETCHING) {
         return <ProductCardsSkeleton />;
     }
 
@@ -71,28 +53,24 @@ export default function SearchResultsPage() {
             <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between items-center w-full">
                 <h3 className="text-textColor font-bold text-xl">
                     Search Results 
-                    {searchTerm && ` for "${searchTerm}"`}
-                    {categoryId && ` in Category`}
+                    {search && ` for "${search}"`}
+                    {category && ` in Category`}
                 </h3>
                 <p className="text-secondaryTextColor text-sm font-medium">
-                    Showing all {productsBySearch.length} results
+                    Showing all {products.length} results
                 </p>
             </div>
-            {productsBySearch.length === 0 ? (
+            {products.length === 0 ? (
                 <p className="text-center text-gray-500">No products found.</p>
             ) : (
                 <>
                     <div className="flex flex-col items-center gap-x-8 gap-y-12 justify-center sm:flex-wrap sm:flex-row sm:px-40 sm:max-w-8xl">
-                        {currentProducts.map(item => (
+                        {products.map(item => (
                             <ProductCard key={item.id} item={item} />
                         ))}
                     </div>
                     <Pagination 
-                        productsPerPage={productsPerPage} 
-                        totalProducts={totalProducts} 
                         paginate={paginate}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage} 
                     />
                 </>
             )}

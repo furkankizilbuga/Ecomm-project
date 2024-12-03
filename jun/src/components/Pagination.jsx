@@ -1,24 +1,29 @@
 /* eslint-disable react/prop-types */
 import useImageSize from '@/hooks/useImageSize';
+import { setCurrentPage } from '@/store/features/productSlice';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
-export default function Pagination({ productsPerPage, totalProducts, paginate, currentPage, setCurrentPage }) {
+export default function Pagination({ paginate }) {
     const history = useHistory();
     const location = useLocation();
+    const dispatch = useDispatch();
     const pageNumbers = [];
+
+    const { currentPage, productsPerPage, total } = useSelector(state => state.product);
 
     const { isMobile } = useImageSize();
 
-    for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(total / productsPerPage); i++) {
         pageNumbers.push(i);
     }
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const page = parseInt(searchParams.get('page')) || 1;
-        setCurrentPage(page);
-    }, [location.search, setCurrentPage]);
+        dispatch(setCurrentPage(page));
+    }, [dispatch, location.search]);
 
     const handlePrevious = () => {
         if (currentPage > 1) {
@@ -47,7 +52,6 @@ export default function Pagination({ productsPerPage, totalProducts, paginate, c
     };
 
     const handlePageNumber = (number) => {
-        console.log("Clicked number:", number);
         paginate(number);
 
         const searchParams = new URLSearchParams(location.search);

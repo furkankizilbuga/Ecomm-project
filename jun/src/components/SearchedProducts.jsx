@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-useless-escape */
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom"
 
@@ -8,12 +7,7 @@ export default function SearchedProducts({ viewAllHandler }) {
 
     const history = useHistory();
 
-    const { productsByInput } = useSelector(state => state.product);
-    const [displayedProducts, setDisplayedProducts] = useState([]);
-
-    useEffect(() => {
-        setDisplayedProducts(productsByInput.slice(0, 7));
-    }, [productsByInput])
+    const { productsHeader } = useSelector(state => state.product);
 
     const createSlug = (name) => {
         return name
@@ -32,22 +26,23 @@ export default function SearchedProducts({ viewAllHandler }) {
 
 
     return (
-        <div className="flex flex-col p-2 rounded bg-white shadow max-w-60">
+        <div className="flex flex-col p-2 rounded border border-mutedColor bg-white shadow max-w-60">
             {
-                productsByInput.length > 0 && (
+                productsHeader.length > 0 && (
                 <ul className="flex flex-col gap-3">
-                    {displayedProducts.map(product => (
+                    {productsHeader.map(product => (
                         <li 
                             key={product.id}
-                            onClick={() => productClickHandler(product.category_id, product.name, product.id)}
                             className="border border-mutedColor rounded-sm flex justify-between">
-                            <div className="border-r w-16 min-w-16 max-w-16 border-mutedColor flex items-center justify-center">
+                            <div 
+                                onClick={() => productClickHandler(product.category_id, product.name, product.id)} 
+                                className="cursor-pointer border-r w-16 min-w-16 max-w-16 border-mutedColor flex items-center justify-center">
                                 <img
                                     className="w-12 max-w-12 min-w-12" 
                                     src={product.images[0].url} />
                             </div>
                             <div className="w-32 flex flex-col mx-2 overflow-hidden justify-around">
-                                <h4 className="text-sm font-medium truncate max-w-full">{product.name}</h4>
+                                <h4 onClick={() => productClickHandler(product.category_id, product.name, product.id)} className="text-sm font-semibold underline cursor-pointer truncate max-w-full">{product.name}</h4>
                                 <div className="flex justify-between text-sm font-medium">
                                     <p className="text-primaryBlue">${product.price}</p>
                                     <p className="text-secondaryTextColor">{product.rating}</p>
@@ -57,7 +52,7 @@ export default function SearchedProducts({ viewAllHandler }) {
                         )
                     )}
                     {
-                        displayedProducts.length >= 7 && (
+                        productsHeader.length >= 7 && (
                             <li className="flex flex-col items-center gap-2">
                                 <i className="fa-solid fa-ellipsis-vertical text-sm"></i>
                                 <button onClick={viewAllHandler} className="text-white bg-primaryBlue w-full rounded font-medium">View All</button>
