@@ -1,7 +1,7 @@
 import Cart from "@/components/Cart";
 import SearchedProducts from "@/components/SearchedProducts";
 import { useAuth } from "@/hooks/useAuth";
-import { fetchProductsByInput } from "@/store/features/productSlice";
+import { fetchProductsHeader } from "@/store/features/productSlice";
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -22,7 +22,7 @@ export default function Header() {
     const history = useHistory();
 
     const user = useSelector(state => state.client.user);
-    const { categories, productsByInput } = useSelector(state => state.product);
+    const { categories, productsHeader } = useSelector(state => state.product);
 
     const categoryNameHandler = (code, title) => {
         return code.charAt(0) == "k" ? "Kadın " + title : "Erkek " + title;
@@ -42,8 +42,8 @@ export default function Header() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (category || search) {
-                dispatch(fetchProductsByInput({ category, search }));
+            if (search || category) {
+                dispatch(fetchProductsHeader({ category: category, filter: search }));
                 setHasSearched(true);
             }
         }, 2000);
@@ -114,11 +114,17 @@ export default function Header() {
                 ref={searchContainerRef}
                 className="flex flex-col w-full gap-2 pt-10 sm:flex-row sm:gap-0 sm:pt-0 sm:w-auto">
                 <input
-                    onFocus={() => setShowSearchResults(true)}
+                    onFocus={(e) => {
+                        if(e.target.value) {
+                            setShowSearchResults(true);
+                        }
+                    }}
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
-                        setShowSearchResults(true);
+                        if(e.target.value) {
+                            setShowSearchResults(true);
+                        }
                         setHasSearched(false);
                     }}
                     placeholder="Search" 
@@ -137,7 +143,7 @@ export default function Header() {
                 </button>
                 {showSearchResults && (
                     <div className="absolute top-full mt-2 z-50">
-                        {productsByInput.length > 0 ? (
+                        {productsHeader?.length > 0 ? (
                             <SearchedProducts viewAllHandler={searchHandler} />
                         ) : (
                             hasSearched && (

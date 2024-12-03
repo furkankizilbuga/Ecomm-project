@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-useless-escape */
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom"
 
@@ -8,12 +7,7 @@ export default function SearchedProducts({ viewAllHandler }) {
 
     const history = useHistory();
 
-    const { productsByInput } = useSelector(state => state.product);
-    const [displayedProducts, setDisplayedProducts] = useState([]);
-
-    useEffect(() => {
-        setDisplayedProducts(productsByInput.slice(0, 7));
-    }, [productsByInput])
+    const { productsHeader } = useSelector(state => state.product);
 
     const createSlug = (name) => {
         return name
@@ -34,9 +28,9 @@ export default function SearchedProducts({ viewAllHandler }) {
     return (
         <div className="flex flex-col p-2 rounded border border-mutedColor bg-white shadow max-w-60">
             {
-                productsByInput.length > 0 && (
+                productsHeader.length > 0 && (
                 <ul className="flex flex-col gap-3">
-                    {displayedProducts.map(product => (
+                    {productsHeader.map(product => (
                         <li 
                             key={product.id}
                             onClick={() => productClickHandler(product.category_id, product.name, product.id)}
@@ -57,7 +51,7 @@ export default function SearchedProducts({ viewAllHandler }) {
                         )
                     )}
                     {
-                        displayedProducts.length >= 7 && (
+                        productsHeader.length >= 7 && (
                             <li className="flex flex-col items-center gap-2">
                                 <i className="fa-solid fa-ellipsis-vertical text-sm"></i>
                                 <button onClick={viewAllHandler} className="text-white bg-primaryBlue w-full rounded font-medium">View All</button>

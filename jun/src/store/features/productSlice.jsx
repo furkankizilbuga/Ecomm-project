@@ -16,13 +16,13 @@ export const fetchCategories = createAsyncThunk(
     }
 )
 
-
 export const fetchProducts = createAsyncThunk(
     "product/fetchProducts",
     async ({ 
         category = '', 
         sort = '', 
-        filter = '',              limit = 8,
+        filter = '',
+        limit = 8,
     }, { rejectWithValue }) => {
         try {
             const baseURL = "https://workintech-fe-ecommerce.onrender.com";
@@ -44,7 +44,8 @@ export const fetchProducts = createAsyncThunk(
                 currentPage: page,
                 productsPerPage: limit,
                 offset
-            };
+            }
+
         } catch (error) {
             console.error("Error fetching products:", error);
             return rejectWithValue(error.response?.data || "An error occurred");
@@ -52,40 +53,29 @@ export const fetchProducts = createAsyncThunk(
     }
 );
 
-export const fetchProductsBySearch = createAsyncThunk(
-    "product/fetchProductsBySearch",
-    async ({ category, search }, { rejectWithValue }) => {
+export const fetchProductsHeader = createAsyncThunk(
+    "product/fetchProductsHeader",
+    async ({ 
+        category = '', 
+        filter = '',
+        limit = 8,
+    }, { rejectWithValue }) => {
         try {
-            let query = "?";
-            if (category) query += `category=${category}&`;
-            if (search) query += `filter=${search}`;
+            const baseURL = "https://workintech-fe-ecommerce.onrender.com";
 
-            const response = await axios.get("https://workintech-fe-ecommerce.onrender.com/products" + query);
-            return response.data.products || [];
+            let query = `/products?limit=${limit}`;
+            if (category) query += `&category=${category}`;
+            if (filter) query += `&filter=${filter}`;
+    
+            const response = await axios.get(baseURL + query);
+            return response.data.products;
+
         } catch (error) {
             console.error("Error fetching products:", error);
-            return rejectWithValue("Error fetching products");
+            return rejectWithValue(error.response?.data || "An error occurred");
         }
     }
 );
-
-export const fetchProductsByInput = createAsyncThunk(
-    "product/fetchProductsByInput",
-    async ({ category, search }, { rejectWithValue }) => {
-        try {
-            let query = "?";
-            if (category) query += `category=${category}&`;
-            if (search) query += `filter=${search}`;
-
-            const response = await axios.get("https://workintech-fe-ecommerce.onrender.com/products" + query);
-            return response.data.products || [];
-        } catch (error) {
-            console.error("Error fetching products:", error);
-            return rejectWithValue("Error fetching products");
-        }
-    }
-);
-
 
 export const fetchProduct = createAsyncThunk(
     "product/fetchProduct",
@@ -100,6 +90,7 @@ export const productSlice = createSlice({
     initialState: {
         categories: [],
         products: [],
+        productsHeader: [],
         total: 0,
         currentPage: 1,
         productsPerPage: 8,
@@ -108,12 +99,10 @@ export const productSlice = createSlice({
         category: "",
         sort: "",
         selectedProduct: {},
-        productsByInput: [],
-        productsBySearch: [],
-        productsBySearchFetchState: fetchStates.NOT_FETCHED,
         selectedFetchState: fetchStates.NOT_FETCHED,
         categoriesFetchState: fetchStates.NOT_FETCHED,
-        productsFetchState: fetchStates.NOT_FETCHED
+        productsFetchState: fetchStates.NOT_FETCHED,
+        productsHeaderFetchState: fetchStates.NOT_FETCHED
     },
     reducers: {
         setCategories: (state, action) => {
@@ -142,15 +131,8 @@ export const productSlice = createSlice({
             state.productsPerPage = action.payload;
             state.offset = (state.currentPage - 1) * action.payload;
         },
-
         setSelectedProduct: (state, action) => {
             state.selectedProduct = action.payload;
-        },
-        setProductsByInput: (state, action) => {
-            state.productsBySearch = action.payload;
-        },
-        setProductsBySearch: (state, action) => {
-            state.productsBySearch = action.payload;
         },
         setSelectedFetchState: (state, action) => {
             state.selectedFetchState = action.payload;
@@ -182,13 +164,25 @@ export const productSlice = createSlice({
             .addCase(fetchProducts.fulfilled, (state, action) => {
                 state.productsFetchState = fetchStates.FETCHED;
                 state.products = action.payload.products;
-                state.total = action.payload.total;
                 state.currentPage = action.payload.currentPage;
+                state.total = action.payload.total;
                 state.productsPerPage = action.payload.productsPerPage;
                 state.offset = action.payload.offset;
             })
             .addCase(fetchProducts.rejected, (state) => {
                 state.productsFetchState = fetchStates.FAILED;
+            });
+        
+        builder
+            .addCase(fetchProductsHeader.pending, (state) => {
+                state.productsHeaderFetchState = fetchStates.FETCHING;
+            })
+            .addCase(fetchProductsHeader.fulfilled, (state, action) => {
+                state.productsHeaderFetchState = fetchStates.FETCHED;
+                state.productsHeader = action.payload;
+            })
+            .addCase(fetchProductsHeader.rejected, (state) => {
+                state.productsHeaderFetchState = fetchStates.FAILED;
             });
 
         builder
@@ -202,25 +196,6 @@ export const productSlice = createSlice({
             .addCase(fetchProduct.rejected, state => {
                 state.selectedFetchState = fetchStates.FAILED;
             });
-
-        builder
-            .addCase(fetchProductsBySearch.pending, state => {
-                state.productsBySearchFetchState = fetchStates.FETCHING;
-            })
-            .addCase(fetchProductsBySearch.fulfilled, (state, action) => {
-                state.productsBySearchFetchState = fetchStates.FETCHED;
-                state.productsBySearch = action.payload;
-            })
-            .addCase(fetchProductsBySearch.rejected, state => {
-                state.productsBySearchFetchState = fetchStates.FAILED;
-            });
-
-        builder
-            .addCase(fetchProductsByInput.fulfilled, (state, action) => {
-                state.productsByInput = action.payload;
-            });
-
-
     }
 })
 
@@ -235,8 +210,6 @@ export const {
     setProductsPerPage,
     setCategoriesFetchState,
     setProductsFetchState,
-    setProductsBySearch,
-    setProductsByInput
 } = productSlice.actions;
 
 export default productSlice.reducer;
