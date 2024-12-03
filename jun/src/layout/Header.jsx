@@ -80,20 +80,20 @@ export default function Header() {
                 </div>
                 {/* Mobile Header */}
                 <nav className={`${display ? "opacity-1 mt-24 mb-16 gap-8" : "opacity-0 h-0 overflow-hidden"} flex flex-col items-center duration-500 text-2xl transition ease-in-out sm:hidden`}>                    
-                    <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
-                    {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
-                    {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
-                    {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
-                    {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
+                    <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm hover:text-[#118dd4]">Explore</Link>
+                    {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm hover:text-textColor">Login</Link>}
+                    {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:text-textColor">Sign-up</Link>}
+                    {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:text-textColor">{user.name}</Link>}
+                    {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:text-textColor">Logout</button>}
                     <Cart />
                 </nav>
                 {/* Normal Header */}
                 <nav className="hidden lg:flex lg:flex-row lg:items-center lg:gap-4">                    
-                    <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
-                    {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
-                    {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
-                    {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
-                    {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
+                    <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm hover:text-[#118dd4]">Explore</Link>
+                    {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm hover:text-textColor">Login</Link>}
+                    {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:text-textColor">Sign-up</Link>}
+                    {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:text-textColor">{user.name}</Link>}
+                    {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:text-textColor">Logout</button>}
                     <Cart />
                 </nav>
             </div>
@@ -135,12 +135,12 @@ export default function Header() {
                 </button>
                 
                 <div className="hidden sm:block lg:hidden">
-                    <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute right-0 top-20 mt-2 bg-white p-4 border-primaryBlue border rounded-lg flex flex-row items-center gap-4 duration-500 transition ease-out z-50`}>                    
-                        <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
-                        {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
-                        {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
-                        {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
-                        {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
+                    <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute right-0 top-20 mt-2 bg-white py-6 px-2 w-32 shadow-md border rounded-lg flex flex-col items-center gap-4 duration-500 transition ease-out z-50`}>                    
+                        <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm hover:bg-gray-100 w-full py-2 rounded text-center transition">Explore</Link>
+                        {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm hover:bg-gray-100 w-full py-2 rounded text-center transition">Login</Link>}
+                        {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:bg-gray-100 py-2 w-full rounded text-center transition">Sign-up</Link>}
+                        {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:bg-gray-100  py-2 rounded text-center transition">{user.name}</Link>}
+                        {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm hover:bg-gray-100  py-2 rounded text-center transition">Logout</button>}
                         <Cart />
                     </nav>
                 </div>

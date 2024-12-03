@@ -1,14 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import { CarouselComp } from "@/components/CarouselComp";
 import CardItem from "@/components/CardItem";
-import useImageSize from "@/hooks/useImageSize";
 
-
-const itemPics = {
-    picsVertical: [
+const itemPics =  [
         {
             url: "assets/cardItemImages/MENproduct1.png",
-            category: "MEN"
+            category: "MEN",
+            shop: "/shop/1/unisex-3-l/62"
         },
         {
             url: "assets/cardItemImages/WOMENproduct2.png",
@@ -23,27 +21,8 @@ const itemPics = {
             url: "assets/cardItemImages/KIDSproduct1.png",
             category: "KIDS"
         },
-    ],
-    picsHorizontal: [
-        {
-            url: "assets/cardItemImages/MENproduct1.png",
-            category: "MEN"
-        },
-        {
-            url: "assets/cardItemImages/WOMENproduct2.png",
-            category: "WOMEN",
-            shop: "/shop/1/siyah-100-pamuk/2"
-        },
-        {
-            url: "assets/cardItemImages/WOMENproduct1.png",
-            category: "ACCESSORIES"
-        },
-        {
-            url: "assets/cardItemImages/KIDSproduct1.png",
-            category: "KIDS"
-        },
     ]
-}
+
 
  
 const sliderImages = {
@@ -69,10 +48,6 @@ const sliderImages = {
 
 export default function EditorsPick() {
 
-    const { isMobile } = useImageSize();
-
-    const display = isMobile ? (itemPics.picsVertical || []) : (itemPics.picsHorizontal || [])
-
     const customStyle = "object-cover w-screen h-[900px] sm:h-[700px]";
 
     return(
@@ -85,7 +60,7 @@ export default function EditorsPick() {
                 </div>
                 <div className="grid sm:grid-cols-3 place-items-center sm:grid-rows-2 gap-10 sm:mx-10">
                     {
-                        display.map((item, index) => 
+                        itemPics.map((item, index) => 
                             <CardItem 
                                 key={index}
                                 index={index}
