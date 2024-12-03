@@ -76,20 +76,7 @@ export default function Header() {
                         console.log(isAuthenticated)
                         setDisplay(!display)
                     }}><i className="fa-solid fa-list text-secondaryTextColor"></i></button>
-                    <button className="hidden sm:block lg:hidden" onClick={() => setDisplayMd(!displayMd)}>
-                        <i className="fa-solid fa-list text-secondaryTextColor"></i>
-                    </button>
-                    {/* Hamburger Menu */}
-                    <div className="hidden sm:block lg:hidden">
-                        <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute left-0 top-full mt-2 bg-white p-4 border-primaryBlue border rounded-lg flex flex-row items-center gap-4 duration-500 transition ease-out z-50`}>                    
-                            <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
-                            {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
-                            {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
-                            {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
-                            {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
-                            <Cart />
-                        </nav>
-                    </div>
+                    
                 </div>
                 {/* Mobile Header */}
                 <nav className={`${display ? "opacity-1 mt-24 mb-16 gap-8" : "opacity-0 h-0 overflow-hidden"} flex flex-col items-center duration-500 text-2xl transition ease-in-out sm:hidden`}>                    
@@ -141,9 +128,25 @@ export default function Header() {
                 <button onClick={searchHandler} className="bg-primaryBlue py-2 rounded sm:rounded-r sm:rounded-l-none sm:px-4">
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
+
+                {/* Hamburger Menu */}
+                <button className="hidden sm:block sm:pl-4 lg:hidden" onClick={() => setDisplayMd(!displayMd)}>
+                    <i className="fa-solid fa-list text-secondaryTextColor"></i>
+                </button>
+                
+                <div className="hidden sm:block lg:hidden">
+                    <nav className={`${displayMd ? "opacity-100 visible" : "opacity-0 invisible"} absolute right-0 top-20 mt-2 bg-white p-4 border-primaryBlue border rounded-lg flex flex-row items-center gap-4 duration-500 transition ease-out z-50`}>                    
+                        <Link to="/shop" className="text-primaryBlue sm:text-base sm:max-[800px]:text-sm">Explore</Link>
+                        {!isAuthenticated && <Link to="/login" className="text-secondaryTextColor sm:text-base sm:max-[800px]:text-sm">Login</Link>}
+                        {!isAuthenticated && <Link to="/signup" className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Sign-up</Link>}
+                        {isAuthenticated && <Link to={`/profile/${user.name}`} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">{user.name}</Link>}
+                        {isAuthenticated && <button onClick={logout} className="text-secondaryTextColor sm:text-base text-nowrap sm:max-[800px]:text-sm">Logout</button>}
+                        <Cart />
+                    </nav>
+                </div>
                 {showSearchResults && (
                     <div className="absolute top-full mt-2 z-50">
-                        {productsHeader?.length > 0 ? (
+                        {productsHeader.length > 0 ? (
                             <SearchedProducts viewAllHandler={searchHandler} />
                         ) : (
                             hasSearched && (

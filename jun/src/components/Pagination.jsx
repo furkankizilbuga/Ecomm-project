@@ -52,7 +52,6 @@ export default function Pagination({ paginate }) {
     };
 
     const handlePageNumber = (number) => {
-        console.log("Clicked number:", number);
         paginate(number);
 
         const searchParams = new URLSearchParams(location.search);

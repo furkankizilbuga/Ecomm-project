@@ -33,15 +33,16 @@ export default function SearchedProducts({ viewAllHandler }) {
                     {productsHeader.map(product => (
                         <li 
                             key={product.id}
-                            onClick={() => productClickHandler(product.category_id, product.name, product.id)}
                             className="border border-mutedColor rounded-sm flex justify-between">
-                            <div className="border-r w-16 min-w-16 max-w-16 border-mutedColor flex items-center justify-center">
+                            <div 
+                                onClick={() => productClickHandler(product.category_id, product.name, product.id)} 
+                                className="cursor-pointer border-r w-16 min-w-16 max-w-16 border-mutedColor flex items-center justify-center">
                                 <img
                                     className="w-12 max-w-12 min-w-12" 
                                     src={product.images[0].url} />
                             </div>
                             <div className="w-32 flex flex-col mx-2 overflow-hidden justify-around">
-                                <h4 className="text-sm font-medium truncate max-w-full">{product.name}</h4>
+                                <h4 onClick={() => productClickHandler(product.category_id, product.name, product.id)} className="text-sm font-semibold underline cursor-pointer truncate max-w-full">{product.name}</h4>
                                 <div className="flex justify-between text-sm font-medium">
                                     <p className="text-primaryBlue">${product.price}</p>
                                     <p className="text-secondaryTextColor">{product.rating}</p>

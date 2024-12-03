@@ -57,7 +57,7 @@ export default function ShopProducts() {
                             value={tempSort}
                             onChange={(e) => setTempSort(e.target.value)}
                             className="bg-[#F9F9F9] focus:border-primaryBlue transition-all outline-none border rounded-l border-[#E6E6E6] px-4 py-2 text-sm sm:px-4 sm:max-[800px]:gap-5">
-                            <option value="" selected hidden disabled>Sort</option>
+                            <option value="">No Sort</option>
                             <option value="price:desc">Price Desc</option>
                             <option value="price:asc">Price Asc</option>
                             <option value="rating:desc">Rating Desc</option>

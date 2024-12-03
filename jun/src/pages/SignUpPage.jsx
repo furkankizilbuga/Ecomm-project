@@ -140,7 +140,7 @@ export default function SignUpPage() {
                     <select 
                         {...register("role_id")}
                         className="bg-[#F9F9F9] w-full focus:border-primaryBlue transition-all font-semibold text-textColor outline-none rounded border border-[#E6E6E6] py-3 pl-4 text-sm">
-                        <option value="3" className="font-medium text-textColor" selected>Customer</option>
+                        <option value="3" className="font-medium text-textColor">Customer</option>
                         <option value="1" className="font-medium text-textColor">Admin</option>
                         <option value="2" className="font-medium text-textColor">Store</option>
                     </select>
