@@ -31,10 +31,10 @@ const Cart = () => {
     };
 
     return (
-        <div className="relative" ref={cartRef}>
+        <div className="relative cursor-pointer" ref={cartRef}>
             <i 
                 onClick={() => setCartDisplay(!cartDisplay)}
-                className="fa-solid fa-cart-shopping rounded-full w-16 h-16 pt-4 text-2xl sm:pt-2 sm:w-10 sm:h-10 text-center sm:text-base text-primaryBlue my-auto bg-white border border-primaryBlue"
+                className="fa-solid fa-cart-shopping rounded-full w-16 h-16 pt-4 text-2xl sm:pt-2 sm:w-10 sm:h-10 text-center sm:text-base text-primaryBlue my-auto bg-white border transition border-primaryBlue hover:border-[#118dd4] hover:text-[#118dd4]"
             ></i>
             <div className={`${cartDisplay ? "" : "hidden"} bg-white p-4 flex flex-col absolute w-52 sm:w-72 border border-primaryBlue rounded-md z-50 -inset-x-20 mt-4`}>
                 <h2 className="text-primaryBlue font-semibold text-base">My Cart ({cart.length})</h2>

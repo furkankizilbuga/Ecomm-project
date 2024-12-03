@@ -1,5 +1,6 @@
 import Blog from "@/components/Blog";
 import { CarouselComp } from "@/components/CarouselComp";
+import { useHistory } from "react-router-dom";
 
 const blogImages = [
     "assets/blogImages/BLOGimage1.png",
@@ -52,6 +53,8 @@ export default function FeaturedProducts() {
 
     const customStyle = "object-cover w-screen h-[900px] sm:h-[700px]";
 
+    const history = useHistory();
+
     return(
         <div className="flex flex-col items-center gap-16 mt-16 sm:mt-16">
             <div className="flex">
@@ -65,7 +68,12 @@ export default function FeaturedProducts() {
                         <p className="max-w-52 text-center text-secondaryTextColor font-semibold md:text-left sm:max-w-96">We know how large objects will act, but things on a small scale.</p>
                     </div>
                     <div className="flex-col flex gap-4 mb-6 sm:flex-row sm:justify-center">
-                        <button className="text-white bg-primaryBlue font-bold rounded text-xs py-3 px-8">BUY NOW</button>
+                        <button 
+                            onClick={() => {
+                                history.push("/shop")
+                                window.scrollTo(0, 0);
+                            }} 
+                            className="text-white bg-primaryBlue font-bold rounded text-xs py-3 px-8 hover:bg-[#118dd4] transition">BUY NOW</button>
                         <button className="text-primaryBlue rounded text-xs font-bold border border-primaryBlue py-3 px-8">Learn More</button>
                     </div>
                 </div>

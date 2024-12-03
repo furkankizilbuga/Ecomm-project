@@ -26,6 +26,8 @@ export default function ProductCard(props) {
         window.scrollTo(0, 0);
     };
 
+    //TODO Sağ tıklanarak yeni sekmede açılabilir olmalı.
+
     return(
         <div onClick={clickHandler} className="flex cursor-pointer flex-col rounded-md shadow py-4 max-w-80 w-72 h-[700px] items-center gap-6 pb-10 transition-transform duration-300 md:hover:scale-105 md:hover:shadow">
             <img className="w-72 h-96 object-cover" src={url} />
