@@ -70,9 +70,9 @@ export default function ProductDetailMain() {
                         </p>
                     </div>
                     <div className="flex flex-col gap-4">
-                        <div className="flex justify-between items-center">
-                            <button onClick={addToCartHandler} className="bg-primaryBlue rounded px-4 py-3 text-white font-semibold text-xs">ADD TO CART</button>
-                            <div className="flex gap-3 items-center">
+                        <div className="flex flex-col gap-2 w-full md:flex-row justify-center md:justify-between md:items-center">
+                            <button onClick={addToCartHandler} className="bg-primaryBlue hover:bg-primaryBlueHover transition rounded px-4 py-3 text-white font-semibold text-xs">ADD TO CART</button>
+                            <div className="flex gap-3 items-center justify-center">
                                 <i className="fa-solid fa-heart rounded-full p-2 bg-white border border-mutedColor"></i>
                                 <i className="fa-solid fa-cart-shopping rounded-full p-2 bg-white border border-mutedColor"></i>
                                 <i className="fa-solid fa-eye rounded-full p-2 bg-white border border-mutedColor"></i>

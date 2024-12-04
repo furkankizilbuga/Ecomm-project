@@ -13,12 +13,15 @@ export default function ProductCard(props) {
 
     const createSlug = (name) => {
         return name
-            .toLocaleLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
             .replace(/\s+/g, '-')
             .replace(/[^\w\-]+/g, '')
             .replace(/\-\-+/g, '-')
             .trim();
     };
+    
 
     const clickHandler = () => {
         const productNameSlug = createSlug(name);

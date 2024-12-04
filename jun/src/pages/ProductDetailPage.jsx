@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 
 export default function ProductDetailPage() {
 
-const { isMobile } = useImageSize();
+    const { isMobile } = useImageSize();
 
     let display = isMobile ? "/assets/shopClients/mobile-clients-1.png" : "/assets/shopClients/desktop-clients-1.png";
     let imageClass = isMobile ? "w-60 mx-auto" : "mx-auto";
