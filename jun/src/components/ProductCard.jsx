@@ -31,9 +31,6 @@ export default function ProductCard(props) {
         window.scrollTo(0, 0);
     };
 
-    
-
-    //TODO Sağ tıklanarak yeni sekmede açılabilir olmalı.
 
     return(
         <a href={productUrl} rel="noopener noreferrer" onClick={clickHandler}>
