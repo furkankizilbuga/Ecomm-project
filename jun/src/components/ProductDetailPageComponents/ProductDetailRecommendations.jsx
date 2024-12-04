@@ -1,6 +1,7 @@
 import { fetchProducts } from "@/store/features/productSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
+import ProductCard from "../ProductCard";
 
 export default function ProductDetailRecommendations() {
 
@@ -28,14 +29,7 @@ export default function ProductDetailRecommendations() {
             <div className="flex flex-col items-center gap-12 py-10 border-t border-mutedColor sm:flex-row sm:justify-center xl:justify-between  sm:gap-x-4 sm:flex-wrap">
                 {
                     products.map(product => (
-                        <div key={product.id} className="flex flex-col gap-2 bg-white max-w-60 md:max-w-80 rounded pb-10">
-                            <img src={product.images[0].url} className="w-60 md:w-80" />
-                            <div className="flex flex-col gap-2 mx-4 pt-2">
-                                <h4 className="font-bold text-textColor">{product.name}</h4>
-                                <p className="text-sm text-secondaryTextColor font-semibold">{product.description}</p>
-                                <p className="font-bold text-secondaryColor1">${product.price}</p>
-                            </div>
-                        </div>
+                        <ProductCard key={product.id} item={product} />
                     ))
                 }
             </div>
