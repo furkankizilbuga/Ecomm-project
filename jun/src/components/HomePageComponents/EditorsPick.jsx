@@ -48,6 +48,8 @@ const sliderImages = {
 
 export default function EditorsPick() {
 
+    //TODO ürünleri direkt istek atarak al.
+
     const customStyle = "object-cover w-screen h-[900px] sm:h-[700px]";
 
     return(

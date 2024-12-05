@@ -10,7 +10,7 @@ export default function ProductDetailDescription() {
         <div className="flex flex-col py-10 mx-14 gap-10 sm:items-center sm:mx-60">
             <div className="flex items-center justify-between border-b border-mutedColor sm:pb-10 sm:w-full sm:justify-center text-sm font-semibold text-secondaryTextColor sm:gap-10">
                 <span>Additional Information</span>
-                <div className="font-semibold text-primaryBlue">{product.rating} <i className="fa-solid fa-star"></i></div>
+                <div className="font-semibold text-nowrap text-primaryBlue">{product.rating} <i className="fa-solid fa-star"></i></div>
             </div>
                 <div className="flex flex-col gap-10 2xl:flex-row">
                     {img ? <img src={img.url} className="rounded-md object-cover object-center sm:w-full lg:w-3/5 xl:w-96" /> : <Spinner />}

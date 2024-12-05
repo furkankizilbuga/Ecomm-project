@@ -20,6 +20,7 @@ module.exports = {
     extend: {
       colors: {
         primaryBlue: "#23A6F0",
+        primaryBlueHover: "#118dd4",
         textColor: "#252B42",
         secondaryTextColor: "#737373",
         mutedColor: "#BDBDBD",
